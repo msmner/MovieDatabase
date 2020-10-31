@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MovieDatabase.Data.Common.Models;
 
 namespace MovieDatabase.Data.Models
 {
-    class MovieQuote
+    public class MovieQuote : BaseDeletableModel<int>
     {
-        // notable quotes in the movie
+        public string Content { get; set; }
+
+        public int PersonId { get; set; }
+
+        public virtual Person Person { get; set; }
+
+        public int MovieId { get; set; }
+
+        public Movie Movie { get; set; }
     }
 }

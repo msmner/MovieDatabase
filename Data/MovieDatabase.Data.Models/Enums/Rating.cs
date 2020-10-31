@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MovieDatabase.Data.Models
+﻿namespace MovieDatabase.Data.Models
 {
-    class Rating
+    public enum Rating
     {
+        VeryBad = 0,
+        Bad = 1,
+        Ok = 2,
+        Good = 3,
+        VeryGood = 4,
     }
 }

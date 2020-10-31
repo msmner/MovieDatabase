@@ -1,10 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MovieDatabase.Data.Models
+﻿namespace MovieDatabase.Data.Models
 {
-    class Review
+    using System.Collections.Generic;
+
+    using MovieDatabase.Data.Common.Models;
+
+    public class Review : BaseDeletableModel<int>
     {
+        public string Content { get; set; }
+
+        public int MovieId { get; set; }
+
+        public virtual Movie Movie { get; set; }
+
+        public int PersonId { get; set; }
+
+        public virtual Person Person { get; set; }
     }
 }

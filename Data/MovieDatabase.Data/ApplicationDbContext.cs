@@ -24,6 +24,18 @@
         {
         }
 
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Movie> Movies { get; set; }
+
+        public DbSet<MovieQuote> MovieQuotes { get; set; }
+
+        public DbSet<Person> People { get; set; }
+
+        public DbSet<PersonMovie> PersonMovies { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);

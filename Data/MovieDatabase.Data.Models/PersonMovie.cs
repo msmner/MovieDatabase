@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MovieDatabase.Data.Models
+﻿namespace MovieDatabase.Data.Models
 {
-    class PersonMovie
+    using MovieDatabase.Data.Common.Models;
+
+    public class PersonMovie : BaseDeletableModel<int>
     {
-        // movies the person is participating in
+        public int PersonId { get; set; }
+
+        public virtual Person Person { get; set; }
+
+        public int MovieId { get; set; }
+
+        public virtual Movie Movie { get; set; }
     }
 }
