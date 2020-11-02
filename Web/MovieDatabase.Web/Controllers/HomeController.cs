@@ -5,14 +5,30 @@
     using MovieDatabase.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
+    using MovieDatabase.Services.Data;
+    using MovieDatabase.Web.ViewModels.Movies;
 
     public class HomeController : BaseController
     {
-        public IActionResult Index()
+        private readonly IMoviesService moviesService;
+
+        public HomeController(IMoviesService moviesService)
         {
-            return this.View();
+            this.moviesService = moviesService;
         }
 
+        [HttpGet("/")]
+        public IActionResult Index()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var viewModel = this.moviesService.GetAll<HomePageMovieViewModel>();
+                return this.View(viewModel);
+            }
+
+            return this.View();
+        }
+ 
         public IActionResult Privacy()
         {
             return this.View();

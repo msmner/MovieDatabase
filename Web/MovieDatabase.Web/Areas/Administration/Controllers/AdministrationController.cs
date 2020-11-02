@@ -1,10 +1,9 @@
 ﻿namespace MovieDatabase.Web.Areas.Administration.Controllers
 {
-    using MovieDatabase.Common;
-    using MovieDatabase.Web.Controllers;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using MovieDatabase.Common;
+    using MovieDatabase.Web.Controllers;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]

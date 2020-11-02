@@ -6,11 +6,10 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using MovieDatabase.Data.Common.Models;
-    using MovieDatabase.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using MovieDatabase.Data.Common.Models;
+    using MovieDatabase.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -29,10 +28,6 @@
         public DbSet<Movie> Movies { get; set; }
 
         public DbSet<MovieQuote> MovieQuotes { get; set; }
-
-        public DbSet<Person> People { get; set; }
-
-        public DbSet<PersonMovie> PersonMovies { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
 
