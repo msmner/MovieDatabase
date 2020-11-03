@@ -1,0 +1,16 @@
+﻿@model MovieDatabase.Web.ViewModels.Movies.MovieDetailsViewModel
+
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Title">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text">@Model.Description</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Model.MovieQuotes</li>
+        </ul>
+        <div class="card-body">
+            <a href="#" class="card-link">ToUserProfile</a>
+            <a asp-controller="Movies" asp-action="Delete" asp-route-id="@Model.Id" class="card-link">Delete</a>
+        </div>
+    </div>

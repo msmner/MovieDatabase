@@ -34,12 +34,18 @@
             return this.Redirect("/");
         }
 
-        public async Task<IActionResult> Delete(int movieId)
+        public async Task<IActionResult> Delete(int id)
         {
             var userId = this.userManager.GetUserId(this.User);
-            await this.moviesService.Delete(userId, movieId);
+            await this.moviesService.Delete(userId, id);
 
             return this.Redirect("/");
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var viewModel = this.moviesService.GetById<MovieDetailsViewModel>(id);
+            return this.View(viewModel);
         }
     }
 }

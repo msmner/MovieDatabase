@@ -72,5 +72,11 @@
         {
             return this.moviesRepository.All().To<T>().ToList();
         }
+
+        public T GetById<T>(int movieId)
+        {
+            var movie = this.moviesRepository.All().Where(x => x.Id == movieId).To<T>().FirstOrDefault();
+            return movie;
+        }
     }
 }

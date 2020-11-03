@@ -12,5 +12,7 @@
         IEnumerable<T> GetAll<T>(int? count = 10);
 
         Task Delete(string userId, int movieId);
+
+        public T GetById<T>(int movieId);
     }
 }
