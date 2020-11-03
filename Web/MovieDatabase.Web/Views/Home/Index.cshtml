@@ -1,4 +1,4 @@
-﻿@model MovieDatabase.Web.ViewModels.Movies.HomePageMovieViewModel
+﻿@model MovieDatabase.Web.ViewModels.Movies.HomePageMoviesViewModel
 @using MovieDatabase.Common
 @{ this.ViewData["Title"] = GlobalConstants.SystemName; }
 
@@ -6,18 +6,20 @@
 
 @if (this.User.Identity.IsAuthenticated)
 {
+    foreach (var movie in Model.Movies)
+    {
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="@Model.ImageUrl" alt="Card image cap">
+    <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
     <div class="card-body">
-        <h5 class="card-title">@Model.Title</h5>
-        <p class="card-text">@Model.MovieQuotes</p>
+        <h5 class="card-title">@movie.Title</h5>
+        <p class="card-text">@movie.MovieQuotes</p>
         <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
 </div> }
-else
-{
+            }
+            else
+            {
 <div class="text-center">
     <h1 class="display-4">Welcome to @this.ViewData["Title"]!</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-}
+</div>}

@@ -22,7 +22,9 @@
         {
             if (this.User.Identity.IsAuthenticated)
             {
-                var viewModel = this.moviesService.GetAll<HomePageMovieViewModel>();
+                var viewModel = new HomePageMoviesViewModel();
+                var movies = this.moviesService.GetAll<HomePageMovieViewModel>();
+                viewModel.Movies = movies;
                 return this.View(viewModel);
             }
 

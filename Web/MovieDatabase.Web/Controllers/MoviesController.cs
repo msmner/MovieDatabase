@@ -33,5 +33,13 @@
             var movieId = await this.moviesService.AddMovieAsync(input, userId);
             return this.Redirect("/");
         }
+
+        public async Task<IActionResult> Delete(int movieId)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+            await this.moviesService.Delete(userId, movieId);
+
+            return this.Redirect("/");
+        }
     }
 }

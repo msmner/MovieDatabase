@@ -296,7 +296,7 @@ namespace MovieDatabase.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    GenreType = table.Column<string>(nullable: true),
+                    GenreType = table.Column<int>(nullable: false),
                     MovieId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

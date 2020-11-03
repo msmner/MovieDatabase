@@ -4,6 +4,6 @@
 
     public class Genre : BaseDeletableModel<int>
     {
-        public string GenreType { get; set; }
+        public GenreType GenreType { get; set; }
     }
 }

@@ -298,8 +298,8 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("GenreType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("GenreType")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

@@ -10,5 +10,7 @@
         Task<int> AddMovieAsync(CreateMovieInputViewModel input, string userId);
 
         IEnumerable<T> GetAll<T>(int? count = 10);
+
+        Task Delete(string userId, int movieId);
     }
 }

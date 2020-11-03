@@ -58,6 +58,16 @@
             return movie.Id;
         }
 
+        public async Task Delete(string userId, int movieId)
+        {
+            var movie = await this.moviesRepository.GetByIdWithDeletedAsync(movieId);
+            if (movie.IsDeleted == false && movie.UserId == userId)
+            {
+                this.moviesRepository.Delete(movie);
+                await this.moviesRepository.SaveChangesAsync();
+            }
+        }
+
         public IEnumerable<T> GetAll<T>(int? count = 10)
         {
             return this.moviesRepository.All().To<T>().ToList();
