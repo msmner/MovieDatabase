@@ -271,6 +271,9 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -279,6 +282,8 @@ namespace MovieDatabase.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("MovieId");
+
+                    b.HasIndex("ReviewId");
 
                     b.HasIndex("UserId");
 
@@ -297,9 +302,6 @@ namespace MovieDatabase.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
@@ -355,6 +357,9 @@ namespace MovieDatabase.Data.Migrations
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
+
+                    b.Property<string>("MovieTitle")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -499,6 +504,10 @@ namespace MovieDatabase.Data.Migrations
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("MovieDatabase.Data.Models.Review", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("ReviewId");
 
                     b.HasOne("MovieDatabase.Data.Models.ApplicationUser", "User")
                         .WithMany()
