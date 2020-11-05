@@ -44,7 +44,7 @@ namespace MovieDatabase.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    ImageUrl = table.Column<string>(nullable: true),
+                    ProfilePicture = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -53,23 +53,6 @@ namespace MovieDatabase.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reviews",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Content = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reviews", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,6 +180,33 @@ namespace MovieDatabase.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ReviewId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movies_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserMovieRating",
                 columns: table => new
                 {
@@ -214,41 +224,6 @@ namespace MovieDatabase.Data.Migrations
                     table.PrimaryKey("PK_UserMovieRating", x => x.Id);
                     table.ForeignKey(
                         name: "FK_UserMovieRating_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Movies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false),
-                    ReviewId = table.Column<int>(nullable: false),
-                    MovieQuotes = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Movies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Movies_Reviews_ReviewId",
-                        column: x => x.ReviewId,
-                        principalTable: "Reviews",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Movies_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -287,7 +262,7 @@ namespace MovieDatabase.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Genre",
+                name: "Reviews",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -296,38 +271,18 @@ namespace MovieDatabase.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    GenreType = table.Column<int>(nullable: false),
-                    MovieId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Genre", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Genre_Movies_MovieId",
-                        column: x => x.MovieId,
-                        principalTable: "Movies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MovieQuotes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    MovieId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
-                    MovieId = table.Column<int>(nullable: false)
+                    Rating = table.Column<int>(nullable: false),
+                    FirstQuote = table.Column<string>(nullable: true),
+                    SecondQuote = table.Column<string>(nullable: true),
+                    ThirdQuote = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MovieQuotes", x => x.Id);
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MovieQuotes_Movies_MovieId",
+                        name: "FK_Reviews_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "Id",
@@ -399,34 +354,9 @@ namespace MovieDatabase.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Genre_IsDeleted",
-                table: "Genre",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Genre_MovieId",
-                table: "Genre",
-                column: "MovieId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieQuotes_IsDeleted",
-                table: "MovieQuotes",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MovieQuotes_MovieId",
-                table: "MovieQuotes",
-                column: "MovieId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Movies_IsDeleted",
                 table: "Movies",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Movies_ReviewId",
-                table: "Movies",
-                column: "ReviewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_UserId",
@@ -437,6 +367,12 @@ namespace MovieDatabase.Data.Migrations
                 name: "IX_Reviews_IsDeleted",
                 table: "Reviews",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_MovieId",
+                table: "Reviews",
+                column: "MovieId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_IsDeleted",
@@ -475,10 +411,7 @@ namespace MovieDatabase.Data.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Genre");
-
-            migrationBuilder.DropTable(
-                name: "MovieQuotes");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "Settings");
@@ -491,9 +424,6 @@ namespace MovieDatabase.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Movies");
-
-            migrationBuilder.DropTable(
-                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

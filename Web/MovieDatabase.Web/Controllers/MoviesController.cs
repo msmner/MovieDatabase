@@ -30,8 +30,8 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var userId = user.Id;
-            var movieId = await this.moviesService.AddMovieAsync(input, userId);
-            return this.Redirect("/");
+            var movieId = await this.moviesService.AddMovieAsync(input.Description,input.Title,input.ImageUrl, userId);
+            return this.RedirectToAction("Create","Reviews",new { id = movieId});
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -42,7 +42,7 @@
             return this.Redirect("/");
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             var viewModel = this.moviesService.GetById<MovieDetailsViewModel>(id);
             return this.View(viewModel);

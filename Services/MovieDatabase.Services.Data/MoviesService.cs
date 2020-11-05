@@ -12,45 +12,21 @@
     public class MoviesService : IMoviesService
     {
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
-        private readonly IDeletableEntityRepository<UserMovieRating> ratingsRepository;
-        private readonly IDeletableEntityRepository<Review> reviewRepository;
 
-        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<UserMovieRating> ratingsRepository, IDeletableEntityRepository<Review> reviewRepository)
+        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository)
         {
             this.moviesRepository = moviesRepository;
-            this.ratingsRepository = ratingsRepository;
-            this.reviewRepository = reviewRepository;
         }
 
-        public async Task<int> AddMovieAsync(CreateMovieInputViewModel input, string userId)
+        public async Task<int> AddMovieAsync(string description,string title,string imageUrl, string userId)
         {
-            var review = new Review
-            {
-                Content = input.Review,
-            };
-
-            var rating = new UserMovieRating
-            {
-                UserId = userId,
-                Rating = int.Parse(input.Rating),
-            };
-
             var movie = new Movie
             {
                 UserId = userId,
-                Title = input.Title,
-                ImageUrl = input.ImageUrl,
-                Rating = int.Parse(input.Rating),
-                Review = review,
-                MovieQuotes = input.MovieQuotes,
-                Description = input.Description,
+                Title = title,
+                ImageUrl = imageUrl,
+                Description = description,
             };
-
-            await this.ratingsRepository.AddAsync(rating);
-            await this.ratingsRepository.SaveChangesAsync();
-
-            await this.reviewRepository.AddAsync(review);
-            await this.reviewRepository.SaveChangesAsync();
 
             await this.moviesRepository.AddAsync(movie);
             await this.moviesRepository.SaveChangesAsync();

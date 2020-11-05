@@ -1,14 +1,10 @@
-﻿namespace MovieDatabase.Data.Models
+﻿namespace MovieDatabase.Web.ViewModels.Reviews
 {
-    using System.Collections.Generic;
+    using MovieDatabase.Data.Models;
+    using MovieDatabase.Services.Mapping;
 
-    using MovieDatabase.Data.Common.Models;
-
-    public class Review : BaseDeletableModel<int>
+    public class CreateReviewInputViewModel : IMapTo<Review>
     {
-        // Add ICollection of movie quotes
-
-        // Add property Title
         public int MovieId { get; set; }
 
         public virtual Movie Movie { get; set; }

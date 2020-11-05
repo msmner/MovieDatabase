@@ -27,8 +27,6 @@
 
         public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<MovieQuote> MovieQuotes { get; set; }
-
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
@@ -62,6 +60,11 @@
             EntityIndexesConfiguration.Configure(builder);
 
             var entityTypes = builder.Model.GetEntityTypes().ToList();
+
+            builder.Entity<Movie>()
+            .HasOne(m => m.Review)
+            .WithOne(r => r.Movie)
+            .HasForeignKey<Review>(r => r.MovieId);
 
             // Set global query filter for not deleted entities only
             var deletableEntityTypes = entityTypes

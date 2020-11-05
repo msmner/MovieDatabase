@@ -7,7 +7,7 @@
 
     public interface IMoviesService
     {
-        Task<int> AddMovieAsync(CreateMovieInputViewModel input, string userId);
+        Task<int> AddMovieAsync(string description, string title, string imageUrl, string userId);
 
         IEnumerable<T> GetAll<T>(int? count = 10);
 

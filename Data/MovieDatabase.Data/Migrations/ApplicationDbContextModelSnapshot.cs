@@ -189,9 +189,6 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -220,6 +217,9 @@ namespace MovieDatabase.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -285,40 +285,6 @@ namespace MovieDatabase.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("MovieDatabase.Data.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GenreType")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Genre");
-                });
-
             modelBuilder.Entity("MovieDatabase.Data.Models.Movie", b =>
                 {
                     b.Property<int>("Id")
@@ -344,13 +310,7 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("MovieQuotes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReviewId")
+                    b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -363,45 +323,9 @@ namespace MovieDatabase.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ReviewId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("MovieDatabase.Data.Models.MovieQuote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("MovieQuotes");
                 });
 
             modelBuilder.Entity("MovieDatabase.Data.Models.Review", b =>
@@ -420,15 +344,33 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FirstQuote")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SecondQuote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThirdQuote")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("MovieId")
+                        .IsUnique();
 
                     b.ToTable("Reviews");
                 });
@@ -563,31 +505,18 @@ namespace MovieDatabase.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("MovieDatabase.Data.Models.Genre", b =>
-                {
-                    b.HasOne("MovieDatabase.Data.Models.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
-                });
-
             modelBuilder.Entity("MovieDatabase.Data.Models.Movie", b =>
                 {
-                    b.HasOne("MovieDatabase.Data.Models.Review", "Review")
-                        .WithMany()
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("MovieDatabase.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("MovieDatabase.Data.Models.MovieQuote", b =>
+            modelBuilder.Entity("MovieDatabase.Data.Models.Review", b =>
                 {
                     b.HasOne("MovieDatabase.Data.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
+                        .WithOne("Review")
+                        .HasForeignKey("MovieDatabase.Data.Models.Review", "MovieId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

@@ -16,9 +16,10 @@ namespace MovieDatabase.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Ratings = new HashSet<UserMovieRating>();
+            this.Movies = new HashSet<Movie>();
         }
 
-        public string ImageUrl { get; set; }
+        public string ProfilePicture { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }
@@ -37,5 +38,7 @@ namespace MovieDatabase.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public ICollection<UserMovieRating> Ratings { get; set; }
+
+        public ICollection<Movie> Movies { get; set; }
     }
 }
