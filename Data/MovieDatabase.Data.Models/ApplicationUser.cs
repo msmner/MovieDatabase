@@ -15,7 +15,6 @@ namespace MovieDatabase.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Ratings = new HashSet<UserMovieRating>();
             this.Movies = new HashSet<Movie>();
         }
 
@@ -36,8 +35,6 @@ namespace MovieDatabase.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
-
-        public ICollection<UserMovieRating> Ratings { get; set; }
 
         public ICollection<Movie> Movies { get; set; }
     }

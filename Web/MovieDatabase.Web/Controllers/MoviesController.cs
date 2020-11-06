@@ -30,8 +30,8 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var userId = user.Id;
-            var movieId = await this.moviesService.AddMovieAsync(input.Description,input.Title,input.ImageUrl, userId);
-            return this.RedirectToAction("Create","Reviews",new { id = movieId});
+            var movieId = await this.moviesService.AddMovieAsync(input.Title, input.ImageUrl, userId);
+            return this.RedirectToAction("Create", "Reviews", new { id = movieId });
         }
 
         public async Task<IActionResult> Delete(int id)

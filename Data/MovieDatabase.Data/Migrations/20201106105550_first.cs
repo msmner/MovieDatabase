@@ -56,24 +56,6 @@ namespace MovieDatabase.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Settings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Settings", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -199,30 +181,6 @@ namespace MovieDatabase.Data.Migrations
                     table.PrimaryKey("PK_Movies", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Movies_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserMovieRating",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserMovieRating", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserMovieRating_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -385,21 +343,6 @@ namespace MovieDatabase.Data.Migrations
                 table: "Reviews",
                 column: "MovieId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Settings_IsDeleted",
-                table: "Settings",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserMovieRating_IsDeleted",
-                table: "UserMovieRating",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserMovieRating_UserId",
-                table: "UserMovieRating",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -421,12 +364,6 @@ namespace MovieDatabase.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "Settings");
-
-            migrationBuilder.DropTable(
-                name: "UserMovieRating");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

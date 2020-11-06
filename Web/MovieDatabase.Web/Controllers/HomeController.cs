@@ -20,17 +20,17 @@
         [HttpGet("/")]
         public IActionResult Index()
         {
-            if (this.User.Identity.IsAuthenticated)
+            var viewModel = new HomePageMoviesViewModel();
+            var movies = this.moviesService.GetAll<HomePageMovieViewModel>();
+            if (movies == null)
             {
-                var viewModel = new HomePageMoviesViewModel();
-                var movies = this.moviesService.GetAll<HomePageMovieViewModel>();
-                viewModel.Movies = movies;
-                return this.View(viewModel);
+                return this.View();
             }
 
-            return this.View();
+            viewModel.Movies = movies;
+            return this.View(viewModel);
         }
- 
+
         public IActionResult Privacy()
         {
             return this.View();

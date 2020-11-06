@@ -7,8 +7,13 @@
     public class Review : BaseDeletableModel<int>
     {
         // Add ICollection of movie quotes
+        public Review()
+        {
+            this.Comments = new HashSet<Comment>();
+        }
 
-        // Add property Title
+        public string MovieTitle { get; set; }
+
         public int MovieId { get; set; }
 
         public virtual Movie Movie { get; set; }
@@ -22,5 +27,7 @@
         public string SecondQuote { get; set; }
 
         public string ThirdQuote { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

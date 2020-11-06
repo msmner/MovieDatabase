@@ -3,23 +3,17 @@
 @{ this.ViewData["Title"] = GlobalConstants.SystemName; }
 
 
-
-@if (this.User.Identity.IsAuthenticated)
-{
-    foreach (var movie in Model.Movies)
+    @foreach (var movie in Model.Movies)
     {
 <div class="card" style="width: 18rem;">
     <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
     <div class="card-body">
         <h5 class="card-title">@movie.Title</h5>
-        <p class="card-text">@movie.MovieQuotes</p>
+        <p class="card-text">@movie.FirstQuote</p>
         <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
     </div>
-</div> }
-            }
-            else
-            {
-<div class="text-center">
-    <h1 class="display-4">Welcome to @this.ViewData["Title"]!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>}
+
+
+
+

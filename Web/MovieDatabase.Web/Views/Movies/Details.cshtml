@@ -5,12 +5,15 @@
         <div class="card-body">
             <h5 class="card-title">@Model.Title</h5>
             <p class="card-text">@Model.Description</p>
+            <p class="card-text">@Model.Content</p>
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">@Model.MovieQuotes</li>
+            <li class="list-group-item">@Model.FirstQuote</li>
+            <li class="list-group-item">@Model.SecondQuote</li>
+            <li class="list-group-item">@Model.ThirdQuote</li>
         </ul>
         <div class="card-body">
-            <a href="#" class="card-link">ToUserProfile</a>
+            <a asp-controller="Users" asp-action="UsersProfile" asp-route-id="@Model.Id" class="card-link">ToUserProfile</a>
             <a asp-controller="Movies" asp-action="Delete" asp-route-id="@Model.Id" class="card-link">Delete</a>
         </div>
     </div>
