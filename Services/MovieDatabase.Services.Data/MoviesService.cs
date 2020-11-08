@@ -1,12 +1,12 @@
 ﻿namespace MovieDatabase.Services.Data
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
+    using System.Linq;
 
     public class MoviesService : IMoviesService
     {
@@ -17,7 +17,7 @@
             this.moviesRepository = moviesRepository;
         }
 
-        public async Task<int> AddMovieAsync(string title,string imageUrl, string userId)
+        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId)
         {
             var movie = new Movie
             {
@@ -51,6 +51,11 @@
         {
             var movie = this.moviesRepository.All().Where(x => x.Id == movieId).To<T>().FirstOrDefault();
             return movie;
+        }
+
+        public int GetMoviesCountByUserId(string userId)
+        {
+            return this.moviesRepository.All().Where(x => x.UserId == userId).Count();
         }
     }
 }

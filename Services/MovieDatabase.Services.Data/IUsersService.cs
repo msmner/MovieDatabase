@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace MovieDatabase.Services.Data
+﻿namespace MovieDatabase.Services.Data
 {
+    using System.Collections.Generic;
+
     public interface IUsersService
     {
-        IEnumerable<T> GetMyMovies<T>(string userId);
+        IEnumerable<T> GetMyMovies<T>(string userId, int? take = null, int skip = 0);
 
-        Task<string> GetUserByMovieId(int movieId);
+        string GetUserByMovieId(int? movieId);
     }
 }

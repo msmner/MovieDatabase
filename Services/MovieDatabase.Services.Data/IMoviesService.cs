@@ -13,6 +13,8 @@
 
         Task Delete(string userId, int movieId);
 
-        public T GetById<T>(int movieId);
+        T GetById<T>(int movieId);
+
+        int GetMoviesCountByUserId(string userId);
     }
 }

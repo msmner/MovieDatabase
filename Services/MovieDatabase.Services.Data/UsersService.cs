@@ -16,15 +16,20 @@
             this.moviesRepository = moviesRepository;
         }
 
-        public IEnumerable<T> GetMyMovies<T>(string userId)
+        public IEnumerable<T> GetMyMovies<T>(string userId, int? take = null, int skip = 0)
         {
-            var movies = this.moviesRepository.All().Where(x => x.UserId == userId).To<T>().ToList();
-            return movies;
+            var movies = this.moviesRepository.All().OrderByDescending(x => x.CreatedOn).Where(x => x.UserId == userId).Skip(skip);
+            if (take.HasValue)
+            {
+                movies = movies.Take(take.Value);
+            }
+
+            return movies.To<T>().ToList();
         }
 
-        public async Task<string> GetUserByMovieId(int movieId)
+        public string GetUserByMovieId(int? movieId)
         {
-            var movie = await this.moviesRepository.GetByIdWithDeletedAsync(movieId);
+            var movie = this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefault();
             return movie.UserId;
         }
     }
