@@ -2,7 +2,9 @@
 {
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
+    using MovieDatabase.Services.Mapping;
     using MovieDatabase.Web.ViewModels.Reviews;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
@@ -29,6 +31,12 @@
 
             await this.reviewsRepository.AddAsync(review);
             await this.reviewsRepository.SaveChangesAsync();
+        }
+
+        public T GetReviewByMovieId<T>(int movieId)
+        {
+            var viewModel = this.reviewsRepository.All().Where(x => x.MovieId == movieId).To<T>().FirstOrDefault();
+            return viewModel;
         }
     }
 }

@@ -10,8 +10,12 @@
 
         public virtual ApplicationUser User { get; set; }
 
-        public int MovieId { get; set; }
+        public int ReviewId { get; set; }
 
-        public virtual Movie Movie { get; set; }
+        public Review Review { get; set; }
+
+        public int ParentId { get; set; }
+
+        public Comment ParentComment { get; set; }
     }
 }

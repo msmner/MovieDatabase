@@ -21,6 +21,8 @@
 
         public int CommentsCount { get; set; }
 
+        public int ReviewId { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Movie, MyProfileMoviesViewModel>()

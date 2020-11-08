@@ -28,5 +28,11 @@
 
             return this.Redirect("/");
         }
+
+        public IActionResult Details(int id)
+        {
+            var viewModel = this.reviewsService.GetReviewByMovieId<ReviewDetailsViewModel>(id);
+            return this.View(viewModel);
+        }
     }
 }
