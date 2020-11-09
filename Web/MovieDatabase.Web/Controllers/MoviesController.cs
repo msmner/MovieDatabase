@@ -9,7 +9,7 @@
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Movies;
 
-    public class MoviesController : Controller
+    public class MoviesController : BaseController
     {
         private readonly IMoviesService moviesService;
         private readonly UserManager<ApplicationUser> userManager;

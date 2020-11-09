@@ -7,7 +7,7 @@
     using MovieDatabase.Web.ViewModels.Reviews;
     using System.Threading.Tasks;
 
-    public class ReviewsController : Controller
+    public class ReviewsController : BaseController
     {
         private readonly IReviewsService reviewsService;
 

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using AutoMapper;
+    using Ganss.XSS;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
@@ -20,6 +21,8 @@
         public string ThirdQuote { get; set; }
 
         public string MovieTitle { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public IEnumerable<ReviewCommentViewModel> Comments { get; set; }
 

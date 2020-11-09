@@ -14,7 +14,7 @@
 
         public Review Review { get; set; }
 
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         public Comment ParentComment { get; set; }
     }

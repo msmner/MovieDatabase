@@ -10,7 +10,7 @@
     using MovieDatabase.Web.ViewModels;
     using MovieDatabase.Web.ViewModels.Users;
 
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private const int ItemsPerPage = 5;
 
