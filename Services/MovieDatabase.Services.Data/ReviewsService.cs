@@ -11,10 +11,12 @@
     public class ReviewsService : IReviewsService
     {
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
+        private readonly IDeletableEntityRepository<Movie> moviesRepository;
 
-        public ReviewsService(IDeletableEntityRepository<Review> reviewsRepository)
+        public ReviewsService(IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Movie> moviesRepository)
         {
             this.reviewsRepository = reviewsRepository;
+            this.moviesRepository = moviesRepository;
         }
 
         public async Task AddReviewAsync(int movieId, string content, int rating, string firstQuote, string secondQuote, string thirdQuote)
@@ -31,6 +33,10 @@
 
             await this.reviewsRepository.AddAsync(review);
             await this.reviewsRepository.SaveChangesAsync();
+
+            var movie = this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefault();
+            movie.ReviewId = review.Id;
+            await this.moviesRepository.SaveChangesAsync();
         }
 
         public T GetReviewByMovieId<T>(int movieId)

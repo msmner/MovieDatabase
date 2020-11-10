@@ -62,7 +62,7 @@
                 <div class="card-header">
                     <div class="media flex-wrap w-100 align-items-center">
                         <img src="" class="d-block ui-w-40 rounded-circle" alt="">
-                        @*<div class="media-body ml-3">
+                        <div class="media-body ml-3">
                             @Model.UserUserName
                             <div class="text-muted small">
                                 <time datetime="@Model.CreatedOn.ToString("O")"></time>
@@ -81,7 +81,7 @@
                                     <i class="fa fa-thumbs-down"></i>
                                 </a>
                             </div>
-                        </div>*@
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -132,9 +132,9 @@
             }, 1000);
         }
 
-        function sendVote(postId, isUpVote) {
+        function sendVote(reviewId, isUpVote) {
             var token = $("#votesForm input[name=__RequestVerificationToken]").val();
-            var json = { postId: postId, isUpVote: isUpVote };
+            var json = { reviewId: reviewId, isUpVote: isUpVote };
             $.ajax({
                 url: "/api/votes",
                 type: "POST",

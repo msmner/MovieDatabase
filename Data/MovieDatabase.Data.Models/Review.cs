@@ -2,14 +2,15 @@
 {
     using System.Collections.Generic;
 
+    using ForumSystem.Data.Models;
     using MovieDatabase.Data.Common.Models;
 
     public class Review : BaseDeletableModel<int>
     {
-        // Add ICollection of movie quotes
         public Review()
         {
             this.Comments = new HashSet<Comment>();
+            this.Votes = new HashSet<Vote>();
         }
 
         public string MovieTitle { get; set; }
@@ -29,5 +30,7 @@
         public string ThirdQuote { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public virtual ICollection<Vote> Votes { get; set; }
     }
 }

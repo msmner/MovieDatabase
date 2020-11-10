@@ -6,6 +6,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using ForumSystem.Data.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Models;
@@ -28,6 +29,8 @@
         public DbSet<Movie> Movies { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
+
+        public DbSet<Vote> Votes { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

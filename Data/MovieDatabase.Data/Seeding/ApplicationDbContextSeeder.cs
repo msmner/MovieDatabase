@@ -26,7 +26,6 @@
             var seeders = new List<ISeeder>
                           {
                               new RolesSeeder(),
-                              new MoviesSeeder(),
                           };
 
             foreach (var seeder in seeders)

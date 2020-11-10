@@ -1,8 +1,5 @@
 ﻿namespace MovieDatabase.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-
     using MovieDatabase.Data.Common.Models;
 
     public class Movie : BaseDeletableModel<int>

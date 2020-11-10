@@ -6,7 +6,7 @@
             <h5 class="card-title">@Model.Title</h5>
         </div>
         <div class="card-body">
-            <a asp-controller="Users" asp-action="MyProfile" asp-route-id="@Model.Id" class="card-link">To user profile</a>
+            <a asp-controller="Users" asp-action="UserProfile" asp-route-id="@Model.Id" class="card-link">To user profile</a>
             <a asp-controller="Movies" asp-action="Delete" asp-route-id="@Model.Id" class="card-link">Delete</a>
             <a asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id" class="card-link">To review</a>
         </div>

@@ -25,32 +25,21 @@
             this.userManager = userManager;
         }
 
-        public IActionResult MyProfile(int? id = null, int page = 1)
+        public IActionResult MyProfile()
         {
-            var userId = string.Empty;
-
-            if (id.HasValue)
-            {
-                userId = this.usersService.GetUserByMovieId(id);
-            }
-            else
-            {
-                userId = this.userManager.GetUserId(this.User);
-            }
-
             var viewModel = new MyProfileViewModel();
-            var movies = this.usersService.GetMyMovies<MyProfileMoviesViewModel>(userId, ItemsPerPage, (page - 1) * ItemsPerPage);
+            var userId = this.userManager.GetUserId(this.User);
+            var movies = this.usersService.GetMyMovies<MyProfileMoviesViewModel>(userId);
             viewModel.MyMovies = movies;
-            var count = this.moviesService.GetMoviesCountByUserId(userId);
-            viewModel.PagesCount = (int)Math.Ceiling((double)count / ItemsPerPage);
+            return this.View(viewModel);
+        }
 
-            if (viewModel.PagesCount == 0)
-            {
-                viewModel.PagesCount = 1;
-            }
-
-            viewModel.CurrentPage = page;
-
+        public IActionResult UserProfile(int id)
+        {
+            var viewModel = new MyProfileViewModel();
+            var userId = this.usersService.GetUserByMovieId(id);
+            var movies = this.usersService.GetMyMovies<MyProfileMoviesViewModel>(userId);
+            viewModel.MyMovies = movies;
             return this.View(viewModel);
         }
     }
