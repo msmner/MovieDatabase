@@ -1,9 +1,14 @@
 ﻿namespace MovieDatabase.Web
 {
+    using System;
+    using System.Linq;
+    using System.Net.Http;
     using System.Reflection;
 
     using ForumSystem.Services.Data;
+    using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Components;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -48,10 +53,24 @@
                     });
 
             services.AddControllersWithViews(
-                options =>
+            options =>
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                }).AddRazorRuntimeCompilation();
+
+            if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
+            {
+                services.AddScoped<HttpClient>(s =>
+                {
+                    var uriHelper = s.GetRequiredService<NavigationManager>();
+                    return new HttpClient
                     {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    }).AddRazorRuntimeCompilation();
+                        BaseAddress = new Uri(uriHelper.BaseUri),
+                    };
+                });
+            }
+
+            services.AddServerSideBlazor().AddCircuitOptions(options => { options.DetailedErrors = true; });
 
             services.AddAntiforgery(options =>
             {
@@ -77,7 +96,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
@@ -100,6 +119,13 @@
                 app.UseHsts();
             }
 
+            app.Use(next => context =>
+            {
+                var tokens = antiforgery.GetAndStoreTokens(context);
+                context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions() { HttpOnly = false });
+                return next(context);
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -115,6 +141,7 @@
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
+                        endpoints.MapBlazorHub();
                     });
         }
     }

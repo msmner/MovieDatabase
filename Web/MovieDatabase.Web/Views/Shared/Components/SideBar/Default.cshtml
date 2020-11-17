@@ -1,0 +1,21 @@
+﻿@model MovieDatabase.Web.ViewModels.SideBarViewModel
+
+<!-- Comments -->
+<div class="posts margin-bottom-40">
+    <div class="headline headline-md">
+        <h2>Recent Comments</h2>
+    </div>
+    @foreach (var comment in Model.RecentComments)
+    {
+        <dl class="dl-horizontal">
+            <dt><a href="#"><i class=""></i></a></dt>
+            <dd>
+                <p>
+                    <a href="/Reviews/Details/@comment.MovieId">@comment.MovieTitle</a>
+                    <div class="col-sm-1">@Html.Raw(comment.SanitizedContent)</div>
+                </p>
+            </dd>
+        </dl>
+    }
+</div>
+<!-- End Comments -->

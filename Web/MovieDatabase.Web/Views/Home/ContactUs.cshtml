@@ -1,0 +1,38 @@
+﻿<head>
+    <base href="~/" />
+</head>
+
+<script src="https://www.google.com/recaptcha/api.js?render=6LeZLeMZAAAAAIqP2c04DvQ9pbKiyi5xxZVjKIyE"></script>
+<link src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
+<component type="typeof(MovieDatabase.Web.Components.ContactComponent)" render-mode="ServerPrerendered" />
+<form id="formId" method="post"></form>
+
+@section Scripts{
+    <script src="~/_framework/blazor.server.js"></script>
+    <script>
+        runCaptcha = function (actionName) {
+            return new Promise((resolve, reject) => {
+                grecaptcha.ready(function () {
+                    grecaptcha.execute('6LeZLeMZAAAAAIqP2c04DvQ9pbKiyi5xxZVjKIyE', { action: 'BlazorContactForm' }).then(function (token) {
+                        resolve(token);
+                    });
+                });
+            });
+        };
+        getId = function () {
+            var token = $("#formId input[name=__RequestVerificationToken]").val();
+            return token;
+        };
+        function getCookie(cname) {
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var arr = ca[i].split('=');
+                if (arr[0] == cname)
+                    return arr[1]
+            }
+            return "";
+        };
+    </script>
+}
