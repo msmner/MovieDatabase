@@ -2,12 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using MovieDatabase.Data.Models;
     using MovieDatabase.Web.ViewModels.Movies;
 
     public interface IMoviesService
     {
-        Task<int> AddMovieAsync(string title, string imageUrl, string userId);
+        Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<string> genres);
 
         IEnumerable<T> GetAll<T>(int? count = 10);
 

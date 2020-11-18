@@ -7,17 +7,20 @@
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
     using System.Linq;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class MoviesService : IMoviesService
     {
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
+        private readonly IDeletableEntityRepository<Genre> genresRepository;
 
-        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository)
+        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Genre> genresRepository)
         {
             this.moviesRepository = moviesRepository;
+            this.genresRepository = genresRepository;
         }
 
-        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId)
+        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<string> genres)
         {
             var movie = new Movie
             {
@@ -25,6 +28,12 @@
                 Title = title,
                 ImageUrl = imageUrl,
             };
+
+            foreach (var genreId in genres)
+            {
+                movie.Genres.Add(this.genresRepository.All().FirstOrDefault(x => x.Id == genreId));
+            }
+
 
             await this.moviesRepository.AddAsync(movie);
             await this.moviesRepository.SaveChangesAsync();

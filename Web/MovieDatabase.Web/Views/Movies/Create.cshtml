@@ -23,5 +23,9 @@
             <label>Image Url</label>
             <input asp-for="ImageUrl" class="form-control form-control-lg" type="text" placeholder="">
         </div>
+        <div class="form-group">
+            <label asp-for="GenreIds"></label>
+            <select multiple="multiple" class="form-control" asp-for="GenreIds" asp-items="Model.Genres"></select>
+        </div>
         <button type="submit" class="btn btn-primary">Add</button>
     </form>

@@ -93,6 +93,7 @@
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IVotesService, VotesService>();
+            services.AddTransient<IGenresService, GenresService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -118,13 +119,6 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            app.Use(next => context =>
-            {
-                var tokens = antiforgery.GetAndStoreTokens(context);
-                context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions() { HttpOnly = false });
-                return next(context);
-            });
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
