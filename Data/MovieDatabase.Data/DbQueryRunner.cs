@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using MovieDatabase.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using MovieDatabase.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {

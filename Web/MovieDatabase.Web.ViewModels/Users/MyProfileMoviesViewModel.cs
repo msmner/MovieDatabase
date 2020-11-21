@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 

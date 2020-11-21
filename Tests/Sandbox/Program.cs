@@ -5,6 +5,11 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using MovieDatabase.Data;
     using MovieDatabase.Data.Common;
     using MovieDatabase.Data.Common.Repositories;
@@ -13,13 +18,6 @@
     using MovieDatabase.Data.Seeding;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Services.Messaging;
-
-    using CommandLine;
-
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     public static class Program
     {

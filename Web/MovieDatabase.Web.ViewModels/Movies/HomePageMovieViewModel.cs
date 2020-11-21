@@ -1,6 +1,7 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
     using AutoMapper;
+    using Microsoft.AspNetCore.Http;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 

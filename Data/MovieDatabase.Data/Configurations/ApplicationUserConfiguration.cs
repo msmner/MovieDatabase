@@ -1,8 +1,8 @@
 ﻿namespace MovieDatabase.Data.Configurations
 {
-    using MovieDatabase.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using MovieDatabase.Data.Models;
 
     public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {

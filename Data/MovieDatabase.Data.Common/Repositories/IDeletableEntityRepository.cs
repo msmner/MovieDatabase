@@ -1,8 +1,9 @@
 ﻿namespace MovieDatabase.Data.Common.Repositories
 {
-    using MovieDatabase.Data.Common.Models;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using MovieDatabase.Data.Common.Models;
 
     public interface IDeletableEntityRepository<TEntity> : IRepository<TEntity>
         where TEntity : class, IDeletableEntity

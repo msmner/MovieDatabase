@@ -4,11 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using MovieDatabase.Common;
-    using MovieDatabase.Data.Models;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
+    using MovieDatabase.Common;
+    using MovieDatabase.Data.Models;
 
     internal class RolesSeeder : ISeeder
     {

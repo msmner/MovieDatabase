@@ -2,10 +2,9 @@
 {
     using System.Diagnostics;
 
-    using MovieDatabase.Web.ViewModels;
-
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Services.Data;
+    using MovieDatabase.Web.ViewModels;
     using MovieDatabase.Web.ViewModels.Movies;
 
     public class HomeController : BaseController

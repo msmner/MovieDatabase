@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace MovieDatabase.Web.ViewModels.Movies
+﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class HomePageMoviesViewModel
     {
         public IEnumerable<HomePageMovieViewModel> Movies { get; set; }

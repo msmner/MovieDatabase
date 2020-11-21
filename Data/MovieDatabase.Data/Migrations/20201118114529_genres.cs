@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace MovieDatabase.Data.Migrations
+﻿namespace MovieDatabase.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class genres : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

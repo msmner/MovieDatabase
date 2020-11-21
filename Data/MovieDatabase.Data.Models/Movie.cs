@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
 
+    using Microsoft.AspNetCore.Http;
     using MovieDatabase.Data.Common.Models;
 
     public class Movie : BaseDeletableModel<int>

@@ -1,12 +1,13 @@
 ﻿namespace MovieDatabase.Services.Data
 {
+    using System.Linq;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
+
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
     using MovieDatabase.Web.ViewModels.Reviews;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
 
     public class ReviewsService : IReviewsService
     {

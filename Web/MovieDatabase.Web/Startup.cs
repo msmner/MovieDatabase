@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Net.Http;
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using ForumSystem.Services.Data;
     using Microsoft.AspNetCore.Antiforgery;
     using Microsoft.AspNetCore.Builder;
@@ -79,6 +79,14 @@
 
             services.AddRazorPages();
 
+            Account account = new Account(
+                this.configuration["Cloudinary:AppName"],
+                this.configuration["Cloudinary:AppKey"],
+                this.configuration["Cloudinary:AppSecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
             services.AddSingleton(this.configuration);
 
             // Data repositories
@@ -94,6 +102,7 @@
             services.AddTransient<ICommentsService, CommentsService>();
             services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<IGenresService, GenresService>();
+            services.AddTransient<IFilesService, FilesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

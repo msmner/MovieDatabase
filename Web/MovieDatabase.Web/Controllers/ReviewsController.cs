@@ -1,11 +1,12 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Services.Mapping;
     using MovieDatabase.Web.ViewModels.Reviews;
-    using System.Threading.Tasks;
 
     public class ReviewsController : BaseController
     {
@@ -24,7 +25,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateReviewInputViewModel input, int id)
         {
-            await this.reviewsService.AddReviewAsync(id,input.Content,input.Rating,input.FirstQuote,input.SecondQuote,input.ThirdQuote);
+            await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating, input.FirstQuote, input.SecondQuote, input.ThirdQuote);
 
             return this.Redirect("/");
         }

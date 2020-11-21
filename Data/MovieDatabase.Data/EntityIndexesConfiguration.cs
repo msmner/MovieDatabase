@@ -2,9 +2,8 @@
 {
     using System.Linq;
 
-    using MovieDatabase.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+    using MovieDatabase.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -17,12 +17,16 @@
         private readonly IMoviesService moviesService;
         private readonly IGenresService genresService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly Cloudinary cloudinary;
+        private readonly IFilesService filesService;
 
-        public MoviesController(IMoviesService moviesService, IGenresService genresService, UserManager<ApplicationUser> userManager)
+        public MoviesController(IMoviesService moviesService, IGenresService genresService, UserManager<ApplicationUser> userManager, Cloudinary cloudinary, IFilesService filesService)
         {
             this.moviesService = moviesService;
             this.genresService = genresService;
             this.userManager = userManager;
+            this.cloudinary = cloudinary;
+            this.filesService = filesService;
         }
 
         public IActionResult Create()
@@ -44,7 +48,8 @@
                 genreIds.Add(genreId);
             }
 
-            var movieId = await this.moviesService.AddMovieAsync(input.Title, input.ImageUrl, userId, genreIds);
+            var imageResult = await this.filesService.UploadAsync(this.cloudinary, input.Image);
+            var movieId = await this.moviesService.AddMovieAsync(input.Title, imageResult.Uri.ToString(), userId, genreIds);
             return this.RedirectToAction("Create", "Reviews", new { id = movieId });
         }
 

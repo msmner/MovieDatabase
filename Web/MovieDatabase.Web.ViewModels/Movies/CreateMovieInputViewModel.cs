@@ -1,7 +1,8 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
     using System.Collections.Generic;
-    using AutoMapper;
+
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
@@ -11,6 +12,8 @@
         public string UserId { get; set; }
 
         public string Title { get; set; }
+
+        public IFormFile Image { get; set; }
 
         public string ImageUrl { get; set; }
 
