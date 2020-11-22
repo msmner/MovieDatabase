@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MovieDatabase.Data.Models\MovieDatabase.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\MovieDatabase.Services.Mapping\MovieDatabase.Services.Mapping.csproj" />
+    <ProjectReference Include="..\MovieDatabase.Web.Infrastructure\MovieDatabase.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

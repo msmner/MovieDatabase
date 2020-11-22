@@ -17,9 +17,14 @@
             this.moviesRepository = moviesRepository;
         }
 
-        public IEnumerable<T> GetMyMovies<T>(string userId)
+        public IEnumerable<T> GetMyMovies<T>(string userId, int page, int itemsPerPage)
         {
-            var movies = this.moviesRepository.All().Where(x => x.UserId == userId).To<T>().ToList();
+            var movies = this.moviesRepository.AllAsNoTracking()
+                .OrderByDescending(x => x.CreatedOn)
+                .Where(x => x.UserId == userId)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .To<T>().ToList();
             return movies;
         }
 

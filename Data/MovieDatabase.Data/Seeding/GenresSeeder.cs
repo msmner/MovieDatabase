@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -11,6 +12,11 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
+            if (dbContext.Genres.Any())
+            {
+                return;
+            }
+
             IDictionary<string, string> genres = new Dictionary<string, string>();
 
             genres.Add("1", "action");

@@ -13,7 +13,6 @@
         public async Task<ImageUploadResult> UploadAsync(Cloudinary cloudinary, IFormFile file)
         {
             byte[] destinationImage;
-
             using (var memoryStream = new MemoryStream())
             {
                 await file.CopyToAsync(memoryStream);

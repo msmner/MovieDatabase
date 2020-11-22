@@ -4,7 +4,7 @@
 
     public interface IUsersService
     {
-        IEnumerable<T> GetMyMovies<T>(string userId);
+        IEnumerable<T> GetMyMovies<T>(string userId, int page, int itemsPerPage);
 
         string GetUserByMovieId(int? movieId);
     }

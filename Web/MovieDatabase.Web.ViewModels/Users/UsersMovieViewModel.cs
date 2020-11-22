@@ -1,14 +1,13 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Users
 {
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
 
     using AutoMapper;
-    using Microsoft.AspNetCore.Http;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
-    public class MyProfileMoviesViewModel : IMapFrom<Movie>, IHaveCustomMappings
+    public class UsersMovieViewModel : IMapFrom<Movie>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -24,10 +23,13 @@
 
         public int ReviewId { get; set; }
 
+        public int VotesCount { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Movie, MyProfileMoviesViewModel>()
-                .ForMember(x => x.CommentsCount, opt => opt.MapFrom(y => y.Review.Comments.Count));
+            configuration.CreateMap<Movie, UsersMovieViewModel>()
+                .ForMember(x => x.CommentsCount, opt => opt.MapFrom(y => y.Review.Comments.Count))
+                .ForMember(x => x.VotesCount, opt => opt.MapFrom(y => y.Review.Votes.Sum(x => (int)x.Type)));
         }
     }
 }

@@ -1,19 +1,56 @@
-﻿@model MovieDatabase.Web.ViewModels.MyProfileViewModel
-@foreach (var movie in Model.MyMovies)
-{
-    <h1 class="display-8">@movie.Title</h1>
-    <div class="media-body">
-        <h4 class="media-heading"><a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id">@movie.Title</a></h4>
-        <ul class="list-inline list-unstyled text-right">
-            <li class="list-inline-item">
-                <i class="fas fa-user-edit"></i> @movie.UserUserName
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-calendar-alt"></i> @movie.CreatedOn
-            </li>
-            <li class="list-inline-item">
-                <i class="fas fa-comment-dots"></i> @movie.CommentsCount comments
-            </li>
-        </ul>
-    </div>
-}
+﻿@model MovieDatabase.Web.ViewModels.UsersMoviesViewModel
+<div class="row">
+    @foreach (var movie in Model.MyMovies)
+    {
+        <div class="card col-md-3" style="width: 18rem;">
+            <img src="@movie.ImageUrl" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@movie.Title</h5>
+                <p class="card-text">
+                    <i class="fas fa-user-edit"></i> @movie.UserUserName
+                    <br />
+                    <i class="fas fa-calendar-alt"></i> @movie.CreatedOn
+                    <br />
+                    <i class="fas fa-comment-dots"></i> @movie.CommentsCount comments
+                    <br />
+                    <i class="fas fa-check"></i> @movie.VotesCount votes
+                    <br />
+                </p>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">To Movie</a>
+            </div>
+        </div>
+        <hr />
+    }
+</div>
+<hr />
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @if (!Model.HasPreviousPage) { <text> disabled</text>}">
+            <a class="page-link" asp-controller="Users" asp-action="UserProfile" asp-route-page="@Model.PreviousPageNumber">Previous</a>
+        </li>
+        @for (int i = Model.PageNumber - 3; i < Model.PageNumber; i++)
+        {
+            if (i > 0)
+            {
+                <li class="page-item"><a class="page-link" asp-controller="Users" asp-action="UserProfile" asp-route-page="@i">@i</a></li>
+            }
+        }
+
+        <li class="page-item active" aria-current="page">
+            <span class="page-link">
+                @Model.PageNumber
+                <span class="sr-only">(current)</span>
+            </span>
+        </li>
+        @for (int i = Model.PageNumber + 1; i <= Model.PageNumber + 3; i++)
+        {
+            if (i <= Model.PagesCount)
+            {
+                <li class="page-item"><a class="page-link" asp-controller="Users" asp-action="UserProfile" asp-route-page="@i">@i</a></li>
+            }
+        }
+        <li class="page-item @if (!Model.HasNextPage) { <text> disabled</text>}">
+            <a class="page-link" asp-controller="Users" asp-action="UserProfile" asp-route-page="@Model.NextPageNumber">Next</a>
+        </li>
+    </ul>
+</nav>

@@ -1,6 +1,7 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,10 @@
 
         public string Title { get; set; }
 
+        [Required(ErrorMessage ="Please select a file!")]
+        [DataType(DataType.Upload)]
+        [MaxFileSize(5 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
         public IFormFile Image { get; set; }
 
         public string ImageUrl { get; set; }
