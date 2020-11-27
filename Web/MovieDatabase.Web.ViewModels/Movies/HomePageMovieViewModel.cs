@@ -5,7 +5,7 @@
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
-    public class HomePageMovieViewModel : IMapFrom<Movie>, IHaveCustomMappings
+    public class HomePageMovieViewModel : IMapFrom<Movie>
     {
         public int Id { get; set; }
 
@@ -15,12 +15,8 @@
 
         public string ImageUrl { get; set; }
 
-        public string FirstQuote { get; set; }
+        public string Quote { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Movie, HomePageMovieViewModel>()
-                .ForMember(x => x.FirstQuote, opt => opt.MapFrom(y => y.Review.FirstQuote));
-        }
+        public string Description { get; set; }
     }
 }

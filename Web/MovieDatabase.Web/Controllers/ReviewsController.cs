@@ -25,7 +25,7 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateReviewInputViewModel input, int id)
         {
-            await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating, input.FirstQuote, input.SecondQuote, input.ThirdQuote);
+            await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating);
 
             return this.Redirect("/");
         }

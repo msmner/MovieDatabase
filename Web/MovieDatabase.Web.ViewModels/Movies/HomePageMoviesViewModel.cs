@@ -5,6 +5,6 @@
 
     public class HomePageMoviesViewModel
     {
-        public IEnumerable<HomePageMovieViewModel> Movies { get; set; }
+        public IEnumerable<HomePageMovieViewModel> Top10MoviesWithHighestVoteCount { get; set; }
     }
 }

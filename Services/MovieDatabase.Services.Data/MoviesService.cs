@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using ForumSystem.Data.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
@@ -13,11 +13,15 @@
     {
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
         private readonly IDeletableEntityRepository<Genre> genresRepository;
+        private readonly IDeletableEntityRepository<Review> reviewsRepository;
+        private readonly IRepository<Vote> votesRepository;
 
-        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Genre> genresRepository)
+        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Genre> genresRepository, IDeletableEntityRepository<Review> reviewsRepository)
         {
             this.moviesRepository = moviesRepository;
             this.genresRepository = genresRepository;
+            this.reviewsRepository = reviewsRepository;
+            this.votesRepository = votesRepository;
         }
 
         public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<string> genres)
@@ -47,13 +51,17 @@
             if (movie.IsDeleted == false && movie.UserId == userId)
             {
                 this.moviesRepository.Delete(movie);
+                var review = this.reviewsRepository.All().FirstOrDefault(x => x.MovieId == movieId);
+                this.reviewsRepository.Delete(review);
+
+                await this.reviewsRepository.SaveChangesAsync();
                 await this.moviesRepository.SaveChangesAsync();
             }
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = 10)
+        public IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10)
         {
-            return this.moviesRepository.All().To<T>().ToList();
+            return this.moviesRepository.All().OrderByDescending(x => x.Votes.Sum(y => (int)y.Type)).Take(count).To<T>().ToList();
         }
 
         public T GetById<T>(int movieId)
@@ -65,6 +73,16 @@
         public int GetMoviesCountByUserId(string userId)
         {
             return this.moviesRepository.All().Where(x => x.UserId == userId).Count();
+        }
+
+        public IEnumerable<T> GetMoviesByGenre<T>(string genre)
+        {
+            return this.moviesRepository
+                .AllAsNoTracking()
+                .Where(x => x.Genres.Any(y => y.Type == genre))
+                .OrderByDescending(x => x.CreatedOn)
+                .To<T>()
+                .ToList();
         }
     }
 }

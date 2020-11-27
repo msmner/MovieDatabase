@@ -7,7 +7,7 @@
 
     public interface IReviewsService
     {
-        Task AddReviewAsync(int movieId, string content, int rating, string firstQuote, string secondQuote, string thirdQuote);
+        Task AddReviewAsync(int movieId, string content, int rating);
 
         T GetReviewByMovieId<T>(int movieId);
     }

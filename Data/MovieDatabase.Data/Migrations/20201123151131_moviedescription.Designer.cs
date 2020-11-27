@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieDatabase.Data;
 
 namespace MovieDatabase.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201123151131_moviedescription")]
+    partial class moviedescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,9 +34,6 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ReviewId")
                         .HasColumnType("int");
 
@@ -45,8 +44,6 @@ namespace MovieDatabase.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.HasIndex("ReviewId");
 
@@ -386,9 +383,6 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Quote")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
@@ -423,6 +417,9 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FirstQuote")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -438,6 +435,12 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
+                    b.Property<string>("SecondQuote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThirdQuote")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
@@ -450,10 +453,6 @@ namespace MovieDatabase.Data.Migrations
 
             modelBuilder.Entity("ForumSystem.Data.Models.Vote", b =>
                 {
-                    b.HasOne("MovieDatabase.Data.Models.Movie", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("MovieId");
-
                     b.HasOne("MovieDatabase.Data.Models.Review", "Review")
                         .WithMany("Votes")
                         .HasForeignKey("ReviewId")

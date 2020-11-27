@@ -5,14 +5,17 @@
 
     using ForumSystem.Data.Models;
     using MovieDatabase.Data.Common.Repositories;
+    using MovieDatabase.Data.Models;
 
     public class VotesService : IVotesService
     {
         private readonly IRepository<Vote> votesRepository;
+        private readonly IDeletableEntityRepository<Movie> moviesRepository;
 
-        public VotesService(IRepository<Vote> votesRepository)
+        public VotesService(IRepository<Vote> votesRepository, IDeletableEntityRepository<Movie> moviesRepository)
         {
             this.votesRepository = votesRepository;
+            this.moviesRepository = moviesRepository;
         }
 
         public int GetVotes(int reviewId)
@@ -40,6 +43,8 @@
                 };
 
                 await this.votesRepository.AddAsync(vote);
+                this.moviesRepository.All().FirstOrDefault(x => x.ReviewId == reviewId).Votes.Add(vote);
+                await this.moviesRepository.SaveChangesAsync();
             }
 
             await this.votesRepository.SaveChangesAsync();

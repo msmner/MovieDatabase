@@ -20,13 +20,13 @@
         public IActionResult Index()
         {
             var viewModel = new HomePageMoviesViewModel();
-            var movies = this.moviesService.GetAll<HomePageMovieViewModel>();
+            var movies = this.moviesService.GetTop10MoviesWithHighestRating<HomePageMovieViewModel>();
             if (movies == null)
             {
                 return this.View();
             }
 
-            viewModel.Movies = movies;
+            viewModel.Top10MoviesWithHighestVoteCount = movies;
             return this.View(viewModel);
         }
 

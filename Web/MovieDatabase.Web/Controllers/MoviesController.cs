@@ -2,14 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using CloudinaryDotNet;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
-    using MovieDatabase.Web.ViewModels.Genres;
     using MovieDatabase.Web.ViewModels.Movies;
 
     public class MoviesController : BaseController
@@ -64,6 +62,14 @@
         public IActionResult Details(int id)
         {
             var viewModel = this.moviesService.GetById<MovieDetailsViewModel>(id);
+            return this.View(viewModel);
+        }
+
+        public IActionResult ByGenre(string genre)
+        {
+            var viewModel = new MoviesByGenreViewModel();
+            var movies = this.moviesService.GetMoviesByGenre<MovieDetailsViewModel>(genre);
+            viewModel.MoviesByGenre = movies;
             return this.View(viewModel);
         }
     }

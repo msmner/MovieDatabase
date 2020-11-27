@@ -11,7 +11,7 @@
 
         public string MovieTitle { get; set; }
 
-        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
+        public string SanitizedContent => this.Content.Length > 100 ? new HtmlSanitizer().Sanitize(this.Content.Substring(0, 100) + "...") : new HtmlSanitizer().Sanitize(this.Content);
 
         public string UserId { get; set; }
 

@@ -30,23 +30,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Create">Create Movie</a>
                         </li>
+                        <vc:drop-down></vc:drop-down>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
+
+<div class="container content">
+    <partial name="_CookieConsentPartial" />
+    <div class="row">
+        <div class="col-md-10">
+            @RenderBody()
+        </div>
+        <div class="col-md-2 d-inline-flex p-2">
+            <vc:sidebar></vc:sidebar>
+        </div>
     </div>
-    
+</div>
+
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+            <div class="row">
+                <a class="nav-link text-dark col-1" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <a class="nav-link text-dark col-1" asp-controller="Home" asp-action="ContactUs">Contact Us</a>
+            </div>
         </div>
     </footer>
 

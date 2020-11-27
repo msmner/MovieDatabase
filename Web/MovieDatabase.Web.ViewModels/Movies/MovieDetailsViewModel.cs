@@ -17,5 +17,7 @@
         public string ImageUrl { get; set; }
 
         public int ReviewId { get; set; }
+
+        public string Quote { get; set; }
     }
 }

@@ -10,12 +10,14 @@
     {
         Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<string> genres);
 
-        IEnumerable<T> GetAll<T>(int? count = 10);
+        IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10);
 
         Task Delete(string userId, int movieId);
 
         T GetById<T>(int movieId);
 
         int GetMoviesCountByUserId(string userId);
+
+        IEnumerable<T> GetMoviesByGenre<T>(string genre);
     }
 }

@@ -1,0 +1,19 @@
+﻿@model MovieDatabase.Web.ViewModels.Movies.MoviesByGenreViewModel
+
+<div class="row row-cols-md-5">
+    @foreach (var movie in Model.MoviesByGenre)
+    {
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card" style="width: 10rem;">
+                    <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@movie.Title</h5>
+                        <p class="card-text">@movie.Quote</p>
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
