@@ -1,41 +1,8 @@
-﻿@model MovieDatabase.Web.ViewModels.Movies.HomePageMoviesViewModel
-@using MovieDatabase.Common
+﻿@using MovieDatabase.Common
 @{ this.ViewData["Title"] = GlobalConstants.SystemName; }
 
 
-<div class="row row-cols-md-5">
-    @foreach (var movie in Model.Top10MoviesWithHighestVoteCount)
-    {
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="card" style="width: 10rem;">
-                    <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">@movie.Title</h5>
-                        <p class="card-text">@movie.Quote</p>
-                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@movie.Title</h5>
-                <p class="card-text">@movie.Description</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">@movie.</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-            </div>
-        </div>
-    }
-</div>
+<partial name="_Movies" />
 
 
 

@@ -24,7 +24,9 @@
 
         public string Description { get; set; }
 
-        public string[] GenreIds { get; set; }
+        public int[] GenreIds { get; set; }
+
+        public string Quote { get; set; }
 
         public IEnumerable<SelectListItem> Genres { get; set; }
     }

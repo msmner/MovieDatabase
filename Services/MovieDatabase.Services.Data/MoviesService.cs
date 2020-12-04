@@ -14,17 +14,15 @@
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
         private readonly IDeletableEntityRepository<Genre> genresRepository;
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
-        private readonly IRepository<Vote> votesRepository;
 
         public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Genre> genresRepository, IDeletableEntityRepository<Review> reviewsRepository)
         {
             this.moviesRepository = moviesRepository;
             this.genresRepository = genresRepository;
             this.reviewsRepository = reviewsRepository;
-            this.votesRepository = votesRepository;
         }
 
-        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<string> genres)
+        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres)
         {
             var movie = new Movie
             {

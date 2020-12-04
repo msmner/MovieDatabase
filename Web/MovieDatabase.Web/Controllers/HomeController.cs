@@ -19,14 +19,14 @@
         [HttpGet("/")]
         public IActionResult Index()
         {
-            var viewModel = new HomePageMoviesViewModel();
-            var movies = this.moviesService.GetTop10MoviesWithHighestRating<HomePageMovieViewModel>();
+            var viewModel = new MoviesViewModel();
+            var movies = this.moviesService.GetTop10MoviesWithHighestRating<MovieDetailsViewModel>();
             if (movies == null)
             {
                 return this.View();
             }
 
-            viewModel.Top10MoviesWithHighestVoteCount = movies;
+            viewModel.MyMovies = movies;
             return this.View(viewModel);
         }
 

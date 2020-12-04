@@ -1,14 +1,10 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
-    using System;
-    using System.Threading.Tasks;
-
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
-    using MovieDatabase.Web.ViewModels;
-    using MovieDatabase.Web.ViewModels.Users;
+    using MovieDatabase.Web.ViewModels.Movies;
 
     public class UsersController : BaseController
     {
@@ -37,14 +33,14 @@
                 userId = this.userManager.GetUserId(this.User);
             }
 
-            var viewModel = new UsersMoviesViewModel
+            var viewModel = new MoviesViewModel
             {
                 ItemsPerPage = ItemsPerPage,
                 PageNumber = page,
                 MoviesCount = this.moviesService.GetMoviesCountByUserId(userId),
             };
 
-            var movies = this.usersService.GetMyMovies<UsersMovieViewModel>(userId, page, ItemsPerPage);
+            var movies = this.usersService.GetMyMovies<MovieDetailsViewModel>(userId, page, ItemsPerPage);
             viewModel.MyMovies = movies;
             return this.View(viewModel);
         }

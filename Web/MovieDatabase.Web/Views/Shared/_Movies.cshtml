@@ -1,0 +1,44 @@
+﻿@model MovieDatabase.Web.ViewModels.Movies.MoviesViewModel
+@using MovieDatabase.Common
+
+@{ this.ViewData["Title"] = GlobalConstants.SystemName; }
+
+
+<div class="row row-cols-md-5">
+    @foreach (var movie in Model.MyMovies)
+    {
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@movie.Title</h5>
+            @*<p class="card-text">@movie.UserUserName</p>*@
+        </div>
+        @*<ul class="list-group list-group-flush">
+            <li class="list-group-item">@movie.UserUserName</li>
+            <li class="list-group-item">
+                @String.Join(" ", movie.Genres)
+            </li>
+
+            <li class="list-group-item">@(movie.VotesCount ?? 0)</li>
+        </ul>*@
+        <p class="card-text">
+            <i class="fas fa-user-edit"></i> @movie.UserUserName
+            <br />
+            <i class="fas fa-calendar-alt"></i> @movie.CreatedOn
+            <br />
+            <i class="fas fa-comment-dots"></i> @movie.CommentsCount comments
+            <br />
+            <i class="fas fa-check"></i> @(movie.VotesCount ?? 0) votes
+            <br />
+            <br />
+            <i class="fas fa-check"></i> @String.Join(" ", movie.Genres)
+            <br />
+        </p>
+        <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
+        </div>
+    </div>
+    }
+</div>
+

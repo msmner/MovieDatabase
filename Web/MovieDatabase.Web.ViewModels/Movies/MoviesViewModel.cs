@@ -1,11 +1,10 @@
-﻿namespace MovieDatabase.Web.ViewModels
+﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
     using System;
     using System.Collections.Generic;
+    using System.Text;
 
-    using MovieDatabase.Web.ViewModels.Users;
-
-    public class UsersMoviesViewModel
+    public class MoviesViewModel
     {
         public int ItemsPerPage { get; set; }
 
@@ -23,6 +22,8 @@
 
         public int PagesCount => (int)Math.Ceiling((double)this.MoviesCount / this.ItemsPerPage);
 
-        public IEnumerable<UsersMovieViewModel> MyMovies { get; set; }
+        public IEnumerable<MovieDetailsViewModel> MyMovies { get; set; }
+
+        public IEnumerable<MovieDetailsViewModel> Top10MoviesWithHighestVoteCount { get; set; }
     }
 }

@@ -39,7 +39,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var userId = user.Id;
-            var genreIds = new List<string>();
+            var genreIds = new List<int>();
 
             foreach (var genreId in input.GenreIds)
             {
@@ -67,9 +67,9 @@
 
         public IActionResult ByGenre(string genre)
         {
-            var viewModel = new MoviesByGenreViewModel();
+            var viewModel = new MoviesViewModel();
             var movies = this.moviesService.GetMoviesByGenre<MovieDetailsViewModel>(genre);
-            viewModel.MoviesByGenre = movies;
+            viewModel.MyMovies = movies;
             return this.View(viewModel);
         }
     }

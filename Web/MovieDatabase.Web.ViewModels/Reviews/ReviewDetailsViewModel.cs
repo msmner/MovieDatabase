@@ -23,12 +23,6 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string FirstQuote { get; set; }
-
-        public string SecondQuote { get; set; }
-
-        public string ThirdQuote { get; set; }
-
         public string MovieTitle { get; set; }
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);

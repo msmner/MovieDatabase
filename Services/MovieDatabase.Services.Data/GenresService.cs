@@ -21,7 +21,7 @@
 
         public IEnumerable<SelectListItem> GetGenres()
         {
-            return this.genresRepository.All().Select(x => new SelectListItem(x.Type, x.Id)).ToList();
+            return this.genresRepository.All().Select(x => new SelectListItem(x.Type, x.Id.ToString())).ToList();
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace MovieDatabase.Data.Migrations
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace MovieDatabase.Data.Migrations
 {
-    using System;
-
-    using Microsoft.EntityFrameworkCore.Migrations;
-
-    public partial class firstagain : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -174,8 +173,10 @@
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     ImageUrl = table.Column<string>(nullable: true),
-                    ReviewId = table.Column<int>(nullable: true)
+                    ReviewId = table.Column<int>(nullable: true),
+                    Quote = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -184,6 +185,30 @@
                         name: "FK_Movies_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Genres",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    MovieId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genres", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Genres_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -201,10 +226,7 @@
                     MovieTitle = table.Column<string>(nullable: true),
                     MovieId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false),
-                    FirstQuote = table.Column<string>(nullable: true),
-                    SecondQuote = table.Column<string>(nullable: true),
-                    ThirdQuote = table.Column<string>(nullable: true)
+                    Rating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -362,6 +384,16 @@
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Genres_IsDeleted",
+                table: "Genres",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Genres_MovieId",
+                table: "Genres",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Movies_IsDeleted",
                 table: "Movies",
                 column: "IsDeleted");
@@ -417,6 +449,9 @@
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Votes");

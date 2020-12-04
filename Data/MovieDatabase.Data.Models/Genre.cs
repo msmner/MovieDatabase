@@ -2,7 +2,7 @@
 {
     using MovieDatabase.Data.Common.Models;
 
-    public class Genre : BaseDeletableModel<string>
+    public class Genre : BaseDeletableModel<int>
     {
         public string Type { get; set; }
     }

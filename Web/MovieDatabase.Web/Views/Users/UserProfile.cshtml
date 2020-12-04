@@ -1,5 +1,5 @@
-﻿@model MovieDatabase.Web.ViewModels.UsersMoviesViewModel
-<div class="row">
+﻿@model MovieDatabase.Web.ViewModels.Movies.MoviesViewModel
+@*<div class="row">
     @foreach (var movie in Model.MyMovies)
     {
         <div class="card col-md-3" style="width: 18rem;">
@@ -21,7 +21,8 @@
         </div>
         <hr />
     }
-</div>
+</div>*@
+<partial name="_Movies"/>
 <hr />
 <nav aria-label="...">
     <ul class="pagination justify-content-center">

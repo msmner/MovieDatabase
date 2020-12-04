@@ -17,14 +17,14 @@
                 return;
             }
 
-            IDictionary<string, string> genres = new Dictionary<string, string>();
+            IDictionary<int, string> genres = new Dictionary<int, string>();
 
-            genres.Add("1", "action");
-            genres.Add("2", "comedy");
-            genres.Add("3", "thriller");
-            genres.Add("4", "drama");
-            genres.Add("5", "horror");
-            genres.Add("6", "documentary");
+            genres.Add(1, "action");
+            genres.Add(2, "comedy");
+            genres.Add(3, "thriller");
+            genres.Add(4, "drama");
+            genres.Add(5, "horror");
+            genres.Add(6, "documentary");
 
             foreach (var genre in genres)
             {
