@@ -22,6 +22,8 @@
 
         public int PagesCount => (int)Math.Ceiling((double)this.MoviesCount / this.ItemsPerPage);
 
+        public string SearchString { get; set; }
+
         public IEnumerable<MovieDetailsViewModel> MyMovies { get; set; }
 
         public IEnumerable<MovieDetailsViewModel> Top10MoviesWithHighestVoteCount { get; set; }

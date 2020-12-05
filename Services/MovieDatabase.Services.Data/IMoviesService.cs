@@ -19,5 +19,7 @@
         int GetMoviesCountByUserId(string userId);
 
         IEnumerable<T> GetMoviesByGenre<T>(string genre);
+
+        IEnumerable<T> GetMoviesByTitle<T>(string searchString);
     }
 }

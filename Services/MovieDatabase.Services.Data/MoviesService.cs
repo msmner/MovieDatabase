@@ -82,5 +82,13 @@
                 .To<T>()
                 .ToList();
         }
+
+        public IEnumerable<T> GetMoviesByTitle<T>(string searchString)
+        {
+            return this.moviesRepository.All()
+                .Where(x => x.Title.Contains(searchString))
+                .To<T>()
+                .ToList();
+        }
     }
 }

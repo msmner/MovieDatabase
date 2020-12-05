@@ -72,5 +72,13 @@
             viewModel.MyMovies = movies;
             return this.View(viewModel);
         }
+
+        public IActionResult SearchByTitle(string searchString)
+        {
+            var viewModel = new MoviesViewModel();
+            var movies = this.moviesService.GetMoviesByTitle<MovieDetailsViewModel>(searchString);
+            viewModel.MyMovies = movies;
+            return this.View(viewModel);
+        }
     }
 }
