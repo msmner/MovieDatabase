@@ -28,6 +28,10 @@
                                     <div class="text-muted small ml-3">
                                         @if (this.User.Identity.IsAuthenticated)
                                         {
+                                            if (this.User.IsInRole("Administrator"))
+                                            {
+                                                <a class="btn btn-danger" href ="/Comments/Delete/@comment.Id">Delete</a>
+                                            }
                                             <div class="px-4 pt-3"> <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Reply</button> </div>
                                         }
                                     </div>

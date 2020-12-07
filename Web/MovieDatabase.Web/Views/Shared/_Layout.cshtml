@@ -25,7 +25,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UserProfile">MyProfile</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UserProfile">MyMovies</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Create">Create Movie</a>
@@ -44,7 +44,9 @@
             @RenderBody()
         </div>
         <div class="col-md-2 d-inline-flex p-2">
-            <vc:sidebar></vc:sidebar>
+            <cache expires-after="TimeSpan.FromMinutes(5)">
+                <vc:sidebar></vc:sidebar>
+            </cache>
         </div>
     </div>
 </div>

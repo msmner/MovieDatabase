@@ -1,14 +1,11 @@
 ﻿namespace MovieDatabase.Services.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
-    using MovieDatabase.Services.Mapping;
 
     public class GenresService : IGenresService
     {

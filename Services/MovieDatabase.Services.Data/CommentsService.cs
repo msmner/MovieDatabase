@@ -10,11 +10,13 @@
     {
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
+        private readonly IDeletableEntityRepository<Review> reviewsRepository;
 
-        public CommentsService(IDeletableEntityRepository<Comment> commentsRepository, IDeletableEntityRepository<Movie> moviesRepository)
+        public CommentsService(IDeletableEntityRepository<Comment> commentsRepository, IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Review> reviewsRepository)
         {
             this.commentsRepository = commentsRepository;
             this.moviesRepository = moviesRepository;
+            this.reviewsRepository = reviewsRepository;
         }
 
         public async Task<int> CreateAsync(string content, string userId, int reviewId, int? parentId)
@@ -32,6 +34,21 @@
 
             var movie = this.moviesRepository.All().Where(x => x.Review.Id == comment.ReviewId).FirstOrDefault();
             return movie.Id;
+        }
+
+        public async Task Delete(int id)
+        {
+            var comment = this.commentsRepository.All().FirstOrDefault(x => x.Id == id);
+            this.commentsRepository.Delete(comment);
+            await this.commentsRepository.SaveChangesAsync();
+        }
+
+        public int FindReviewByCommentId(int id)
+        {
+            var comment = this.commentsRepository.All().FirstOrDefault(x => x.Id == id);
+            var reviews = this.reviewsRepository.All().ToList();
+            var review = reviews.Where(x => x.Comments.Any(y => y.Id == id)).FirstOrDefault();
+            return review.Id;
         }
     }
 }

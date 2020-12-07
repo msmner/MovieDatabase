@@ -8,6 +8,7 @@
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
+    using MovieDatabase.Web.ViewModels;
 
     public class MoviesService : IMoviesService
     {

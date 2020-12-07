@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using MovieDatabase.Data.Models;
 
     public interface IGenresService
     {

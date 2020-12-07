@@ -11,11 +11,13 @@
     {
         private readonly ICommentsService commentsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IMoviesService moviesService;
 
-        public CommentsController(ICommentsService commentsService, UserManager<ApplicationUser> userManager)
+        public CommentsController(ICommentsService commentsService, UserManager<ApplicationUser> userManager, IMoviesService moviesService)
         {
             this.commentsService = commentsService;
             this.userManager = userManager;
+            this.moviesService = moviesService;
         }
 
         [HttpPost]
@@ -26,6 +28,13 @@
             var movieId = await this.commentsService.CreateAsync(content, userId, reviewId, parentId);
 
             return this.RedirectToAction("Details", "Reviews", new { id = movieId });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var reviewId = this.commentsService.FindReviewByCommentId(id);
+            await this.commentsService.Delete(id);
+            return this.RedirectToAction("Details", "Reviews", new { id = reviewId });
         }
     }
 }

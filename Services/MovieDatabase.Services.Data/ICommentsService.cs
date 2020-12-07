@@ -5,5 +5,9 @@
     public interface ICommentsService
     {
         Task<int> CreateAsync(string content, string userId, int reviewId, int? parentId);
+
+        Task Delete(int id);
+
+        int FindReviewByCommentId(int id);
     }
 }
