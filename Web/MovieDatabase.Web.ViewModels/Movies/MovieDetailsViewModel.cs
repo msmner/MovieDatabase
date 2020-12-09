@@ -1,33 +1,47 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+
     using AutoMapper;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
-    using System;
-    using System.Linq;
 
     public class MovieDetailsViewModel : IMapFrom<Movie>, IHaveCustomMappings
     {
-        public string UserId { get; set; }
-
+        [Required]
         public int Id { get; set; }
 
+        [Required]
+        public string UserId { get; set; }
+
+        [Required]
+        [MaxLength(80)]
         public string Title { get; set; }
 
+        [Required]
         public string ImageUrl { get; set; }
 
+        [Required]
         public int ReviewId { get; set; }
 
+        [Required]
+        [MaxLength(100)]
         public string Quote { get; set; }
 
+        [Required]
         public DateTime CreatedOn { get; set; }
 
+        [Required]
         public string UserUserName { get; set; }
 
+        [Required]
         public int CommentsCount { get; set; }
 
         public int? VotesCount { get; set; }
 
+        [Required]
         public string[] Genres { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

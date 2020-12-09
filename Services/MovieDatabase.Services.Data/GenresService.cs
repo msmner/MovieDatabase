@@ -9,9 +9,9 @@
 
     public class GenresService : IGenresService
     {
-        private readonly IDeletableEntityRepository<Genre> genresRepository;
+        private readonly IRepository<Genre> genresRepository;
 
-        public GenresService(IDeletableEntityRepository<Genre> genresRepository)
+        public GenresService(IRepository<Genre> genresRepository)
         {
             this.genresRepository = genresRepository;
         }

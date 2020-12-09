@@ -6,6 +6,7 @@
     using CloudinaryDotNet;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using MovieDatabase.Common;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Movies;
@@ -37,6 +38,13 @@
         [HttpPost]
         public async Task<IActionResult> Create(CreateMovieInputViewModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                var viewModel = new CreateMovieInputViewModel();
+                viewModel.Genres = this.genresService.GetGenres();
+                return this.View(viewModel);
+            }
+
             var user = await this.userManager.GetUserAsync(this.User);
             var userId = user.Id;
             var genreIds = new List<int>();
@@ -53,8 +61,14 @@
 
         public async Task<IActionResult> Delete(int id)
         {
+            var isUserAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
             var userId = this.userManager.GetUserId(this.User);
-            await this.moviesService.Delete(userId, id);
+            var isMovieCreatorLoggedIn = await this.moviesService.IsMovieCreatorLoggedIn(userId, id);
+
+            if (isUserAdmin == true || isMovieCreatorLoggedIn == true)
+            {
+                await this.moviesService.Delete(id);
+            }
 
             return this.Redirect("/");
         }

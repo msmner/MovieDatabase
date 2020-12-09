@@ -18,8 +18,6 @@ namespace MovieDatabase.Data.Models
             this.Movies = new HashSet<Movie>();
         }
 
-        public string ProfilePicture { get; set; }
-
         // Audit info
         public DateTime CreatedOn { get; set; }
 

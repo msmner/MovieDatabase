@@ -17,18 +17,18 @@
                 return;
             }
 
-            IDictionary<int, string> genres = new Dictionary<int, string>();
+            IList<string> genres = new List<string>();
 
-            genres.Add(1, "action");
-            genres.Add(2, "comedy");
-            genres.Add(3, "thriller");
-            genres.Add(4, "drama");
-            genres.Add(5, "horror");
-            genres.Add(6, "documentary");
+            genres.Add("action");
+            genres.Add("comedy");
+            genres.Add("thriller");
+            genres.Add("drama");
+            genres.Add("horror");
+            genres.Add("documentary");
 
             foreach (var genre in genres)
             {
-                dbContext.Genres.Add(new Genre { Id = genre.Key, Type = genre.Value });
+                dbContext.Genres.Add(new Genre { Type = genre });
             }
 
             await dbContext.SaveChangesAsync();

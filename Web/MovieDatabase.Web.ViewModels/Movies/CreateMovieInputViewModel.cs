@@ -12,21 +12,26 @@
     {
         public string UserId { get; set; }
 
+        [Required]
+        [MaxLength(80)]
         public string Title { get; set; }
 
-        [Required(ErrorMessage ="Please select a file!")]
+        [Required(ErrorMessage = "Please select a file!")]
         [DataType(DataType.Upload)]
         [MaxFileSize(5 * 1024 * 1024)]
         [AllowedExtensions(new string[] { ".jpg", ".png", ".jpeg" })]
         public IFormFile Image { get; set; }
 
-        public string ImageUrl { get; set; }
-
+        [Required]
+        [MaxLength(500)]
+        [MinLength(100)]
         public string Description { get; set; }
 
-        public int[] GenreIds { get; set; }
-
+        [Required]
+        [MaxLength(100)]
         public string Quote { get; set; }
+
+        public int[] GenreIds { get; set; }
 
         public IEnumerable<SelectListItem> Genres { get; set; }
     }

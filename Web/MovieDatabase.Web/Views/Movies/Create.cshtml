@@ -1,15 +1,5 @@
 ﻿@model MovieDatabase.Web.ViewModels.Movies.CreateMovieInputViewModel
 
-<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-    tinymce.init({
-        selector: "textarea",
-        plugins: [
-            "image paste table link code media"
-        ]
-    });
-</script>
-
 <form method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label>Movie title</label>
@@ -29,4 +19,14 @@
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>
 

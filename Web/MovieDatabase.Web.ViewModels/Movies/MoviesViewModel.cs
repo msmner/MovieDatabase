@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Text;
+    using System.ComponentModel.DataAnnotations;
 
     public class MoviesViewModel
     {
@@ -22,6 +22,8 @@
 
         public int PagesCount => (int)Math.Ceiling((double)this.MoviesCount / this.ItemsPerPage);
 
+        [Required]
+        [MaxLength(30)]
         public string SearchString { get; set; }
 
         public IEnumerable<MovieDetailsViewModel> MyMovies { get; set; }

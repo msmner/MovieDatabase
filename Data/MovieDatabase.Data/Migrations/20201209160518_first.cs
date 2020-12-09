@@ -44,7 +44,6 @@ namespace MovieDatabase.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    ProfilePicture = table.Column<string>(nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -171,12 +170,12 @@ namespace MovieDatabase.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    ImageUrl = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false),
+                    Title = table.Column<string>(maxLength: 80, nullable: false),
+                    Description = table.Column<string>(maxLength: 500, nullable: false),
+                    ImageUrl = table.Column<string>(nullable: false),
                     ReviewId = table.Column<int>(nullable: true),
-                    Quote = table.Column<string>(nullable: true)
+                    Quote = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,9 +196,7 @@ namespace MovieDatabase.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false),
                     MovieId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -223,9 +220,9 @@ namespace MovieDatabase.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    MovieTitle = table.Column<string>(nullable: true),
+                    MovieTitle = table.Column<string>(maxLength: 80, nullable: false),
                     MovieId = table.Column<int>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(maxLength: 1000, nullable: false),
                     Rating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -249,8 +246,8 @@ namespace MovieDatabase.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(maxLength: 150, nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     ReviewId = table.Column<int>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
                     ParentCommentId = table.Column<int>(nullable: true)
@@ -287,7 +284,7 @@ namespace MovieDatabase.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     ReviewId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false),
                     Type = table.Column<int>(nullable: false),
                     MovieId = table.Column<int>(nullable: true)
                 },
@@ -382,11 +379,6 @@ namespace MovieDatabase.Data.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Genres_IsDeleted",
-                table: "Genres",
-                column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Genres_MovieId",

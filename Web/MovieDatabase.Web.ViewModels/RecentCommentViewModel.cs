@@ -1,5 +1,7 @@
 ﻿namespace MovieDatabase.Web.ViewModels
 {
+    using System.ComponentModel.DataAnnotations;
+
     using AutoMapper;
     using Ganss.XSS;
     using MovieDatabase.Data.Models;
@@ -7,14 +9,22 @@
 
     public class RecentCommentViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
+        [Required]
+        [MaxLength(150)]
         public string Content { get; set; }
 
+        [Required]
+        [MaxLength(80)]
         public string MovieTitle { get; set; }
 
+        [Required]
+        [MaxLength(150)]
         public string SanitizedContent => this.Content.Length > 100 ? new HtmlSanitizer().Sanitize(this.Content.Substring(0, 100) + "...") : new HtmlSanitizer().Sanitize(this.Content);
 
+        [Required]
         public string UserId { get; set; }
 
+        [Required]
         public int MovieId { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using ForumSystem.Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
@@ -13,14 +14,16 @@
     public class MoviesService : IMoviesService
     {
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
-        private readonly IDeletableEntityRepository<Genre> genresRepository;
+        private readonly IRepository<Genre> genresRepository;
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
+        private readonly IDeletableEntityRepository<Comment> commentsRepository;
 
-        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Genre> genresRepository, IDeletableEntityRepository<Review> reviewsRepository)
+        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IRepository<Genre> genresRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository)
         {
             this.moviesRepository = moviesRepository;
             this.genresRepository = genresRepository;
             this.reviewsRepository = reviewsRepository;
+            this.commentsRepository = commentsRepository;
         }
 
         public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres)
@@ -44,18 +47,36 @@
             return movie.Id;
         }
 
-        public async Task Delete(string userId, int movieId)
+        public async Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId)
         {
             var movie = await this.moviesRepository.GetByIdWithDeletedAsync(movieId);
+
             if (movie.IsDeleted == false && movie.UserId == userId)
             {
-                this.moviesRepository.Delete(movie);
-                var review = this.reviewsRepository.All().FirstOrDefault(x => x.MovieId == movieId);
-                this.reviewsRepository.Delete(review);
-
-                await this.reviewsRepository.SaveChangesAsync();
-                await this.moviesRepository.SaveChangesAsync();
+                return true;
             }
+
+            return false;
+        }
+
+        public async Task Delete(int movieId)
+        {
+            var movie = await this.moviesRepository.GetByIdWithDeletedAsync(movieId);
+            this.moviesRepository.Delete(movie);
+
+            var review = this.reviewsRepository.All().FirstOrDefault(x => x.MovieId == movieId);
+            this.reviewsRepository.Delete(review);
+
+            var comments = this.commentsRepository.All().Where(x => x.ReviewId == movieId);
+
+            foreach (var comment in comments)
+            {
+                this.commentsRepository.Delete(comment);
+            }
+
+            await this.commentsRepository.SaveChangesAsync();
+            await this.reviewsRepository.SaveChangesAsync();
+            await this.moviesRepository.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10)

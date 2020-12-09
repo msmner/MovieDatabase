@@ -9,9 +9,9 @@
 
     public class DropDownViewComponent : ViewComponent
     {
-        private readonly IDeletableEntityRepository<Genre> genresRepository;
+        private readonly IRepository<Genre> genresRepository;
 
-        public DropDownViewComponent(IDeletableEntityRepository<Genre> genresRepository)
+        public DropDownViewComponent(IRepository<Genre> genresRepository)
         {
             this.genresRepository = genresRepository;
         }

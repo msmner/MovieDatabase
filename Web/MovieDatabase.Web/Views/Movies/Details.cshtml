@@ -1,16 +1,42 @@
 ﻿@model MovieDatabase.Web.ViewModels.Movies.MovieDetailsViewModel
+@using MovieDatabase.Common 
 
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Title">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Title</h5>
-        </div>
-        <div class="card-body">
-            <a asp-controller="Users" asp-action="UserProfile" asp-route-id="@Model.Id" class="card-link">To user profile</a>
-            @if (this.User.IsInRole("Administrator"))
-            {
-                <a asp-controller="Movies" asp-action="Delete" asp-route-id="@Model.Id" class="card-link">Delete</a>
-            }
-            <a asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id" class="card-link">To review</a>
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Title">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+    </div>
+    <div class="card-body">
+        <a asp-controller="Users" asp-action="UserProfile" asp-route-id="@Model.Id" class="card-link">To user profile</a>
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == Model.UserUserName)
+        {
+            <form method="post" asp-controller="Movies" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
+            </form>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+        }
+        <a asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id" class="card-link">To review</a>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you really want to delete it ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="deleteForm.submit()">Yes</button>
+            </div>
         </div>
     </div>
+</div>

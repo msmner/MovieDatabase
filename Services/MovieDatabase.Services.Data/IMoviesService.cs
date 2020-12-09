@@ -9,7 +9,7 @@
 
         IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10);
 
-        Task Delete(string userId, int movieId);
+        Task Delete(int movieId);
 
         T GetById<T>(int movieId);
 
@@ -18,5 +18,7 @@
         IEnumerable<T> GetMoviesByGenre<T>(string genre);
 
         IEnumerable<T> GetMoviesByTitle<T>(string searchString);
+
+        Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId);
     }
 }
