@@ -11,19 +11,22 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            var roles = dbContext.UserRoles.ToList();
-
-            var administratorExists = roles.Any(x => x.ToString().Contains(GlobalConstants.AdministratorRoleName));
-
-            if (administratorExists == false)
+            if (!dbContext.UserRoles.Any())
             {
-                var user = dbContext.Users.FirstOrDefault();
-                var roleId = dbContext.Roles.FirstOrDefault(x => x.Name == GlobalConstants.AdministratorRoleName).Id;
+                var roles = dbContext.UserRoles.ToList();
 
-                if (user != null)
+                var administratorExists = roles.Any(x => x.ToString().Contains(GlobalConstants.AdministratorRoleName));
+
+                if (administratorExists == false)
                 {
-                    var userId = user.Id;
-                    user.Roles.Add(new IdentityUserRole<string> { RoleId = roleId, UserId = userId });
+                    var user = dbContext.Users.FirstOrDefault();
+                    var roleId = dbContext.Roles.FirstOrDefault(x => x.Name == GlobalConstants.AdministratorRoleName).Id;
+
+                    if (user != null)
+                    {
+                        var userId = user.Id;
+                        user.Roles.Add(new IdentityUserRole<string> { RoleId = roleId, UserId = userId });
+                    }
                 }
 
                 await dbContext.SaveChangesAsync();

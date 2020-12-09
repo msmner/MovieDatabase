@@ -85,10 +85,15 @@
         }
 
         [Authorize]
-        public IActionResult ByGenre(string genre)
+        public IActionResult ByGenre(string genre, int page = 1)
         {
-            var viewModel = new MoviesViewModel();
             var movies = this.moviesService.GetMoviesByGenre<MovieDetailsViewModel>(genre);
+            var viewModel = new MoviesViewModel
+            {
+                ItemsPerPage = GlobalConstants.ItemsPerPage,
+                PageNumber = page,
+                MoviesCount = this.moviesService.GetMoviesCountByGenre(genre),
+            };
             viewModel.MyMovies = movies;
             return this.View(viewModel);
         }

@@ -20,5 +20,7 @@
         IEnumerable<T> GetMoviesByTitle<T>(string searchString);
 
         Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId);
+
+        int GetMoviesCountByGenre(string genre);
     }
 }

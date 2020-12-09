@@ -107,6 +107,11 @@
                 .ToList();
         }
 
+        public int GetMoviesCountByGenre(string genre)
+        {
+            return this.moviesRepository.All().Where(x => x.Genres.Any(x => x.Type == genre)).Count();
+        }
+
         public IEnumerable<T> GetMoviesByTitle<T>(string searchString)
         {
             return this.moviesRepository.All()

@@ -2,14 +2,13 @@
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using MovieDatabase.Common;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Movies;
 
     public class UsersController : BaseController
     {
-        private const int ItemsPerPage = 5;
-
         private readonly IUsersService usersService;
         private readonly IMoviesService moviesService;
         private readonly UserManager<ApplicationUser> userManager;
@@ -35,12 +34,12 @@
 
             var viewModel = new MoviesViewModel
             {
-                ItemsPerPage = ItemsPerPage,
+                ItemsPerPage = GlobalConstants.ItemsPerPage,
                 PageNumber = page,
                 MoviesCount = this.moviesService.GetMoviesCountByUserId(userId),
             };
 
-            var movies = this.usersService.GetMyMovies<MovieDetailsViewModel>(userId, page, ItemsPerPage);
+            var movies = this.usersService.GetMyMovies<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
             viewModel.MyMovies = movies;
             return this.View(viewModel);
         }
