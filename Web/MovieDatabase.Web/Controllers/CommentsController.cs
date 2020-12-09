@@ -24,6 +24,11 @@
         [Authorize]
         public async Task<IActionResult> Create(string content, int? parentId, int reviewId)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
             parentId = parentId == 0 ? (int?)null : parentId;
             var userId = this.userManager.GetUserId(this.User);
             var movieId = await this.commentsService.CreateAsync(content, userId, reviewId, parentId);

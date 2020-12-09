@@ -1,4 +1,4 @@
-﻿namespace BlogSystem.Web.ViewComponents
+﻿namespace MovieDatabase.Web.ViewComponents
 {
     using System.Linq;
 

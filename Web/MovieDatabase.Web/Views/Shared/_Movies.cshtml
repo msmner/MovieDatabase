@@ -5,22 +5,13 @@
 
 
 <div class="row row-cols-md-5">
-    @foreach (var movie in Model.MyMovies)
+    @foreach (var movie in Model.Movies)
     {
     <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">@movie.Title</h5>
-            @*<p class="card-text">@movie.UserUserName</p>*@
         </div>
-        @*<ul class="list-group list-group-flush">
-            <li class="list-group-item">@movie.UserUserName</li>
-            <li class="list-group-item">
-                @String.Join(" ", movie.Genres)
-            </li>
-
-            <li class="list-group-item">@(movie.VotesCount ?? 0)</li>
-        </ul>*@
         <p class="card-text">
             <i class="fas fa-user-edit"></i> @movie.UserUserName
             <br />

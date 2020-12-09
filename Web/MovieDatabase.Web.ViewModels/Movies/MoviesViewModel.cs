@@ -22,11 +22,12 @@
 
         public int PagesCount => (int)Math.Ceiling((double)this.MoviesCount / this.ItemsPerPage);
 
+        [MaxLength(50)]
         [Required]
-        [MaxLength(30)]
+        [Display(Name ="text")]
         public string SearchString { get; set; }
 
-        public IEnumerable<MovieDetailsViewModel> MyMovies { get; set; }
+        public IEnumerable<MovieDetailsViewModel> Movies { get; set; }
 
         public IEnumerable<MovieDetailsViewModel> Top10MoviesWithHighestVoteCount { get; set; }
     }

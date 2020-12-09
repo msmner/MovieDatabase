@@ -17,7 +17,7 @@
             if (form == null)
             {
                 return this.BadRequest();
-            };
+            }
 
             if (this.ModelState.IsValid)
             {
@@ -63,6 +63,7 @@
                     return this.Json(new { success = false, message = ex.Message });
                 }
             }
+
             return this.BadRequest();
         }
 
@@ -76,19 +77,19 @@
             return senderInfo + message;
         }
 
-        private bool Validate(string gResponse)
+        private bool Validate(string response)
         {
             using (var client = new System.Net.WebClient())
             {
                 try
                 {
-                    // Enter your reCAPTCHA private key here
                     string secretKey = "6LeZLeMZAAAAABZsAaxVqvK8FrRJp8MF2Gkm_rNC";
-                    var gReply = client.DownloadString(string.Format(
+                    var reply = client.DownloadString(string.Format(
                             "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
-                            secretKey, gResponse));
+                            secretKey, 
+                            response));
 
-                    var jsonReturned = JsonConvert.DeserializeObject<ReCaptcha>(gReply);
+                    var jsonReturned = JsonConvert.DeserializeObject<ReCaptcha>(reply);
                     return jsonReturned.Success.ToLower() == "true";
                 }
                 catch (Exception)

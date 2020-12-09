@@ -21,12 +21,13 @@
         {
             var viewModel = new MoviesViewModel();
             var movies = this.moviesService.GetTop10MoviesWithHighestRating<MovieDetailsViewModel>();
+
             if (movies == null)
             {
                 return this.View();
             }
 
-            viewModel.MyMovies = movies;
+            viewModel.Movies = movies;
             return this.View(viewModel);
         }
 

@@ -28,19 +28,24 @@
         {
             if (!this.ModelState.IsValid)
             {
-                var viewModel = new CreateReviewInputViewModel();
-                return this.View(viewModel);
+                return this.View(input);
             }
 
             await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating);
 
-            return this.RedirectToAction("Details", "Reviews", new { id });
+            return this.RedirectToAction(nameof(this.Details), "Reviews", new { id });
         }
 
         [Authorize]
         public IActionResult Details(int id)
         {
             var viewModel = this.reviewsService.GetReviewByMovieId<ReviewDetailsViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(viewModel);
         }
     }

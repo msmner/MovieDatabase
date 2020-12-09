@@ -1,9 +1,10 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
-    using Microsoft.AspNetCore.Identity;
+    using System.Security.Claims;
+
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Common;
-    using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Movies;
 
@@ -11,25 +12,25 @@
     {
         private readonly IUsersService usersService;
         private readonly IMoviesService moviesService;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public UsersController(IUsersService usersService, IMoviesService moviesService, UserManager<ApplicationUser> userManager)
+        public UsersController(IUsersService usersService, IMoviesService moviesService)
         {
             this.usersService = usersService;
             this.moviesService = moviesService;
-            this.userManager = userManager;
         }
 
+        [Authorize]
         public IActionResult UserProfile(int? id, int page = 1)
         {
             string userId;
+
             if (id.HasValue)
             {
                 userId = this.usersService.GetUserByMovieId(id);
             }
             else
             {
-                userId = this.userManager.GetUserId(this.User);
+                userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
 
             var viewModel = new MoviesViewModel
@@ -40,7 +41,7 @@
             };
 
             var movies = this.usersService.GetMyMovies<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
-            viewModel.MyMovies = movies;
+            viewModel.Movies = movies;
             return this.View(viewModel);
         }
     }
