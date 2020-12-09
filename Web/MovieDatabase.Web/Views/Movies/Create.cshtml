@@ -1,21 +1,32 @@
 ﻿@model MovieDatabase.Web.ViewModels.Movies.CreateMovieInputViewModel
 
 <form method="post" enctype="multipart/form-data">
+    <h1>@this.ViewData["Title"]</h1>
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
-        <label>Movie title</label>
+        <label asp-for="Title">Movie title</label>
         <input asp-for="Title" class="form-control form-control-lg" type="text" placeholder="">
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label>Description of the movie</label>
-        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <label asp-for="Description">Description of the movie</label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quote"></label>
+        <input asp-for="Quote" class="form-control" />
+        <span asp-validation-for="Quote" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="GenreIds"></label>
         <select multiple="multiple" class="form-control" asp-for="GenreIds" asp-items="Model.Genres"></select>
+        <span asp-validation-for="GenreIds" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Image"></label>
         <input type="file" asp-for="Image">
+        <span asp-validation-for="Image" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>

@@ -31,6 +31,7 @@
         [MaxLength(100)]
         public string Quote { get; set; }
 
+        [Required]
         public int[] GenreIds { get; set; }
 
         public IEnumerable<SelectListItem> Genres { get; set; }

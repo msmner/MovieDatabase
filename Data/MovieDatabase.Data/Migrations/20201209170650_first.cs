@@ -220,7 +220,6 @@ namespace MovieDatabase.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    MovieTitle = table.Column<string>(maxLength: 80, nullable: false),
                     MovieId = table.Column<int>(nullable: false),
                     Content = table.Column<string>(maxLength: 1000, nullable: false),
                     Rating = table.Column<int>(nullable: false)

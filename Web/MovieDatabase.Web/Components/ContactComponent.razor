@@ -8,40 +8,40 @@
 @inject HttpClient Http
 
 <h3>ContactComponent</h3>
-
-<EditForm Model="@ContactForm" OnValidSubmit="OnSubmit">
+<EditForm class="text-center" Model="@ContactForm" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
-
-    <p>
-        <label for="Name">Name</label><br />
-        <InputText id="Name" @bind-Value="ContactForm.Name" />
-        <ValidationMessage For="@(() => ContactForm.Name)" />
-    </p>
-    <p>
-        <label for="Email">Email</label><br />
-        <InputText id="Email" @bind-Value="ContactForm.Email" />
-        <ValidationMessage For="@(() => ContactForm.Email)" />
-    </p>
-    <p>
-        <label for="Phone">Phone</label><br />
-        <InputText id="Phone" @bind-Value="ContactForm.Phone" />
-        <ValidationMessage For="@(() => ContactForm.Phone)" />
-    </p>
-    <p>
-        <label for="Message">Message</label><br />
-        <InputTextArea id="Message" @bind-Value="ContactForm.Message" rows="3" />
-        <ValidationMessage For="@(() => ContactForm.Message)" />
-    </p>
-
-    <div class="mt-2">
-        <button id="submitBtn" class="btn btn-primary @btnVisibility"
-                type="submit">
-            Submit
-        </button>
-        <div class="bg-primary text-light rounded p-2 @sendVisibility">
-            <i class="fa fa-cog fa-spin"></i> Sending
+        <div>
+            <p>
+                <label for="Name">Name</label><br />
+                <InputText id="Name" @bind-Value="ContactForm.Name" />
+                <ValidationMessage For="@(() => ContactForm.Name)" />
+            </p>
         </div>
-    </div>
+        <p>
+            <label for="Email">Email</label><br />
+            <InputText id="Email" @bind-Value="ContactForm.Email" />
+            <ValidationMessage For="@(() => ContactForm.Email)" />
+        </p>
+        <p>
+            <label for="Phone">Phone</label><br />
+            <InputText id="Phone" @bind-Value="ContactForm.Phone" />
+            <ValidationMessage For="@(() => ContactForm.Phone)" />
+        </p>
+        <p>
+            <label for="Message">Message</label><br />
+            <InputTextArea id="Message" @bind-Value="ContactForm.Message" rows="3" />
+            <ValidationMessage For="@(() => ContactForm.Message)" />
+        </p>
+
+        <div>
+            <button id="submitBtn" class="btn btn-primary @btnVisibility"
+                    type="submit">
+                Submit
+            </button>
+            <div class="bg-primary text-light rounded p-2 @sendVisibility">
+                <i class="fa fa-cog fa-spin"></i> Sending
+            </div>
+        </div>
 </EditForm>
 
 @if (displaySendAlert == true)
@@ -82,7 +82,7 @@
             var result = JObject.Parse(results);
             if (result.ContainsKey("success") && (bool)result["success"] == true)
             {
-                await ShowSuccessAlert();
+                ShowSuccessAlert();
                 ContactForm.Name = string.Empty;
                 ContactForm.Email = string.Empty;
                 ContactForm.Phone = string.Empty;
@@ -120,7 +120,7 @@
             return "failed";
     }
 
-    private async Task ShowSuccessAlert()
+    private void ShowSuccessAlert()
     {
         displaySendAlert = true;
         alertinfo = "alert-success";
@@ -128,7 +128,7 @@
         alerttext = "Sent Successfully";
     }
 
-    private async void ShowErrorAlert(string message)
+    private void ShowErrorAlert(string message)
     {
         displaySendAlert = true;
         alertinfo = "alert-danger";

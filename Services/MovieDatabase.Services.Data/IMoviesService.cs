@@ -5,7 +5,7 @@
 
     public interface IMoviesService
     {
-        Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres);
+        Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres, string quote, string description);
 
         IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10);
 

@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using CloudinaryDotNet;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Common;
@@ -28,6 +29,7 @@
             this.filesService = filesService;
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             var viewModel = new CreateMovieInputViewModel();
@@ -36,6 +38,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateMovieInputViewModel input)
         {
             if (!this.ModelState.IsValid)
@@ -55,10 +58,11 @@
             }
 
             var imageResult = await this.filesService.UploadAsync(this.cloudinary, input.Image);
-            var movieId = await this.moviesService.AddMovieAsync(input.Title, imageResult.Uri.ToString(), userId, genreIds);
+            var movieId = await this.moviesService.AddMovieAsync(input.Title, imageResult.Uri.ToString(), userId, genreIds,input.Quote,input.Description);
             return this.RedirectToAction("Create", "Reviews", new { id = movieId });
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var isUserAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
@@ -73,12 +77,14 @@
             return this.Redirect("/");
         }
 
+        [Authorize]
         public IActionResult Details(int id)
         {
             var viewModel = this.moviesService.GetById<MovieDetailsViewModel>(id);
             return this.View(viewModel);
         }
 
+        [Authorize]
         public IActionResult ByGenre(string genre)
         {
             var viewModel = new MoviesViewModel();

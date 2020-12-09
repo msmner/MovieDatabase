@@ -2,10 +2,9 @@
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
-    using MovieDatabase.Services.Mapping;
     using MovieDatabase.Web.ViewModels.Reviews;
 
     public class ReviewsController : BaseController
@@ -17,19 +16,28 @@
             this.reviewsService = reviewsService;
         }
 
+        [Authorize]
         public IActionResult Create(int id)
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateReviewInputViewModel input, int id)
         {
+            if (!this.ModelState.IsValid)
+            {
+                var viewModel = new CreateReviewInputViewModel();
+                return this.View(viewModel);
+            }
+
             await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating);
 
-            return this.Redirect("/");
+            return this.RedirectToAction("Details", "Reviews", new { id });
         }
 
+        [Authorize]
         public IActionResult Details(int id)
         {
             var viewModel = this.reviewsService.GetReviewByMovieId<ReviewDetailsViewModel>(id);

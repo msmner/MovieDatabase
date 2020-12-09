@@ -15,10 +15,6 @@
         }
 
         [Required]
-        [MaxLength(80)]
-        public string MovieTitle { get; set; }
-
-        [Required]
         public int MovieId { get; set; }
 
         public virtual Movie Movie { get; set; }

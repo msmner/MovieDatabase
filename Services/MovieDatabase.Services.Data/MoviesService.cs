@@ -26,13 +26,15 @@
             this.commentsRepository = commentsRepository;
         }
 
-        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres)
+        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres, string quote, string description)
         {
             var movie = new Movie
             {
                 UserId = userId,
                 Title = title,
                 ImageUrl = imageUrl,
+                Quote = quote,
+                Description = description,
             };
 
             foreach (var genreId in genres)
