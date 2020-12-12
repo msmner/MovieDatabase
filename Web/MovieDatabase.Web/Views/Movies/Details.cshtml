@@ -32,7 +32,7 @@
             }
             <a class="btn btn-warning" asp-controller="Users" asp-action="UserProfile" asp-route-id="@Model.Id">User Profile</a>
             <a class="btn btn-primary" asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id">Review</a>
-            <a class="btn btn-info" asp-area="" asp-controller="Chats" asp-action="Chat">Chat</a>
+            <a class="btn btn-info" asp-area="" asp-controller="Chats" asp-action="Chat" asp-route-id="@Model.Id">Chat</a>
         </div>
     </div>
 </div>

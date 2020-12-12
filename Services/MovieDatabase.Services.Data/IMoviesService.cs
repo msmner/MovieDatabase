@@ -1,5 +1,6 @@
 ﻿namespace MovieDatabase.Services.Data
 {
+    using MovieDatabase.Data.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -22,5 +23,7 @@
         Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId);
 
         int GetMoviesCountByGenre(string genre);
+
+        Movie GetMovieById(int id);
     }
 }

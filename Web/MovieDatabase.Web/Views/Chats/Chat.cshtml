@@ -1,5 +1,7 @@
-﻿@{
-    this.ViewBag.Title = "Chathub";
+﻿@model MovieDatabase.Web.ViewModels.Chats.ChatViewModel
+
+@{
+    this.ViewBag.Title = @Model.Title;
 }
 
 <h1>@this.ViewBag.Title</h1>
@@ -9,6 +11,7 @@
         <h4>Message</h4>
         <input class="w-75 ml-4 pl-3" type="text" id="messageInput" placeholder="Message..." />
         <button id="sendButton" class="ml-4 btn btn-dark btn-lg">Send</button>
+        <input id="title" type="hidden" name="title" value="@Model.Title" />
     </div>
     <hr style="height: 5px;" class="bg-dark" />
     <div id="messagesList" style="font-size: 28px;">
@@ -26,9 +29,11 @@
                 var chatInfo = `<div>[${message.user}] ${escapeHtml(message.text)}</div>`;
                 $("#messagesList").append(chatInfo);
             });
-        $("#sendButton").click(function() {
+        $("#sendButton").click(function () {
             var message = $("#messageInput").val();
-            connection.invoke("Send", message);
+            var title = $("#title").val();
+            console.log(title);
+            connection.invoke("Send", message, title);
             $("#messageInput").val("");
         });
         connection.start().catch(function (err) {

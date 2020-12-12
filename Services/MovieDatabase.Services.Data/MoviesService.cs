@@ -119,5 +119,10 @@
                 .To<T>()
                 .ToList();
         }
+
+        public Movie GetMovieById(int id)
+        {
+            return this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
+        }
     }
 }

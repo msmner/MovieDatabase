@@ -9,9 +9,11 @@
     [Authorize]
     public class ChatHub : Hub
     {
-        public async Task Send(string message)
+        public async Task Send(string message, string movieTitle)
         {
-            await this.Clients.All.SendAsync(
+            var connectionId = this.Context.ConnectionId;
+            await this.Groups.AddToGroupAsync(connectionId, movieTitle);
+            await this.Clients.Group(movieTitle).SendAsync(
                 "NewMessage",
                 new Message { User = this.Context.User.Identity.Name, Text = message, });
         }
