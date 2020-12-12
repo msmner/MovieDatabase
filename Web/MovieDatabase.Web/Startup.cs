@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Net.Http;
     using System.Reflection;
+
     using CloudinaryDotNet;
     using ForumSystem.Services.Data;
     using Microsoft.AspNetCore.Antiforgery;
@@ -25,6 +26,7 @@
     using MovieDatabase.Services.Data;
     using MovieDatabase.Services.Mapping;
     using MovieDatabase.Services.Messaging;
+    using MovieDatabase.Web.Hubs;
     using MovieDatabase.Web.ViewModels;
 
     public class Startup
@@ -57,6 +59,11 @@
                 {
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }).AddRazorRuntimeCompilation();
+
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
 
             if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
             {
@@ -141,6 +148,7 @@
             app.UseEndpoints(
                 endpoints =>
                     {
+                        endpoints.MapHub<ChatHub>("/chathub");
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
