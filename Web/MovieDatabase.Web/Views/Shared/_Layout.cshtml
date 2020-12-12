@@ -30,7 +30,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Create">Create Movie</a>
                         </li>
-                        <vc:drop-down></vc:drop-down>
+                        <li>
+                            <vc:drop-down></vc:drop-down>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -40,10 +42,10 @@
 <div class="container content">
     <partial name="_CookieConsentPartial" />
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-11">
             @RenderBody()
         </div>
-        <div class="col-md-2 d-inline-flex p-2">
+        <div class="col-md-1 d-inline-flex p-2">
             <cache expires-after="TimeSpan.FromMinutes(5)">
                 <vc:sidebar></vc:sidebar>
             </cache>

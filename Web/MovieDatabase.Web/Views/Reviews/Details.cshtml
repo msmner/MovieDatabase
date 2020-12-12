@@ -15,7 +15,6 @@
             <div class="container-fluid mt-100">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card mb-4">
                             <div class="card-header">
                                 <div class="media flex-wrap w-100 align-items-center">
                                     <img src="" class="d-block ui-w-40 rounded-circle" alt="">
@@ -36,7 +35,6 @@
                                             }
                                             <div class="px-4 pt-3"> <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Reply</button> </div>
                                         }
-                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -64,7 +62,6 @@
 <div class="container-fluid mt-100">
     <div class="row">
         <div class="col-md-12">
-            <div class="card mb-4">
                 <div class="card-header">
                     <div class="media flex-wrap w-100 align-items-center">
                         <img src="" class="d-block ui-w-40 rounded-circle" alt="">
@@ -88,10 +85,9 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
                 </div>
                 <div class="card-body">
-                    <article>
+                    <article class="text-break">
                         @Html.Raw(Model.SanitizedContent)
                     </article>
 

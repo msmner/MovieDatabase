@@ -5,6 +5,7 @@
     using System.Linq;
 
     using AutoMapper;
+    using Ganss.XSS;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
@@ -32,6 +33,10 @@
 
         [Required]
         public DateTime CreatedOn { get; set; }
+
+        public string Description { get; set; }
+
+        public string SanitizedDescription => new HtmlSanitizer().Sanitize(this.Description);
 
         [Required]
         public string UserUserName { get; set; }

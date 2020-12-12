@@ -1,6 +1,5 @@
 ﻿@model MovieDatabase.Web.ViewModels.DropDownViewModel
-<li>
-    <div class="dropdown nav-item">
+<div class="dropdown nav-item">
         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Genres
         </button>
@@ -10,5 +9,4 @@
                 <a class="dropdown-item" asp-area="" asp-controller="Movies" asp-action="ByGenre" asp-route-genre="@genre.Type">@genre.Type</a>
             }
         </div>
-    </div>
-</li>
+ </div>

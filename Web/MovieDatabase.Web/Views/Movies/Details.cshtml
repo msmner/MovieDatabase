@@ -1,7 +1,7 @@
 ﻿@model MovieDatabase.Web.ViewModels.Movies.MovieDetailsViewModel
 @using MovieDatabase.Common
 
-<div class="card" style="width: 18rem;">
+@*<div class="card" style="width: 18rem;">
     <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Title">
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
@@ -15,6 +15,24 @@
             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
         }
         <a asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id" class="card-link">To review</a>
+    </div>
+</div>*@
+
+<div class="container">
+    <div class="row bg-light text-dark">
+        <h1>@Model.Title</h1>
+        <div class="col-md-12 text-center">
+            <h3 class="my-3">Movie Description</h3>
+            <p class="text-break">@Model.SanitizedDescription</p>
+            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == Model.UserUserName)
+            {
+                <form method="post" asp-controller="Movies" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
+                </form>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+            }
+            <a class="btn btn-warning" asp-controller="Users" asp-action="UserProfile" asp-route-id="@Model.Id">User Profile</a>
+            <a class="btn btn-primary" asp-controller="Reviews" asp-action="Details" asp-route-id="@Model.Id">Review</a>
+        </div>
     </div>
 </div>
 
