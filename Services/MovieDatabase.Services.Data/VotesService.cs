@@ -18,7 +18,7 @@
             this.moviesRepository = moviesRepository;
         }
 
-        public int GetVotes(int reviewId)
+        public int GetVotesForReview(int reviewId)
         {
             var votes = this.votesRepository.All()
                 .Where(x => x.ReviewId == reviewId).Sum(x => (int)x.Type);

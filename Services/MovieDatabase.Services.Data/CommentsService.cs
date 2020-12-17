@@ -45,10 +45,7 @@
 
         public int FindReviewByCommentId(int id)
         {
-            var comment = this.commentsRepository.All().FirstOrDefault(x => x.Id == id);
-            var reviews = this.reviewsRepository.All().ToList();
-            var review = reviews.Where(x => x.Comments.Any(y => y.Id == id)).FirstOrDefault();
-            return review.Id;
+            return this.reviewsRepository.All().FirstOrDefault(x => x.Comments.Any(y => y.Id == id)).Id;
         }
     }
 }

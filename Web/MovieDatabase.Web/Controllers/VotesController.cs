@@ -26,7 +26,7 @@
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             await this.votesService.VoteAsync(input.ReviewId, userId, input.IsUpVote);
-            var votes = this.votesService.GetVotes(input.ReviewId);
+            var votes = this.votesService.GetVotesForReview(input.ReviewId);
             return new VoteResponseModel { VotesCount = votes };
         }
     }

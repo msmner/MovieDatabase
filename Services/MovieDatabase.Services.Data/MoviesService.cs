@@ -3,13 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using ForumSystem.Data.Models;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc.Rendering;
+
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
-    using MovieDatabase.Web.ViewModels;
 
     public class MoviesService : IMoviesService
     {
@@ -41,7 +38,6 @@
             {
                 movie.Genres.Add(this.genresRepository.All().FirstOrDefault(x => x.Id == genreId));
             }
-
 
             await this.moviesRepository.AddAsync(movie);
             await this.moviesRepository.SaveChangesAsync();
@@ -118,11 +114,6 @@
                 .Where(x => x.Title.Contains(searchString))
                 .To<T>()
                 .ToList();
-        }
-
-        public Movie GetMovieById(int id)
-        {
-            return this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
         }
     }
 }

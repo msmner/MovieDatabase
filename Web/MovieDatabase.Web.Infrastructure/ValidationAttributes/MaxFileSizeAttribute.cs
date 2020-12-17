@@ -13,7 +13,7 @@ public class MaxFileSizeAttribute : ValidationAttribute
 
     public string GetErrorMessage()
     {
-        return $"Maximum allowed file size is { this.maxFileSize} bytes.";
+        return $"Maximum allowed file size is {this.maxFileSize} bytes.";
     }
 
     protected override ValidationResult IsValid(

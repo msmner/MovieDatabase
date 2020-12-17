@@ -6,6 +6,6 @@
     {
         Task VoteAsync(int reviewId, string userId, bool isUpVote);
 
-        int GetVotes(int movieId);
+        int GetVotesForReview(int movieId);
     }
 }

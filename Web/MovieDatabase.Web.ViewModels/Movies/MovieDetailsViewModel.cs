@@ -11,42 +11,30 @@
 
     public class MovieDetailsViewModel : IMapFrom<Movie>, IHaveCustomMappings
     {
-        [Required]
         public int Id { get; set; }
 
-        [Required]
         public string UserId { get; set; }
 
-        [Required]
-        [MaxLength(80)]
         public string Title { get; set; }
 
-        [Required]
         public string ImageUrl { get; set; }
 
-        [Required]
         public int ReviewId { get; set; }
 
-        [Required]
-        [MaxLength(100)]
         public string Quote { get; set; }
 
-        [Required]
         public DateTime CreatedOn { get; set; }
 
         public string Description { get; set; }
 
         public string SanitizedDescription => new HtmlSanitizer().Sanitize(this.Description);
 
-        [Required]
         public string UserUserName { get; set; }
 
-        [Required]
         public int CommentsCount { get; set; }
 
         public int? VotesCount { get; set; }
 
-        [Required]
         public string[] Genres { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

@@ -5,49 +5,54 @@
 
 
 @*<div class="row row-cols-md-5">
-    @foreach (var movie in Model.Movies)
-    {
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@movie.Title</h5>
+        @foreach (var movie in Model.Movies)
+        {
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@movie.ImageUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@movie.Title</h5>
+                </div>
+                <p class="card-text">
+                    <i class="fas fa-user-edit"></i> @movie.UserUserName
+                    <br />
+                    <i class="fas fa-calendar-alt"></i> @movie.CreatedOn
+                    <br />
+                    <i class="fas fa-comment-dots"></i> @movie.CommentsCount comments
+                    <br />
+                    <i class="fas fa-check"></i> @(movie.VotesCount ?? 0) votes
+                    <br />
+                    <br />
+                    <i class="fas fa-check"></i> @String.Join(" ", movie.Genres)
+                    <br />
+                </p>
+                <div class="card-body">
+                    <a href="#" class="card-link">Card link</a>
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
+                </div>
             </div>
-            <p class="card-text">
-                <i class="fas fa-user-edit"></i> @movie.UserUserName
-                <br />
-                <i class="fas fa-calendar-alt"></i> @movie.CreatedOn
-                <br />
-                <i class="fas fa-comment-dots"></i> @movie.CommentsCount comments
-                <br />
-                <i class="fas fa-check"></i> @(movie.VotesCount ?? 0) votes
-                <br />
-                <br />
-                <i class="fas fa-check"></i> @String.Join(" ", movie.Genres)
-                <br />
-            </p>
-            <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
-            </div>
-        </div>
-    }
-</div>*@
+        }
+    </div>*@
 
 <div class=" mt-3 ">
     <div class="row d-flex d-wrap">
         <div class="card-deck d-flex justify-content-center">
             @foreach (var movie in Model.Movies)
             {
-                <div class="card mb-4">
-                    <img class="card-img-top" src="@movie.ImageUrl" alt="@movie.Title" width="400">
-                    <div class="card-body">
-                        <h4 class="card-title">@movie.Title</h4>
+                if (movie.VotesCount != null)
+                {
+                    <div class="card mb-4">
+                        <img class="card-img-top" src="@movie.ImageUrl" alt="@movie.Title" width="400">
+                        <div class="card-body">
+                            <h4 class="card-title">@movie.Title</h4>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">@movie.VotesCount</h4>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
-                    </div>
-
-                </div>
+                }
             }
         </div>
     </div>

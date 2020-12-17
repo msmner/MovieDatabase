@@ -86,7 +86,7 @@
                     string secretKey = "6LeZLeMZAAAAABZsAaxVqvK8FrRJp8MF2Gkm_rNC";
                     var reply = client.DownloadString(string.Format(
                             "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
-                            secretKey, 
+                            secretKey,
                             response));
 
                     var jsonReturned = JsonConvert.DeserializeObject<ReCaptcha>(reply);

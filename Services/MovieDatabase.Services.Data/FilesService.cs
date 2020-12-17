@@ -1,6 +1,5 @@
 ﻿namespace MovieDatabase.Services.Data
 {
-    using System;
     using System.IO;
     using System.Threading.Tasks;
 

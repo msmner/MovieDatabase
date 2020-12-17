@@ -1,9 +1,10 @@
 ﻿namespace MovieDatabase.Services.Data
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-
+    using ForumSystem.Data.Models;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
@@ -33,7 +34,8 @@
             await this.reviewsRepository.SaveChangesAsync();
 
             var movie = this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefault();
-            movie.ReviewId = review.Id;
+            movie.Review = review;
+            movie.Votes = new List<Vote>();
             await this.moviesRepository.SaveChangesAsync();
         }
 

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace MovieDatabase.Web.Areas.Administration.Controllers
+﻿namespace MovieDatabase.Web.Areas.Administration.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class DashboardController : AdministrationController
     {
         public IActionResult Index()
