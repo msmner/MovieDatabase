@@ -1,6 +1,7 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
@@ -26,8 +27,6 @@
         public DateTime CreatedOn { get; set; }
 
         public string Description { get; set; }
-
-        public string SanitizedDescription => new HtmlSanitizer().Sanitize(this.Description);
 
         public string UserUserName { get; set; }
 

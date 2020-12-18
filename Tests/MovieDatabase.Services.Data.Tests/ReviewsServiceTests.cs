@@ -22,7 +22,7 @@
         public ReviewsServiceTests()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-               .UseInMemoryDatabase("db").Options;
+               .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             this.dbContext = new ApplicationDbContext(options);
 
             this.moviesRepository = new EfDeletableEntityRepository<Movie>(this.dbContext);

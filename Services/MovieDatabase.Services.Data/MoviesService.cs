@@ -36,7 +36,9 @@
 
             foreach (var genreId in genres)
             {
-                movie.Genres.Add(this.genresRepository.All().FirstOrDefault(x => x.Id == genreId));
+                var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
+                var genreToAdd = new Genre { Type = genre.Type };
+                movie.Genres.Add(genreToAdd);
             }
 
             await this.moviesRepository.AddAsync(movie);

@@ -38,7 +38,7 @@
         <div class="card-deck d-flex justify-content-center">
             @foreach (var movie in Model.Movies)
             {
-                if (movie.VotesCount != null)
+                if (movie.VotesCount != null && this.Context.Request.Path == "/")
                 {
                     <div class="card mb-4">
                         <img class="card-img-top" src="@movie.ImageUrl" alt="@movie.Title" width="400">
@@ -48,10 +48,31 @@
                         <div class="card-body">
                             <h4 class="card-title">@movie.VotesCount</h4>
                         </div>
+                        <div class="card-body">
+                            <h4 class="card-title">@String.Join(" ", movie.Genres)</h4>
+                        </div>
                         <div class="card-footer">
                             <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
                         </div>
                     </div>
+                }
+                else if (this.Context.Request.Path != "/")
+                {
+        <div class="card mb-4">
+            <img class="card-img-top" src="@movie.ImageUrl" alt="@movie.Title" width="400">
+            <div class="card-body">
+                <h4 class="card-title">@movie.Title</h4>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@movie.VotesCount</h4>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">@String.Join(" ", movie.Genres)</h4>
+            </div>
+            <div class="card-footer">
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
+            </div>
+        </div>
                 }
             }
         </div>

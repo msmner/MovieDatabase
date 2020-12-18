@@ -27,7 +27,7 @@
         public MoviesServiceTests()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("db").Options;
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             this.dbContext = new ApplicationDbContext(options);
 
             this.commentsRepository = new EfDeletableEntityRepository<Comment>(this.dbContext);
@@ -125,13 +125,13 @@
         public async Task TestGetMoviesByGenre()
         {
             var service = await this.SetUp();
-            var genres = new List<Genre> { new Genre { Id = 2, Type = "comedy" } };
+            var genres = new List<Genre> { new Genre { Type = "horror" } };
             var secondMovie = new Movie { UserId = "anotherTest", Genres = genres };
             this.dbContext.Movies.Add(secondMovie);
             await this.dbContext.SaveChangesAsync();
             var movies = service.GetMoviesByGenre<TestMovieDetailsViewModel>("horror");
-            Assert.Equal("test", movies.ToList()[0].UserId);
-            Assert.Single(movies);
+            Assert.Equal("anotherTest", movies.ToList()[0].UserId);
+            Assert.Equal(2, movies.Count());
         }
 
         [Fact]
@@ -152,7 +152,7 @@
 
         private async Task<MoviesService> SetUp()
         {
-            var movie = new Movie { Id = 1, UserId = "test", Title = "test", Description = "test", ImageUrl = "http://res.cloudinary.com/msmner/image/upload/v1607534147/entnuyacriutx2ykmezc.jpg", ReviewId = 1, Quote = "test" };
+            var movie = new Movie { Id = 1, UserId = "test", Title = "test", ReviewId = 1 };
             var review = new Review { Id = 1, MovieId = 1, Content = "test", Rating = 1 };
             var comment = new Comment { Id = 1, Content = "test", UserId = "test", ReviewId = 1, ParentId = 3 };
             var genre = new Genre { Id = 1, Type = "horror" };

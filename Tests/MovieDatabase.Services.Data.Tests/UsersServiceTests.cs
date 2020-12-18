@@ -1,16 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MovieDatabase.Data;
-using MovieDatabase.Data.Common.Repositories;
-using MovieDatabase.Data.Models;
-using MovieDatabase.Data.Repositories;
-using MovieDatabase.Services.Data.Tests.TestViewModels;
-using MovieDatabase.Services.Mapping;
-using System;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace MovieDatabase.Services.Data.Tests
+﻿namespace MovieDatabase.Services.Data.Tests
 {
+    using System;
+    using System.Reflection;
+    using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+    using MovieDatabase.Data;
+    using MovieDatabase.Data.Common.Repositories;
+    using MovieDatabase.Data.Models;
+    using MovieDatabase.Data.Repositories;
+    using MovieDatabase.Services.Data.Tests.TestViewModels;
+    using MovieDatabase.Services.Mapping;
+    using MovieDatabase.Web.ViewModels;
+    using Xunit;
+
     public class UsersServiceTests : IDisposable
     {
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
@@ -19,7 +22,7 @@ namespace MovieDatabase.Services.Data.Tests
         public UsersServiceTests()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("db").Options;
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             this.dbContext = new ApplicationDbContext(options);
 
             this.moviesRepository = new EfDeletableEntityRepository<Movie>(this.dbContext);
@@ -44,16 +47,17 @@ namespace MovieDatabase.Services.Data.Tests
         public async Task TestGetUserByMovieId()
         {
             var service = await this.SetUp();
-            var userId = service.GetUserByMovieId(1);
+            var userId = service.GetUserByMovieId(6);
             Assert.Equal("test", userId);
         }
 
         private async Task<UsersService> SetUp()
         {
-            var movie = new Movie { Id = 1, UserId = "test", Title = "test", Description = "test", ImageUrl = "http://res.cloudinary.com/msmner/image/upload/v1607534147/entnuyacriutx2ykmezc.jpg", ReviewId = 1, Quote = "test" };
-            var secondMovie = new Movie { Id = 2, UserId = "secondTest" };
+            var movie = new Movie { Id = 6, UserId = "test" };
+            var secondMovie = new Movie { Id = 7, UserId = "secondTest" };
 
-            await this.dbContext.Movies.AddRangeAsync(movie, secondMovie);
+            this.dbContext.Movies.Add(movie);
+            this.dbContext.Movies.Add(secondMovie);
             await this.dbContext.SaveChangesAsync();
 
             return new UsersService(this.moviesRepository);

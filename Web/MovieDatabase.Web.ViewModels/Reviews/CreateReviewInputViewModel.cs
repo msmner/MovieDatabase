@@ -13,7 +13,7 @@
 
         [Required]
         [MaxLength(1000)]
-        [MinLength(500)]
+        [MinLength(300)]
         public string Content { get; set; }
 
         [Required]

@@ -18,7 +18,7 @@
         public GenresServiceTests()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                           .UseInMemoryDatabase("db").Options;
+                           .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             this.dbContext = new ApplicationDbContext(options);
             this.genresRepository = new EfRepository<Genre>(this.dbContext);
         }

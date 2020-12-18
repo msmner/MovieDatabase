@@ -21,7 +21,7 @@
         public CommentsServiceTests()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase("db").Options;
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             this.dbContext = new ApplicationDbContext(options);
             this.commentsRepository = new EfDeletableEntityRepository<Comment>(this.dbContext);
             this.moviesRepository = new EfDeletableEntityRepository<Movie>(this.dbContext);
@@ -75,9 +75,11 @@
 
         private async Task<CommentsService> SetUp()
         {
-            var movie = new Movie { Id = 1, UserId = "test", Title = "test", Description = "test", ImageUrl = "test", ReviewId = 1, Quote = "test" };
-            var review = new Review { Id = 1, MovieId = 1, Content = "test", Rating = 1 };
-            var comment = new Comment { Id = 1, ReviewId = 1 };
+            var movie = new Movie { Id = 1, UserId = "test", Title = "test", Description = "test", ImageUrl = "test", Quote = "test" };
+            var review = new Review { Id = 1, Content = "test", Rating = 1 };
+            var comment = new Comment { Id = 1 };
+            review.Comments.Add(comment);
+            movie.Review = review;
 
             await this.dbContext.Movies.AddAsync(movie);
             await this.dbContext.Reviews.AddAsync(review);

@@ -23,24 +23,22 @@
             {
                 try
                 {
-                    // Enter your email address and password
                     var credentials = new NetworkCredential("ivaylo.nikolov88@gmail.com", "Manotan88");
 
                     var mail = new MailMessage()
                     {
-                        From = new MailAddress("ivaylo.nikolov88@gmail.com"), // Enter your email address
+                        From = new MailAddress("ivaylo.nikolov88@gmail.com"),
                         Subject = "Website Inquiry",
                         Body = this.FormattedBody(form.Name, form.Email, form.Phone, form.Message),
                     };
 
                     mail.IsBodyHtml = true;
-                    mail.To.Add(new MailAddress("ivaylo.nikolov88@gmail.com")); // Enter your email address
+                    mail.To.Add(new MailAddress("ivaylo.nikolov88@gmail.com"));
 
-                    // You may have to tweak these settings depending on your mail server's requirements
                     var client = new SmtpClient()
                     {
                         UseDefaultCredentials = false,
-                        Host = "smtp.gmail.com", // Enter your mail server host
+                        Host = "smtp.gmail.com",
                         Credentials = credentials,
                         Port = 587,
                         EnableSsl = true,

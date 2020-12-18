@@ -12,33 +12,20 @@
 
     public class ReviewDetailsViewModel : IMapFrom<Review>, IHaveCustomMappings
     {
-        [Required]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(1000)]
-        [MinLength(500)]
         public string Content { get; set; }
 
-        [Required]
         public int Rating { get; set; }
 
-        [Required]
         public string UserUserName { get; set; }
 
-        [Required]
         public int VotesCount { get; set; }
 
-        [Required]
         public DateTime CreatedOn { get; set; }
 
-        [Required]
-        [MaxLength(80)]
         public string MovieTitle { get; set; }
 
-        [Required]
-        [MaxLength(1000)]
-        [MinLength(500)]
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public IEnumerable<ReviewCommentViewModel> Comments { get; set; }
