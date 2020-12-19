@@ -1,5 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-namespace MovieDatabase.Data.Models
+﻿namespace MovieDatabase.Data.Models
 {
     using System;
     using System.Collections.Generic;

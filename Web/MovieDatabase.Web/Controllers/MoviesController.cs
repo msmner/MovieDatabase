@@ -46,15 +46,9 @@
             }
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var genreIds = new List<int>();
-
-            foreach (var genreId in input.GenreIds)
-            {
-                genreIds.Add(genreId);
-            }
 
             var imageResult = await this.filesService.UploadAsync(this.cloudinary, input.Image);
-            var movieId = await this.moviesService.AddMovieAsync(input.Title, imageResult.Uri.ToString(), userId, genreIds, input.Quote, input.Description);
+            var movieId = await this.moviesService.AddMovieAsync(input.Title, imageResult.Uri.ToString(), userId, input.GenreIds, input.Quote, input.Description);
             return this.RedirectToAction("Create", "Reviews", new { id = movieId });
         }
 
@@ -107,6 +101,30 @@
             var movies = this.moviesService.GetMoviesByTitle<MovieDetailsViewModel>(searchString);
             viewModel.Movies = movies;
             return this.View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var viewModel = this.moviesService.GetById<EditMovieViewModel>(id);
+            viewModel.NewGenres = this.genresService.GetGenres();
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, EditMovieViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input.NewGenres = this.genresService.GetGenres();
+                return this.View(input);
+            }
+
+            var imageResult = await this.filesService.UploadAsync(this.cloudinary, input.Image);
+            input.NewImageUrl = imageResult.Uri.ToString();
+            await this.moviesService.UpdateAsync(id, input);
+            return this.RedirectToAction(nameof(this.Details), new { id });
         }
     }
 }

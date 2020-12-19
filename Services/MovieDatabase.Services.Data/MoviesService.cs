@@ -7,6 +7,7 @@
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
+    using MovieDatabase.Web.ViewModels.Movies;
 
     public class MoviesService : IMoviesService
     {
@@ -23,7 +24,7 @@
             this.commentsRepository = commentsRepository;
         }
 
-        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres, string quote, string description)
+        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description)
         {
             var movie = new Movie
             {
@@ -116,6 +117,27 @@
                 .Where(x => x.Title.Contains(searchString))
                 .To<T>()
                 .ToList();
+        }
+
+        public async Task UpdateAsync(int id, EditMovieViewModel input)
+        {
+            var movie = this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
+            var newGenres = new List<Genre>();
+
+            foreach (var genreId in input.GenreIds)
+            {
+                var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
+                var genreToAdd = new Genre { Type = genre.Type };
+                newGenres.Add(genreToAdd);
+            }
+
+            movie.Title = input.Title;
+            movie.Description = input.Description;
+            movie.Quote = input.Quote;
+            movie.ImageUrl = input.NewImageUrl;
+            movie.Genres = newGenres;
+
+            await this.moviesRepository.SaveChangesAsync();
         }
     }
 }

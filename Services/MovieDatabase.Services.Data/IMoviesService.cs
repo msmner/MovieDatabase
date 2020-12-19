@@ -4,10 +4,11 @@
     using System.Threading.Tasks;
 
     using MovieDatabase.Data.Models;
+    using MovieDatabase.Web.ViewModels.Movies;
 
     public interface IMoviesService
     {
-        Task<int> AddMovieAsync(string title, string imageUrl, string userId, List<int> genres, string quote, string description);
+        Task<int> AddMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description);
 
         IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10);
 
@@ -24,5 +25,7 @@
         Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId);
 
         int GetMoviesCountByGenre(string genre);
+
+        Task UpdateAsync(int id, EditMovieViewModel input);
     }
 }

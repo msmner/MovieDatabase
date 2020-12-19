@@ -6,42 +6,43 @@
 
 @inject IJSRuntime JSRuntime
 @inject HttpClient Http
+@inject NavigationManager NavManager
 
 <h3>ContactComponent</h3>
 <EditForm class="text-center" Model="@ContactForm" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
-        <div>
-            <p>
-                <label for="Name">Name</label><br />
-                <InputText id="Name" @bind-Value="ContactForm.Name" />
-                <ValidationMessage For="@(() => ContactForm.Name)" />
-            </p>
-        </div>
+    <div>
         <p>
-            <label for="Email">Email</label><br />
-            <InputText id="Email" @bind-Value="ContactForm.Email" />
-            <ValidationMessage For="@(() => ContactForm.Email)" />
+            <label for="Name">Name</label><br />
+            <InputText id="Name" @bind-Value="ContactForm.Name" />
+            <ValidationMessage For="@(() => ContactForm.Name)" />
         </p>
-        <p>
-            <label for="Phone">Phone</label><br />
-            <InputText id="Phone" @bind-Value="ContactForm.Phone" />
-            <ValidationMessage For="@(() => ContactForm.Phone)" />
-        </p>
-        <p>
-            <label for="Message">Message</label><br />
-            <InputTextArea id="Message" @bind-Value="ContactForm.Message" rows="3" />
-            <ValidationMessage For="@(() => ContactForm.Message)" />
-        </p>
+    </div>
+    <p>
+        <label for="Email">Email</label><br />
+        <InputText id="Email" @bind-Value="ContactForm.Email" />
+        <ValidationMessage For="@(() => ContactForm.Email)" />
+    </p>
+    <p>
+        <label for="Phone">Phone</label><br />
+        <InputText id="Phone" @bind-Value="ContactForm.Phone" />
+        <ValidationMessage For="@(() => ContactForm.Phone)" />
+    </p>
+    <p>
+        <label for="Message">Message</label><br />
+        <InputTextArea id="Message" @bind-Value="ContactForm.Message" rows="3" />
+        <ValidationMessage For="@(() => ContactForm.Message)" />
+    </p>
 
-        <div>
-            <button id="submitBtn" class="btn btn-primary @btnVisibility"
-                    type="submit">
-                Submit
-            </button>
-            <div class="bg-primary text-light rounded p-2 @sendVisibility">
-                <i class="fa fa-cog fa-spin"></i> Sending
-            </div>
+    <div>
+        <button id="submitBtn" class="btn btn-primary @btnVisibility"
+                type="submit">
+            Submit
+        </button>
+        <div class="bg-primary text-light rounded p-2 @sendVisibility">
+            <i class="fa fa-cog fa-spin"></i> Sending
         </div>
+    </div>
 </EditForm>
 
 @if (displaySendAlert == true)
