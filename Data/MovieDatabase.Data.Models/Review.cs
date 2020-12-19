@@ -20,6 +20,11 @@
         public virtual Movie Movie { get; set; }
 
         [Required]
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+
+        [Required]
         [MaxLength(1000)]
         [MinLength(500)]
         public string Content { get; set; }

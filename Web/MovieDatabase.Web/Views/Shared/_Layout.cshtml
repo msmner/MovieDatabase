@@ -24,9 +24,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="UserMovies">My Movies</a>
-                        </li>
+                        <div class="dropdown nav-item">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                My Profile
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserMovies">My Movies</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserReviews">My Reviews</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserComments">My Comments</a>
+                            </div>
+                        </div>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Create">Create Movie</a>
                         </li>

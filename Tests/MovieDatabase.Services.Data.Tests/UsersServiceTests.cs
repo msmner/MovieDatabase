@@ -17,6 +17,8 @@
     public class UsersServiceTests : IDisposable
     {
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
+        private readonly IDeletableEntityRepository<Review> reviewsRepository;
+        private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private ApplicationDbContext dbContext;
 
         public UsersServiceTests()
@@ -26,6 +28,8 @@
             this.dbContext = new ApplicationDbContext(options);
 
             this.moviesRepository = new EfDeletableEntityRepository<Movie>(this.dbContext);
+            this.commentsRepository = new EfDeletableEntityRepository<Comment>(this.dbContext);
+            this.reviewsRepository = new EfDeletableEntityRepository<Review>(this.dbContext);
 
             AutoMapperConfig.RegisterMappings(typeof(TestMovieDetailsViewModel).Assembly);
         }
@@ -60,7 +64,7 @@
             this.dbContext.Movies.Add(secondMovie);
             await this.dbContext.SaveChangesAsync();
 
-            return new UsersService(this.moviesRepository);
+            return new UsersService(this.moviesRepository, this.reviewsRepository, this.commentsRepository);
         }
     }
 }

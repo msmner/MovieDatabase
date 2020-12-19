@@ -6,7 +6,9 @@
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Common;
     using MovieDatabase.Services.Data;
+    using MovieDatabase.Web.ViewModels.Comments;
     using MovieDatabase.Web.ViewModels.Movies;
+    using MovieDatabase.Web.ViewModels.Reviews;
 
     public class UsersController : BaseController
     {
@@ -42,6 +44,26 @@
 
             var movies = this.usersService.GetMovies<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
             viewModel.Movies = movies;
+            return this.View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult UserReviews()
+        {
+            var viewModel = new AllReviewsViewModel();
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var reviews = this.usersService.GetReviews<SingleReviewViewModel>(userId);
+            viewModel.Reviews = reviews;
+            return this.View(viewModel);
+        }
+
+        [Authorize]
+        public IActionResult UserComments()
+        {
+            var viewModel = new AllCommentsViewModel();
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var comments = this.usersService.GetComments<SingleCommentViewModel>(userId);
+            viewModel.Comments = comments;
             return this.View(viewModel);
         }
     }

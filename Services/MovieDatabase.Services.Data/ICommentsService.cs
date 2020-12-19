@@ -1,7 +1,8 @@
 ﻿namespace MovieDatabase.Services.Data
 {
-    using MovieDatabase.Web.ViewModels.Comments;
     using System.Threading.Tasks;
+
+    using MovieDatabase.Web.ViewModels.Comments;
 
     public interface ICommentsService
     {

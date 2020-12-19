@@ -1,5 +1,6 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,8 @@
                 return this.View(input);
             }
 
-            await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating, userId);
 
             return this.RedirectToAction(nameof(this.Details), "Reviews", new { id });
         }

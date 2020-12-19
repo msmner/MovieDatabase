@@ -21,13 +21,14 @@
             this.moviesRepository = moviesRepository;
         }
 
-        public async Task AddReviewAsync(int movieId, string content, int rating)
+        public async Task AddReviewAsync(int movieId, string content, int rating, string userId)
         {
             var review = new Review
             {
                 MovieId = movieId,
                 Content = content,
                 Rating = rating,
+                UserId = userId,
             };
 
             await this.reviewsRepository.AddAsync(review);
