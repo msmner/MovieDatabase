@@ -20,7 +20,7 @@
         }
 
         [Authorize]
-        public IActionResult UserProfile(int? id, int page = 1)
+        public IActionResult UserMovies(int? id, int page = 1)
         {
             string userId;
 
@@ -40,7 +40,7 @@
                 MoviesCount = this.moviesService.GetMoviesCountByUserId(userId),
             };
 
-            var movies = this.usersService.GetMyMovies<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
+            var movies = this.usersService.GetMovies<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
             viewModel.Movies = movies;
             return this.View(viewModel);
         }

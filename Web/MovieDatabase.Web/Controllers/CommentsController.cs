@@ -8,6 +8,7 @@
     using MovieDatabase.Common;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
+    using MovieDatabase.Web.ViewModels.Comments;
 
     public class CommentsController : BaseController
     {
@@ -42,6 +43,27 @@
             var reviewId = this.commentsService.FindReviewByCommentId(id);
             await this.commentsService.Delete(id);
             return this.RedirectToAction("Details", "Reviews", new { id = reviewId });
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var viewModel = this.commentsService.GetCommentById<EditCommentViewModel>(id);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Edit(int id, EditCommentViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await this.commentsService.UpdateAsync(id, input);
+            var reviewId = this.commentsService.FindReviewByCommentId(id);
+            return this.RedirectToAction("Details", "Reviews", new { Id = reviewId });
         }
     }
 }

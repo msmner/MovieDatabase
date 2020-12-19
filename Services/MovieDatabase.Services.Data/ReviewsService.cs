@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+
     using ForumSystem.Data.Models;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
@@ -35,7 +35,6 @@
 
             var movie = this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefault();
             movie.Review = review;
-            movie.Votes = new List<Vote>();
             await this.moviesRepository.SaveChangesAsync();
         }
 

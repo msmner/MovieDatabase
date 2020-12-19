@@ -418,6 +418,9 @@ namespace MovieDatabase.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(1000)")
@@ -442,6 +445,8 @@ namespace MovieDatabase.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("IsDeleted");
 
@@ -534,7 +539,7 @@ namespace MovieDatabase.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MovieDatabase.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -558,6 +563,10 @@ namespace MovieDatabase.Data.Migrations
 
             modelBuilder.Entity("MovieDatabase.Data.Models.Review", b =>
                 {
+                    b.HasOne("MovieDatabase.Data.Models.ApplicationUser", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("MovieDatabase.Data.Models.Movie", "Movie")
                         .WithOne("Review")
                         .HasForeignKey("MovieDatabase.Data.Models.Review", "MovieId")

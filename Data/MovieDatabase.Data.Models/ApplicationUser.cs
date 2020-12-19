@@ -15,6 +15,8 @@
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Movies = new HashSet<Movie>();
+            this.Reviews = new HashSet<Review>();
+            this.Comments = new HashSet<Comment>();
         }
 
         // Audit info
@@ -34,5 +36,9 @@
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public ICollection<Movie> Movies { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 }

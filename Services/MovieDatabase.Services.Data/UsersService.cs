@@ -16,7 +16,7 @@
             this.moviesRepository = moviesRepository;
         }
 
-        public IEnumerable<T> GetMyMovies<T>(string userId, int page, int itemsPerPage)
+        public IEnumerable<T> GetMovies<T>(string userId, int page, int itemsPerPage)
         {
             var movies = this.moviesRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)

@@ -2,13 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     using AutoMapper;
     using Ganss.XSS;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
+    using MovieDatabase.Web.ViewModels.Comments;
 
     public class ReviewDetailsViewModel : IMapFrom<Review>, IHaveCustomMappings
     {
@@ -28,7 +28,7 @@
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
-        public IEnumerable<ReviewCommentViewModel> Comments { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

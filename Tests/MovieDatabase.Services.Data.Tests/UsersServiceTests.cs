@@ -39,7 +39,7 @@
         public async Task TestGetMyMovies()
         {
             var service = await this.SetUp();
-            var movies = service.GetMyMovies<TestMovieDetailsViewModel>("test", 1, 5);
+            var movies = service.GetMovies<TestMovieDetailsViewModel>("test", 1, 5);
             Assert.Single(movies);
         }
 

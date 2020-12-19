@@ -5,6 +5,8 @@
 
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
+    using MovieDatabase.Services.Mapping;
+    using MovieDatabase.Web.ViewModels.Comments;
 
     public class CommentsService : ICommentsService
     {
@@ -46,6 +48,21 @@
         public int FindReviewByCommentId(int id)
         {
             return this.reviewsRepository.All().FirstOrDefault(x => x.Comments.Any(y => y.Id == id)).Id;
+        }
+
+        public async Task UpdateAsync(int id, EditCommentViewModel input)
+        {
+            var comment = this.commentsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            comment.Id = id;
+            comment.Content = input.Content;
+
+            await this.commentsRepository.SaveChangesAsync();
+        }
+
+        public T GetCommentById<T>(int id)
+        {
+           return this.commentsRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
         }
     }
 }
