@@ -343,16 +343,11 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
 
                     b.ToTable("Genres");
                 });
@@ -409,6 +404,34 @@ namespace MovieDatabase.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("MovieDatabase.Data.Models.MovieGenre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MovieGenres");
                 });
 
             modelBuilder.Entity("MovieDatabase.Data.Models.Review", b =>
@@ -546,18 +569,26 @@ namespace MovieDatabase.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieDatabase.Data.Models.Genre", b =>
-                {
-                    b.HasOne("MovieDatabase.Data.Models.Movie", null)
-                        .WithMany("Genres")
-                        .HasForeignKey("MovieId");
-                });
-
             modelBuilder.Entity("MovieDatabase.Data.Models.Movie", b =>
                 {
                     b.HasOne("MovieDatabase.Data.Models.ApplicationUser", "User")
                         .WithMany("Movies")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MovieDatabase.Data.Models.MovieGenre", b =>
+                {
+                    b.HasOne("MovieDatabase.Data.Models.Genre", "Genre")
+                        .WithMany("MovieGenres")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MovieDatabase.Data.Models.Movie", "Movie")
+                        .WithMany("MovieGenres")
+                        .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

@@ -11,7 +11,7 @@
     {
         public Movie()
         {
-            this.Genres = new HashSet<Genre>();
+            this.MovieGenres = new HashSet<MovieGenre>();
             this.Votes = new HashSet<Vote>();
         }
 
@@ -40,7 +40,7 @@
 
         public virtual Review Review { get; set; }
 
-        public virtual ICollection<Genre> Genres { get; set; }
+        public virtual ICollection<MovieGenre> MovieGenres { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
 

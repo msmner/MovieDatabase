@@ -1,12 +1,9 @@
 ﻿namespace MovieDatabase.Web.ViewModels.Movies
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     using AutoMapper;
-    using Ganss.XSS;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
@@ -34,14 +31,14 @@
 
         public int? VotesCount { get; set; }
 
-        public string[] Genres { get; set; }
+        public string[] MovieGenres { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Movie, MovieDetailsViewModel>()
                 .ForMember(x => x.CommentsCount, opt => opt.MapFrom(y => y.Review.Comments.Count))
                 .ForMember(x => x.VotesCount, opt => opt.MapFrom(y => y.Review.Votes.Sum(x => (int)x.Type)))
-                .ForMember(x => x.Genres, opt => opt.MapFrom(y => y.Genres.Select(g => g.Type)));
+                .ForMember(x => x.MovieGenres, opt => opt.MapFrom(y => y.MovieGenres.Select(g => g.Genre.Type)));
         }
     }
 }

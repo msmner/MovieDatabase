@@ -15,13 +15,15 @@
         private readonly IRepository<Genre> genresRepository;
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
+        private readonly IRepository<MovieGenre> moviesGenresRepository;
 
-        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IRepository<Genre> genresRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository)
+        public MoviesService(IDeletableEntityRepository<Movie> moviesRepository, IRepository<Genre> genresRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository, IRepository<MovieGenre> moviesGenresRepository)
         {
             this.moviesRepository = moviesRepository;
             this.genresRepository = genresRepository;
             this.reviewsRepository = reviewsRepository;
             this.commentsRepository = commentsRepository;
+            this.moviesGenresRepository = moviesGenresRepository;
         }
 
         public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description)
@@ -38,8 +40,8 @@
             foreach (var genreId in genres)
             {
                 var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
-                var genreToAdd = new Genre { Type = genre.Type };
-                movie.Genres.Add(genreToAdd);
+                var movieGenre = new MovieGenre { MovieId = movie.Id, GenreId = genreId };
+                movie.MovieGenres.Add(movieGenre);
             }
 
             await this.moviesRepository.AddAsync(movie);
@@ -66,13 +68,19 @@
             this.moviesRepository.Delete(movie);
 
             var review = this.reviewsRepository.All().FirstOrDefault(x => x.MovieId == movieId);
-            this.reviewsRepository.Delete(review);
+            if (review != null)
+            {
+                this.reviewsRepository.Delete(review);
+            }
 
             var comments = this.commentsRepository.All().Where(x => x.ReviewId == movieId);
 
-            foreach (var comment in comments)
+            if (comments != null)
             {
-                this.commentsRepository.Delete(comment);
+                foreach (var comment in comments)
+                {
+                    this.commentsRepository.Delete(comment);
+                }
             }
 
             await this.commentsRepository.SaveChangesAsync();
@@ -100,7 +108,7 @@
         {
             return this.moviesRepository
                 .AllAsNoTracking()
-                .Where(x => x.Genres.Any(y => y.Type == genre))
+                .Where(x => x.MovieGenres.Any(y => y.Genre.Type == genre))
                 .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
                 .ToList();
@@ -108,7 +116,7 @@
 
         public int GetMoviesCountByGenre(string genre)
         {
-            return this.moviesRepository.All().Where(x => x.Genres.Any(x => x.Type == genre)).Count();
+            return this.moviesRepository.All().Where(x => x.MovieGenres.Any(x => x.Genre.Type == genre)).Count();
         }
 
         public IEnumerable<T> GetMoviesByTitle<T>(string searchString)
@@ -122,20 +130,10 @@
         public async Task UpdateAsync(int id, EditMovieViewModel input)
         {
             var movie = this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
-            var newGenres = new List<Genre>();
 
-            foreach (var genreId in input.GenreIds)
-            {
-                var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
-                var genreToAdd = new Genre { Type = genre.Type };
-                newGenres.Add(genreToAdd);
-            }
-
-            movie.Title = input.Title;
             movie.Description = input.Description;
             movie.Quote = input.Quote;
             movie.ImageUrl = input.NewImageUrl;
-            movie.Genres = newGenres;
 
             await this.moviesRepository.SaveChangesAsync();
         }

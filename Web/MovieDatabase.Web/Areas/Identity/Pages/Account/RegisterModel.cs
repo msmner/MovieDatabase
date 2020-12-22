@@ -69,15 +69,23 @@
 
                 if (result.Succeeded)
                 {
-                    var role = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+                    var roleUser = await this.roleManager.FindByNameAsync(GlobalConstants.UserRoleName);
+                    var adminRole = await this.roleManager.FindByNameAsync(GlobalConstants.AdministratorRoleName);
 
-                    if (role != null)
+                    if (this.dbContext.Users.Count() == 1)
                     {
-                        var userRole = new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id };
+                        var userRole = new IdentityUserRole<string> { RoleId = adminRole.Id, UserId = user.Id };
                         user.Roles.Add(userRole);
                         await this.dbContext.UserRoles.AddAsync(userRole);
-                        await this.dbContext.SaveChangesAsync();
                     }
+                    else
+                    {
+                        var userRole = new IdentityUserRole<string> { UserId = user.Id, RoleId = roleUser.Id };
+                        user.Roles.Add(userRole);
+                        await this.dbContext.UserRoles.AddAsync(userRole);
+                    }
+
+                    await this.dbContext.SaveChangesAsync();
 
                     this.logger.LogInformation("User created a new account with password.");
 

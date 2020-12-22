@@ -49,7 +49,7 @@
                             <h4 class="card-title">@movie.VotesCount</h4>
                         </div>
                         <div class="card-body">
-                            <h4 class="card-title">@String.Join(" ", movie.Genres)</h4>
+                            <h4 class="card-title">@String.Join(" ", movie.MovieGenres)</h4>
                         </div>
                         <div class="card-footer">
                             <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>
@@ -67,7 +67,7 @@
                 <h4 class="card-title">@movie.VotesCount</h4>
             </div>
             <div class="card-body">
-                <h4 class="card-title">@String.Join(" ", movie.Genres)</h4>
+                <h4 class="card-title">@String.Join(" ", movie.MovieGenres)</h4>
             </div>
             <div class="card-footer">
                 <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary">Details</a>

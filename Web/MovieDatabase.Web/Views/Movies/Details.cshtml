@@ -10,7 +10,7 @@
             <p class="text-break">@Model.Description</p>
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == Model.UserUserName)
             {
-                <form method="post" asp-controller="Movies" asp-action="Delete" id="deleteForm" asp-route-id="Id">
+                <form method="post" asp-controller="Movies" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
                 </form>
                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
             }

@@ -64,7 +64,7 @@
                 await this.moviesService.Delete(id);
             }
 
-            return this.RedirectToAction("UserProfile", "Users", new { id = userId });
+            return this.RedirectToAction("UserMovies", "Users", new { id = userId });
         }
 
         [Authorize]
@@ -107,7 +107,6 @@
         public IActionResult Edit(int id)
         {
             var viewModel = this.moviesService.GetById<EditMovieViewModel>(id);
-            viewModel.NewGenres = this.genresService.GetGenres();
             return this.View(viewModel);
         }
 
@@ -117,7 +116,6 @@
         {
             if (!this.ModelState.IsValid)
             {
-                input.NewGenres = this.genresService.GetGenres();
                 return this.View(input);
             }
 
