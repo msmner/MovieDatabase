@@ -1,5 +1,6 @@
 ﻿namespace ForumSystem.Data.Models
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using MovieDatabase.Data.Common.Models;
@@ -7,17 +8,18 @@
 
     public class Vote : BaseModel<int>
     {
-        [Required]
-        public int ReviewId { get; set; }
+        public int? ReviewId { get; set; }
 
         public virtual Review Review { get; set; }
 
-        [Required]
+        public int? CommentId { get; set; }
+
+        public virtual Comment Comment { get; set; }
+
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 
-        [Required]
         public VoteType Type { get; set; }
     }
 }

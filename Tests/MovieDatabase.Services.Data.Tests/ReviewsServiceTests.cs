@@ -45,7 +45,7 @@
             this.dbContext.Movies.Add(secondMovie);
             await this.dbContext.SaveChangesAsync();
 
-            await service.AddReviewAsync(2, "test", 1);
+            await service.AddReviewAsync(2, "test", 1, "test");
             var review = this.dbContext.Reviews.FirstOrDefault(x => x.Id == 2);
             Assert.Equal(2, review.Id);
         }

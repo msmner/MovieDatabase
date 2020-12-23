@@ -17,7 +17,7 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Movie, TestMovieDetailsViewModel>()
-                .ForMember(x => x.Genres, opt => opt.MapFrom(y => y.Genres.Select(g => g.Type)));
+                .ForMember(x => x.Genres, opt => opt.MapFrom(y => y.MovieGenres.Select(g => g.Genre.Type)));
         }
     }
 }

@@ -40,7 +40,7 @@
             foreach (var genreId in genres)
             {
                 var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
-                var movieGenre = new MovieGenre { MovieId = movie.Id, GenreId = genreId };
+                var movieGenre = new MovieGenre { Movie = movie, Genre = genre };
                 movie.MovieGenres.Add(movieGenre);
             }
 
@@ -68,6 +68,7 @@
             this.moviesRepository.Delete(movie);
 
             var review = this.reviewsRepository.All().FirstOrDefault(x => x.MovieId == movieId);
+
             if (review != null)
             {
                 this.reviewsRepository.Delete(review);
@@ -131,6 +132,22 @@
         {
             var movie = this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
 
+            var movieGenres = this.moviesGenresRepository.All().Where(x => x.MovieId == id).ToList();
+
+            foreach (var movieGenre in movieGenres)
+            {
+                this.moviesGenresRepository.Delete(movieGenre);
+            }
+
+            await this.moviesGenresRepository.SaveChangesAsync();
+
+            foreach (var genreId in input.GenreIds)
+            {
+                var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
+                movie.MovieGenres.Add(new MovieGenre { Movie = movie, Genre = genre });
+            }
+
+            movie.Title = input.Title;
             movie.Description = input.Description;
             movie.Quote = input.Quote;
             movie.ImageUrl = input.NewImageUrl;

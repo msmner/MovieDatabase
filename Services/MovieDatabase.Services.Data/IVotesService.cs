@@ -4,8 +4,8 @@
 
     public interface IVotesService
     {
-        Task VoteAsync(int reviewId, string userId, bool isUpVote);
+        Task VoteAsync(int reviewId, int commentId, string userId, bool isUpVote);
 
-        int GetVotesForReview(int movieId);
+        int GetVotesCount(int reviewId, int commentId);
     }
 }

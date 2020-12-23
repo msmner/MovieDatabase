@@ -5,46 +5,76 @@
 
     using ForumSystem.Data.Models;
     using MovieDatabase.Data.Common.Repositories;
-    using MovieDatabase.Data.Models;
 
     public class VotesService : IVotesService
     {
         private readonly IRepository<Vote> votesRepository;
-        private readonly IDeletableEntityRepository<Movie> moviesRepository;
 
-        public VotesService(IRepository<Vote> votesRepository, IDeletableEntityRepository<Movie> moviesRepository)
+        public VotesService(IRepository<Vote> votesRepository)
         {
             this.votesRepository = votesRepository;
-            this.moviesRepository = moviesRepository;
         }
 
-        public int GetVotesForReview(int reviewId)
+        public int GetVotesCount(int reviewId, int commentId)
         {
-            var votes = this.votesRepository.All()
-                .Where(x => x.ReviewId == reviewId).Sum(x => (int)x.Type);
-            return votes;
-        }
-
-        public async Task VoteAsync(int reviewId, string userId, bool isUpVote)
-        {
-            var vote = this.votesRepository.All()
-                .FirstOrDefault(x => x.ReviewId == reviewId && x.UserId == userId);
-            if (vote != null)
+            var votes = 0;
+            if (commentId == 0)
             {
-                vote.Type = isUpVote ? VoteType.UpVote : VoteType.DownVote;
+                votes = this.votesRepository.All()
+                .Where(x => x.ReviewId == reviewId).Sum(x => (int)x.Type);
             }
             else
             {
-                vote = new Vote
-                {
-                    ReviewId = reviewId,
-                    UserId = userId,
-                    Type = isUpVote ? VoteType.UpVote : VoteType.DownVote,
-                };
+                votes = this.votesRepository.All()
+                .Where(x => x.CommentId == commentId).Sum(x => (int)x.Type);
+            }
 
-                await this.votesRepository.AddAsync(vote);
-                this.moviesRepository.All().FirstOrDefault(x => x.ReviewId == reviewId).Votes.Add(vote);
-                await this.moviesRepository.SaveChangesAsync();
+            return votes;
+        }
+
+        // System.InvalidOperationException: A second operation started on this context before a previous operation completed. This is usually caused by different threads using the same instance of DbContext. - made the DbContext Transient in Startup Services //This is the other error I got Enumeration yielded no result - Tried formatting the code but got these error messages and couldnt fix them
+        public async Task VoteAsync(int reviewId, int commentId, string userId, bool isUpVote)
+        {
+            Vote vote;
+            if (commentId == 0)
+            {
+                vote = this.votesRepository.All()
+                .FirstOrDefault(x => x.ReviewId == reviewId && x.UserId == userId);
+                if (vote != null)
+                {
+                    vote.Type = isUpVote ? VoteType.UpVote : VoteType.DownVote;
+                }
+                else
+                {
+                    vote = new Vote
+                    {
+                        ReviewId = reviewId,
+                        UserId = userId,
+                        Type = isUpVote ? VoteType.UpVote : VoteType.DownVote,
+                    };
+
+                    await this.votesRepository.AddAsync(vote);
+                }
+            }
+            else if (reviewId == 0)
+            {
+                vote = this.votesRepository.All()
+                .FirstOrDefault(x => x.CommentId == commentId && x.UserId == userId);
+                if (vote != null)
+                {
+                    vote.Type = isUpVote ? VoteType.UpVote : VoteType.DownVote;
+                }
+                else
+                {
+                    vote = new Vote
+                    {
+                        CommentId = commentId,
+                        UserId = userId,
+                        Type = isUpVote ? VoteType.UpVote : VoteType.DownVote,
+                    };
+
+                    await this.votesRepository.AddAsync(vote);
+                }
             }
 
             await this.votesRepository.SaveChangesAsync();

@@ -26,6 +26,9 @@ namespace MovieDatabase.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CommentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -35,17 +38,18 @@ namespace MovieDatabase.Data.Migrations
                     b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReviewId")
+                    b.Property<int?>("ReviewId")
                         .HasColumnType("int");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
 
                     b.HasIndex("MovieId");
 
@@ -482,21 +486,21 @@ namespace MovieDatabase.Data.Migrations
 
             modelBuilder.Entity("ForumSystem.Data.Models.Vote", b =>
                 {
+                    b.HasOne("MovieDatabase.Data.Models.Comment", "Comment")
+                        .WithMany("Votes")
+                        .HasForeignKey("CommentId");
+
                     b.HasOne("MovieDatabase.Data.Models.Movie", null)
                         .WithMany("Votes")
                         .HasForeignKey("MovieId");
 
                     b.HasOne("MovieDatabase.Data.Models.Review", "Review")
                         .WithMany("Votes")
-                        .HasForeignKey("ReviewId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ReviewId");
 
                     b.HasOne("MovieDatabase.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

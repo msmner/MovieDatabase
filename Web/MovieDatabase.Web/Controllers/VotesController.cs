@@ -22,11 +22,11 @@
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<VoteResponseModel>> Review(VoteInputModel input)
+        public async Task<ActionResult<VoteResponseModel>> Vote(VoteInputModel input)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            await this.votesService.VoteAsync(input.ReviewId, userId, input.IsUpVote);
-            var votes = this.votesService.GetVotesForReview(input.ReviewId);
+            await this.votesService.VoteAsync(input.ReviewId, input.CommentId, userId, input.IsUpVote);
+            var votes = this.votesService.GetVotesCount(input.ReviewId, input.CommentId);
             return new VoteResponseModel { VotesCount = votes };
         }
     }

@@ -107,6 +107,7 @@
         public IActionResult Edit(int id)
         {
             var viewModel = this.moviesService.GetById<EditMovieViewModel>(id);
+            viewModel.NewGenres = this.genresService.GetGenres();
             return this.View(viewModel);
         }
 
@@ -116,6 +117,7 @@
         {
             if (!this.ModelState.IsValid)
             {
+                input.NewGenres = this.genresService.GetGenres();
                 return this.View(input);
             }
 

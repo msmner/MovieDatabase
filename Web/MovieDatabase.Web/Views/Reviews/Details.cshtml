@@ -15,31 +15,51 @@
             <div class="container-fluid mt-100">
                 <div class="row">
                     <div class="col-md-12">
-                            <div class="card-header">
-                                <div class="media flex-wrap w-100 align-items-center">
-                                    <img src="" class="d-block ui-w-40 rounded-circle" alt="">
-                                    <div class="media-body ml-3">
-                                        @comment.UserUserName
-                                        <div class="text-muted small">
-                                            <time datetime="@comment.CreatedOn.ToString("O")"></time>
-                                        </div>
+                        <div class="card-header">
+                            <div class="media flex-wrap w-100 align-items-center">
+                                <img src="" class="d-block ui-w-40 rounded-circle" alt="">
+                                <div class="media-body ml-3">
+                                    @comment.UserUserName
+                                    <div class="text-muted small">
+                                        <time datetime="@comment.CreatedOn.ToString("O")"></time>
                                     </div>
-                                    <div class="text-muted small ml-3">
-                                        @if (this.User.Identity.IsAuthenticated)
+                                </div>
+                                <div class="text-muted small ml-3">
+                                    @if (this.User.Identity.IsAuthenticated)
+                                    {
+                                        if (this.User.IsInRole("Administrator"))
                                         {
-                                            if (this.User.IsInRole("Administrator"))
-                                            {
-                                                <form method="post" asp-controller="Comments" asp-action="Delete" id="deleteForm" asp-route-id="@comment.Id">
-                                                </form>
-                                                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
-                                            }
-
-                                            if (this.User.Identity.Name == comment.UserUserName)
-                                            {
-                                                <a asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
-                                            }
-                                            <div class="px-4 pt-3"> <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Reply</button> </div>
+                                            <form method="post" asp-controller="Comments" asp-action="Delete" id="deleteForm" asp-route-id="@comment.Id">
+                                            </form>
+                                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
                                         }
+
+                                        if (this.User.Identity.Name == comment.UserUserName)
+                                        {
+                                            <a asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
+                                        }
+                                        <div class="px-4 pt-3"> <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Reply</button> </div>
+                                    }
+                                </div>
+                                <div class="text-muted small ml-3">
+                                    <form id="votesForm" method="post"></form>
+                                    @if (this.User.Identity.Name != comment.UserUserName)
+                                    {
+                                        <div>
+                                            <a href="#" onclick="sendCommentVote(@comment.Id, true)">
+                                                <i class="fa fa-thumbs-up"></i>
+                                            </a>
+                                        </div>
+                                    }
+                                    <div id="votesCommentCount">@comment.VotesCount</div>
+                                    @if (this.User.Identity.Name != comment.UserUserName)
+                                    {
+                                        <div>
+                                            <a href="#" onclick="sendCommentVote(@comment.Id, false)">
+                                                <i class="fa fa-thumbs-down"></i>
+                                            </a>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             <div class="card-body">
@@ -60,29 +80,35 @@
 <div class="container-fluid mt-100">
     <div class="row">
         <div class="col-md-12">
-                <div class="card-header">
-                    <div class="media flex-wrap w-100 align-items-center">
-                        <img src="" class="d-block ui-w-40 rounded-circle" alt="">
-                        <div class="media-body ml-3">
-                            @Model.UserUserName
-                            <div class="text-muted small">
-                                <time datetime="@Model.CreatedOn.ToString("O")"></time>
-                            </div>
+            <div class="card-header">
+                <div class="media flex-wrap w-100 align-items-center">
+                    <img src="" class="d-block ui-w-40 rounded-circle" alt="">
+                    <div class="media-body ml-3">
+                        @Model.UserUserName
+                        <div class="text-muted small">
+                            <time datetime="@Model.CreatedOn.ToString("O")"></time>
                         </div>
-                        <div class="text-muted small ml-3">
-                            <form id="votesForm" method="post"></form>
+                    </div>
+                    <div class="text-muted small ml-3">
+                        <form id="votesForm" method="post"></form>
+                        @if (this.User.Identity.Name != Model.UserUserName)
+                        {
                             <div>
-                                <a href="#" onclick="sendVote(@Model.Id, true)">
+                                <a href="#" onclick="sendReviewVote(@Model.Id, true)">
                                     <i class="fa fa-thumbs-up"></i>
                                 </a>
                             </div>
-                            <div id="votesCount">@Model.VotesCount</div>
+                        }
+                        <div id="votesReviewCount">@Model.VotesCount</div>
+                        @if (this.User.Identity.Name != Model.UserUserName)
+                        {
                             <div>
-                                <a href="#" onclick="sendVote(@Model.Id, false)">
+                                <a href="#" onclick="sendReviewVote(@Model.Id, false)">
                                     <i class="fa fa-thumbs-down"></i>
                                 </a>
                             </div>
-                        </div>
+                        }
+                    </div>
                 </div>
                 <div class="card-body">
                     <article class="text-break">
@@ -157,7 +183,7 @@
             }, 1000);
         }
 
-        function sendVote(reviewId, isUpVote) {
+        function sendReviewVote(reviewId, isUpVote) {
             var token = $("#votesForm input[name=__RequestVerificationToken]").val();
             var json = { reviewId: reviewId, isUpVote: isUpVote };
             $.ajax({
@@ -168,7 +194,23 @@
                 dataType: "json",
                 headers: { 'X-CSRF-TOKEN': token },
                 success: function (data) {
-                    $("#votesCount").html(data.votesCount);
+                    $("#votesReviewCount").html(data.votesCount);
+                }
+            });
+        }
+
+        function sendCommentVote(commentId, isUpVote) {
+            var token = $("#votesForm input[name=__RequestVerificationToken]").val();
+            var json = { commentId: commentId, isUpVote: isUpVote };
+            $.ajax({
+                url: "/api/votes",
+                type: "POST",
+                data: JSON.stringify(json),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { 'X-CSRF-TOKEN': token },
+                success: function (data) {
+                    $("#votesCommentCount").html(data.votesCount);
                 }
             });
         }
