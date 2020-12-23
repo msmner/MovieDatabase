@@ -18,14 +18,14 @@
         }
 
         [Authorize]
-        public IActionResult Create(int id)
+        public IActionResult Create()
         {
             return this.View();
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(CreateReviewInputViewModel input, int id)
+        public async Task<IActionResult> Create(CreateReviewInputViewModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -33,16 +33,15 @@
             }
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            await this.reviewsService.AddReviewAsync(id, input.Content, input.Rating, userId);
+            await this.reviewsService.AddReviewAsync(input.Id, input.Content, input.Rating, userId);
 
-            return this.RedirectToAction(nameof(this.Details), "Reviews", new { id });
+            return this.RedirectToAction(nameof(this.Details), "Reviews", new { input.Id });
         }
 
         [Authorize]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var viewModel = this.reviewsService.GetReviewByMovieId<ReviewDetailsViewModel>(id);
-
+            var viewModel = await this.reviewsService.GetReviewByMovieIdAsync<ReviewDetailsViewModel>(id);
             if (viewModel == null)
             {
                 return this.NotFound();

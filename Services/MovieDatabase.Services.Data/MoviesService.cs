@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
@@ -26,7 +27,7 @@
             this.moviesGenresRepository = moviesGenresRepository;
         }
 
-        public async Task<int> AddMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description)
+        public async Task<int> CreateMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description)
         {
             var movie = new Movie
             {
@@ -94,9 +95,9 @@
             return this.moviesRepository.All().OrderByDescending(x => x.Votes.Sum(y => (int)y.Type)).Take(count).To<T>().ToList();
         }
 
-        public T GetById<T>(int movieId)
+        public async Task<T> GetByIdAsync<T>(int movieId)
         {
-            var movie = this.moviesRepository.All().Where(x => x.Id == movieId).To<T>().FirstOrDefault();
+            var movie = await this.moviesRepository.All().Where(x => x.Id == movieId).To<T>().FirstOrDefaultAsync();
             return movie;
         }
 
@@ -105,14 +106,14 @@
             return this.moviesRepository.All().Where(x => x.UserId == userId).Count();
         }
 
-        public IEnumerable<T> GetMoviesByGenre<T>(string genre)
+        public async Task<IEnumerable<T>> GetMoviesByGenreAsync<T>(string genre)
         {
-            return this.moviesRepository
+            return await this.moviesRepository
                 .AllAsNoTracking()
                 .Where(x => x.MovieGenres.Any(y => y.Genre.Type == genre))
                 .OrderByDescending(x => x.CreatedOn)
                 .To<T>()
-                .ToList();
+                .ToListAsync();
         }
 
         public int GetMoviesCountByGenre(string genre)
@@ -120,12 +121,12 @@
             return this.moviesRepository.All().Where(x => x.MovieGenres.Any(x => x.Genre.Type == genre)).Count();
         }
 
-        public IEnumerable<T> GetMoviesByTitle<T>(string searchString)
+        public async Task<IEnumerable<T>> GetMoviesByTitleAsync<T>(string searchString)
         {
-            return this.moviesRepository.All()
+            return await this.moviesRepository.All()
                 .Where(x => x.Title.Contains(searchString))
                 .To<T>()
-                .ToList();
+                .ToListAsync();
         }
 
         public async Task UpdateAsync(int id, EditMovieViewModel input)

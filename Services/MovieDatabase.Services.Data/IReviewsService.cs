@@ -9,6 +9,6 @@
     {
         Task AddReviewAsync(int movieId, string content, int rating, string userId);
 
-        T GetReviewByMovieId<T>(int movieId);
+        Task<T> GetReviewByMovieIdAsync<T>(int movieId);
     }
 }

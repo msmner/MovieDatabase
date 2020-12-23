@@ -1,5 +1,7 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Services.Data;
@@ -16,10 +18,15 @@
         }
 
         [Authorize]
-        public IActionResult Chat(int id)
+        public async Task<IActionResult> Chat(int id)
         {
             var viewModel = new ChatViewModel();
-            var movie = this.moviesService.GetById<MovieDetailsViewModel>(id);
+            var movie = await this.moviesService.GetByIdAsync<MovieDetailsViewModel>(id);
+            if (movie == null)
+            {
+                return this.NotFound();
+            }
+
             viewModel.Title = movie.Title;
             return this.View(viewModel);
         }

@@ -51,7 +51,7 @@
         {
             var service = await this.SetUp();
             var ids = new[] { 1 };
-            var movieId = await service.AddMovieAsync("test2", "test2", "test2", ids, "test2", "test2");
+            var movieId = await service.CreateMovieAsync("test2", "test2", "test2", ids, "test2", "test2");
             Assert.Equal(2, this.dbContext.Movies.Count());
         }
 
@@ -111,7 +111,7 @@
         public async Task TestGetByIdWorks()
         {
             var service = await this.SetUp();
-            var result = service.GetById<TestMovieDetailsViewModel>(1);
+            var result = service.GetByIdAsync<TestMovieDetailsViewModel>(1);
             Assert.Equal("test", result.UserId);
         }
 
@@ -148,7 +148,7 @@
         public async Task TestGetMoviesByTitle()
         {
             var service = await this.SetUp();
-            var movies = service.GetMoviesByTitle<TestMovieDetailsViewModel>("test");
+            var movies = service.GetMoviesByTitleAsync<TestMovieDetailsViewModel>("test");
             Assert.Single(movies);
         }
 

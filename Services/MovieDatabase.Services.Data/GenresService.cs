@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
 
@@ -16,9 +18,9 @@
             this.genresRepository = genresRepository;
         }
 
-        public IEnumerable<SelectListItem> GetGenres()
+        public async Task<IEnumerable<SelectListItem>> GetGenresAsync()
         {
-            return this.genresRepository.All().Select(x => new SelectListItem(x.Type, x.Id.ToString())).ToList();
+            return await this.genresRepository.All().Select(x => new SelectListItem(x.Type, x.Id.ToString())).ToListAsync();
         }
     }
 }

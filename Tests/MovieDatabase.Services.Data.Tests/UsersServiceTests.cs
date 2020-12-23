@@ -43,7 +43,7 @@
         public async Task TestGetMyMovies()
         {
             var service = await this.SetUp();
-            var movies = service.GetMovies<TestMovieDetailsViewModel>("test", 1, 5);
+            var movies = service.GetMoviesAsync<TestMovieDetailsViewModel>("test", 1, 5);
             Assert.Single(movies);
         }
 
@@ -51,7 +51,7 @@
         public async Task TestGetUserByMovieId()
         {
             var service = await this.SetUp();
-            var userId = service.GetUserByMovieId(6);
+            var userId = service.GetUserByMovieIdAsync(6);
             Assert.Equal("test", userId);
         }
 

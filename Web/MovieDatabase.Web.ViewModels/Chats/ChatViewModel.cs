@@ -3,7 +3,7 @@
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
-    public class ChatViewModel : IMapFrom<Movie>
+    public class ChatViewModel
     {
         public string Title { get; set; }
     }

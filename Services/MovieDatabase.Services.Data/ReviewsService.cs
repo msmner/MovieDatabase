@@ -1,14 +1,12 @@
 ﻿namespace MovieDatabase.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using ForumSystem.Data.Models;
+    using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
-    using MovieDatabase.Web.ViewModels.Reviews;
 
     public class ReviewsService : IReviewsService
     {
@@ -34,14 +32,13 @@
             await this.reviewsRepository.AddAsync(review);
             await this.reviewsRepository.SaveChangesAsync();
 
-            var movie = this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefault();
-            movie.Review = review;
+            var movie = await this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefaultAsync();
             await this.moviesRepository.SaveChangesAsync();
         }
 
-        public T GetReviewByMovieId<T>(int movieId)
+        public async Task<T> GetReviewByMovieIdAsync<T>(int movieId)
         {
-            var viewModel = this.reviewsRepository.All().Where(x => x.MovieId == movieId).To<T>().FirstOrDefault();
+            var viewModel = await this.reviewsRepository.All().Where(x => x.MovieId == movieId).To<T>().FirstOrDefaultAsync();
             return viewModel;
         }
     }

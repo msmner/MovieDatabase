@@ -45,7 +45,7 @@
         public async void TestDeleteWorks()
         {
             CommentsService service = await this.SetUp();
-            await service.Delete(1);
+            await service.DeleteAsync(1);
             Assert.Empty(this.dbContext.Comments);
         }
 
@@ -53,7 +53,7 @@
         public async void TestDeleteThrowsIfNotFound()
         {
             CommentsService service = await this.SetUp();
-            var exception = await Assert.ThrowsAsync<NullReferenceException>(() => service.Delete(2));
+            var exception = await Assert.ThrowsAsync<NullReferenceException>(() => service.DeleteAsync(2));
             Assert.Equal("Object reference not set to an instance of an object.", exception.Message);
         }
 
@@ -61,7 +61,7 @@
         public async void FindReviewByCommentIdWorks()
         {
             CommentsService service = await this.SetUp();
-            var id = service.FindReviewByCommentId(1);
+            var id = service.GetReviewByCommentIdAsync(1);
             Assert.Equal(1, id);
         }
 
@@ -69,7 +69,7 @@
         public async void FindReviewByCommentIdThrows()
         {
             CommentsService service = await this.SetUp();
-            var exception = Assert.Throws<NullReferenceException>(() => service.FindReviewByCommentId(2));
+            var exception = Assert.Throws<NullReferenceException>(() => service.GetReviewByCommentIdAsync(2));
             Assert.Equal("Object reference not set to an instance of an object.", exception.Message);
         }
 

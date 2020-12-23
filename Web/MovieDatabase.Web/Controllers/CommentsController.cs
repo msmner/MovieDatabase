@@ -1,29 +1,26 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Common;
-    using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Comments;
 
     public class CommentsController : BaseController
     {
         private readonly ICommentsService commentsService;
-        private readonly UserManager<ApplicationUser> userManager;
 
-        public CommentsController(ICommentsService commentsService, UserManager<ApplicationUser> userManager)
+        public CommentsController(ICommentsService commentsService)
         {
             this.commentsService = commentsService;
-            this.userManager = userManager;
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(string content, int? parentId, int reviewId)
+        public async Task<IActionResult> CreateAsync(string content, int? parentId, int reviewId)
         {
             if (!this.ModelState.IsValid)
             {
@@ -31,7 +28,7 @@
             }
 
             parentId = parentId == 0 ? (int?)null : parentId;
-            var userId = this.userManager.GetUserId(this.User);
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var movieId = await this.commentsService.CreateAsync(content, userId, reviewId, parentId);
 
             return this.RedirectToAction("Details", "Reviews", new { id = movieId });
@@ -40,15 +37,25 @@
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
-            var reviewId = this.commentsService.FindReviewByCommentId(id);
-            await this.commentsService.Delete(id);
-            return this.RedirectToAction("Details", "Reviews", new { id = reviewId });
+            var review = await this.commentsService.GetReviewByCommentIdAsync(id);
+            if (review == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.commentsService.DeleteAsync(id);
+            return this.RedirectToAction("Details", "Reviews", new { id = review.Id });
         }
 
         [Authorize]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var viewModel = this.commentsService.GetCommentById<EditCommentViewModel>(id);
+            var viewModel = await this.commentsService.GetCommentByIdAsync<EditCommentViewModel>(id);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
             return this.View(viewModel);
         }
 
@@ -62,8 +69,13 @@
             }
 
             await this.commentsService.UpdateAsync(id, input);
-            var reviewId = this.commentsService.FindReviewByCommentId(id);
-            return this.RedirectToAction("Details", "Reviews", new { Id = reviewId });
+            var review = await this.commentsService.GetReviewByCommentIdAsync(id);
+            if (review == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction("Details", "Reviews", new { Id = review.Id });
         }
     }
 }

@@ -54,7 +54,7 @@
         public async Task TestGetReviewByMovieId()
         {
             var service = await this.SetUp();
-            var review = service.GetReviewByMovieId<TestReviewDetailsViewModel>(1);
+            var review = service.GetReviewByMovieIdAsync<TestReviewDetailsViewModel>(1);
             Assert.Equal(1, review.MovieId);
         }
 

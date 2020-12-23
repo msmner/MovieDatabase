@@ -27,10 +27,10 @@
         }
 
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var viewModel = new CreateMovieInputViewModel();
-            viewModel.Genres = this.genresService.GetGenres();
+            viewModel.Genres = await this.genresService.GetGenresAsync();
             return this.View(viewModel);
         }
 
@@ -41,14 +41,14 @@
             if (!this.ModelState.IsValid)
             {
                 var viewModel = new CreateMovieInputViewModel();
-                viewModel.Genres = this.genresService.GetGenres();
+                viewModel.Genres = await this.genresService.GetGenresAsync();
                 return this.View(viewModel);
             }
 
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var imageResult = await this.filesService.UploadAsync(this.cloudinary, input.Image);
-            var movieId = await this.moviesService.AddMovieAsync(input.Title, imageResult.Uri.ToString(), userId, input.GenreIds, input.Quote, input.Description);
+            var movieId = await this.moviesService.CreateMovieAsync(input.Title, imageResult.Uri.ToString(), userId, input.GenreIds, input.Quote, input.Description);
             return this.RedirectToAction("Create", "Reviews", new { id = movieId });
         }
 
@@ -68,22 +68,22 @@
         }
 
         [Authorize]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var viewModel = this.moviesService.GetById<MovieDetailsViewModel>(id);
+            var viewModel = await this.moviesService.GetByIdAsync<MovieDetailsViewModel>(id);
 
             if (viewModel == null)
             {
-                return this.BadRequest();
+                return this.NotFound();
             }
 
             return this.View(viewModel);
         }
 
         [Authorize]
-        public IActionResult ByGenre(string genre, int page = 1)
+        public async Task<IActionResult> ByGenre(string genre, int page = 1)
         {
-            var movies = this.moviesService.GetMoviesByGenre<MovieDetailsViewModel>(genre);
+            var movies = await this.moviesService.GetMoviesByGenreAsync<MovieDetailsViewModel>(genre);
             var viewModel = new MoviesViewModel
             {
                 ItemsPerPage = GlobalConstants.ItemsPerPage,
@@ -95,19 +95,24 @@
         }
 
         [HttpGet]
-        public IActionResult SearchByTitle(string searchString)
+        public async Task<IActionResult> SearchByTitle(string searchString)
         {
             var viewModel = new MoviesViewModel();
-            var movies = this.moviesService.GetMoviesByTitle<MovieDetailsViewModel>(searchString);
+            var movies = await this.moviesService.GetMoviesByTitleAsync<MovieDetailsViewModel>(searchString);
             viewModel.Movies = movies;
             return this.View(viewModel);
         }
 
         [Authorize]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var viewModel = this.moviesService.GetById<EditMovieViewModel>(id);
-            viewModel.NewGenres = this.genresService.GetGenres();
+            var viewModel = await this.moviesService.GetByIdAsync<EditMovieViewModel>(id);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            viewModel.NewGenres = await this.genresService.GetGenresAsync();
             return this.View(viewModel);
         }
 
@@ -117,7 +122,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                input.NewGenres = this.genresService.GetGenres();
+                input.NewGenres = await this.genresService.GetGenresAsync();
                 return this.View(input);
             }
 

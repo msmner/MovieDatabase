@@ -2,7 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
@@ -20,38 +21,38 @@
             this.commentsRepository = commentsRepository;
         }
 
-        public IEnumerable<T> GetMovies<T>(string userId, int page, int itemsPerPage)
+        public async Task<IEnumerable<T>> GetMoviesAsync<T>(string userId, int page, int itemsPerPage)
         {
-            var movies = this.moviesRepository.AllAsNoTracking()
+            var movies = await this.moviesRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
                 .Where(x => x.UserId == userId)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
-                .To<T>().ToList();
+                .To<T>().ToListAsync();
             return movies;
         }
 
-        public IEnumerable<T> GetReviews<T>(string userId)
+        public async Task<IEnumerable<T>> GetReviewsAsync<T>(string userId)
         {
-            return this.reviewsRepository.AllAsNoTracking()
+            return await this.reviewsRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
                 .Where(x => x.UserId == userId)
                 .To<T>()
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<T> GetComments<T>(string userId)
+        public async Task<IEnumerable<T>> GetCommentsAsync<T>(string userId)
         {
-            return this.commentsRepository.AllAsNoTracking()
+            return await this.commentsRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
                 .Where(x => x.UserId == userId)
                 .To<T>()
-                .ToList();
+                .ToListAsync();
         }
 
-        public string GetUserByMovieId(int? movieId)
+        public async Task<string> GetUserByMovieIdAsync(int? movieId)
         {
-            var movie = this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefault();
+            var movie = await this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefaultAsync();
             return movie.UserId;
         }
     }

@@ -2,7 +2,7 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
@@ -38,16 +38,16 @@
             return movie.Id;
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var comment = this.commentsRepository.All().FirstOrDefault(x => x.Id == id);
+            var comment = await this.commentsRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             this.commentsRepository.Delete(comment);
             await this.commentsRepository.SaveChangesAsync();
         }
 
-        public int FindReviewByCommentId(int id)
+        public async Task<Review> GetReviewByCommentIdAsync(int id)
         {
-            return this.reviewsRepository.All().FirstOrDefault(x => x.Comments.Any(y => y.Id == id)).Id;
+            return await this.reviewsRepository.All().FirstOrDefaultAsync(x => x.Comments.Any(y => y.Id == id));
         }
 
         public async Task UpdateAsync(int id, EditCommentViewModel input)
@@ -60,9 +60,9 @@
             await this.commentsRepository.SaveChangesAsync();
         }
 
-        public T GetCommentById<T>(int id)
+        public async Task<T> GetCommentByIdAsync<T>(int id)
         {
-           return this.commentsRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
+           return await this.commentsRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefaultAsync();
         }
     }
 }

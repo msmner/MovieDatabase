@@ -1,15 +1,16 @@
 ﻿namespace MovieDatabase.Services.Data
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IUsersService
     {
-        IEnumerable<T> GetMovies<T>(string userId, int page, int itemsPerPage);
+        Task<IEnumerable<T>> GetMoviesAsync<T>(string userId, int page, int itemsPerPage);
 
-        IEnumerable<T> GetReviews<T>(string userId);
+        Task<IEnumerable<T>> GetReviewsAsync<T>(string userId);
 
-        IEnumerable<T> GetComments<T>(string userId);
+        Task<IEnumerable<T>> GetCommentsAsync<T>(string userId);
 
-        string GetUserByMovieId(int? movieId);
+        Task<string> GetUserByMovieIdAsync(int? movieId);
     }
 }

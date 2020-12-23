@@ -32,7 +32,7 @@
             return votes;
         }
 
-        // System.InvalidOperationException: A second operation started on this context before a previous operation completed. This is usually caused by different threads using the same instance of DbContext. - made the DbContext Transient in Startup Services //This is the other error I got Enumeration yielded no result - Tried formatting the code but got these error messages and couldnt fix them
+        // System.InvalidOperationException: A second operation started on this context before a previous operation completed. This is usually caused by different threads using the same instance of DbContext. - made the DbContext Transient in Startup Services and it didnt work //This is the other error I got - Enumeration yielded no result - Tried formatting the code but got these error messages and couldnt fix them
         public async Task VoteAsync(int reviewId, int commentId, string userId, bool isUpVote)
         {
             Vote vote;
