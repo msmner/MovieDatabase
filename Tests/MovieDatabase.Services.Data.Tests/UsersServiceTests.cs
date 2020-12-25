@@ -1,7 +1,7 @@
 ﻿namespace MovieDatabase.Services.Data.Tests
 {
     using System;
-    using System.Reflection;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
@@ -11,7 +11,6 @@
     using MovieDatabase.Data.Repositories;
     using MovieDatabase.Services.Data.Tests.TestViewModels;
     using MovieDatabase.Services.Mapping;
-    using MovieDatabase.Web.ViewModels;
     using Xunit;
 
     public class UsersServiceTests : IDisposable
@@ -40,28 +39,52 @@
         }
 
         [Fact]
-        public async Task TestGetMyMovies()
+        public async Task TestGetMovies()
         {
             var service = await this.SetUp();
-            var movies = service.GetMoviesAsync<TestMovieDetailsViewModel>("test", 1, 5);
+            var movies = await service.GetMoviesByUserAsync<TestMovieDetailsViewModel>("test", 1, 5);
             Assert.Single(movies);
+        }
+
+        [Fact]
+        public async Task TestGetReviews()
+        {
+            var service = await this.SetUp();
+            var reviews = await service.GetReviewsByUserAsync<TestReviewDetailsViewModel>("test");
+            Assert.Equal(2, reviews.Count());
+        }
+
+        [Fact]
+        public async Task TestGetComments()
+        {
+            var service = await this.SetUp();
+            var comments = await service.GetCommentsByUserAsync<TestCommentDetailsViewModel>("test");
+            Assert.Equal(2, comments.Count());
         }
 
         [Fact]
         public async Task TestGetUserByMovieId()
         {
             var service = await this.SetUp();
-            var userId = service.GetUserByMovieIdAsync(6);
-            Assert.Equal("test", userId);
+            var user = await service.GetUserByMovieIdAsync(6);
+            Assert.Equal("test", user.Id);
         }
 
         private async Task<UsersService> SetUp()
         {
             var movie = new Movie { Id = 6, UserId = "test" };
             var secondMovie = new Movie { Id = 7, UserId = "secondTest" };
+            var review = new Review { Id = 1, UserId = "test" };
+            var secondReview = new Review { Id = 7, UserId = "test" };
+            var comment = new Comment { Id = 1, UserId = "test" };
+            var secondComment = new Comment { Id = 2, UserId = "test" };
+            var user = new ApplicationUser { Id = "test" };
+            movie.User = user;
 
-            this.dbContext.Movies.Add(movie);
-            this.dbContext.Movies.Add(secondMovie);
+            await this.dbContext.Users.AddAsync(user);
+            await this.dbContext.Comments.AddRangeAsync(comment, secondComment);
+            await this.dbContext.Movies.AddRangeAsync(movie, secondMovie);
+            await this.dbContext.Reviews.AddRangeAsync(review, secondReview);
             await this.dbContext.SaveChangesAsync();
 
             return new UsersService(this.moviesRepository, this.reviewsRepository, this.commentsRepository);

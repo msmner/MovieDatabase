@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Common;
+    using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Comments;
     using MovieDatabase.Web.ViewModels.Movies;
@@ -25,11 +26,18 @@
         [Authorize]
         public async Task<IActionResult> UserMovies(int? id, int page = 1)
         {
+            ApplicationUser user;
             string userId;
 
             if (id.HasValue)
             {
-                userId = await this.usersService.GetUserByMovieIdAsync(id);
+                user = await this.usersService.GetUserByMovieIdAsync(id);
+                if (user == null)
+                {
+                    return this.NotFound();
+                }
+
+                userId = user.Id;
             }
             else
             {
@@ -43,7 +51,7 @@
                 MoviesCount = this.moviesService.GetMoviesCountByUserId(userId),
             };
 
-            var movies = await this.usersService.GetMoviesAsync<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
+            var movies = await this.usersService.GetMoviesByUserAsync<MovieDetailsViewModel>(userId, page, GlobalConstants.ItemsPerPage);
             viewModel.Movies = movies;
             return this.View(viewModel);
         }
@@ -53,7 +61,7 @@
         {
             var viewModel = new AllReviewsViewModel();
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var reviews = await this.usersService.GetReviewsAsync<SingleReviewViewModel>(userId);
+            var reviews = await this.usersService.GetReviewsByUserAsync<SingleReviewViewModel>(userId);
             viewModel.Reviews = reviews;
             return this.View(viewModel);
         }
@@ -63,7 +71,7 @@
         {
             var viewModel = new AllCommentsViewModel();
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var comments = await this.usersService.GetCommentsAsync<SingleCommentViewModel>(userId);
+            var comments = await this.usersService.GetCommentsByUserAsync<SingleCommentViewModel>(userId);
             viewModel.Comments = comments;
             return this.View(viewModel);
         }

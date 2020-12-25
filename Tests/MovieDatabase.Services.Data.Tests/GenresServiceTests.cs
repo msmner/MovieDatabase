@@ -27,7 +27,7 @@
         public async void CheckIfGetGenresWorks()
         {
             var service = await this.SetUp();
-            var genres = service.GetGenresAsync();
+            var genres = await service.GetGenresAsync();
             Assert.Single(genres);
         }
 

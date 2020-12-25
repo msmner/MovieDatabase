@@ -1,6 +1,7 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Services.Data;
@@ -17,10 +18,10 @@
         }
 
         [HttpGet("/")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var viewModel = new MoviesViewModel();
-            var movies = this.moviesService.GetTop10MoviesWithHighestRating<MovieDetailsViewModel>();
+            var movies = await this.moviesService.GetTop10MoviesWithHighestRatingAsync<MovieDetailsViewModel>();
 
             if (movies == null)
             {

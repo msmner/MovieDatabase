@@ -61,15 +61,15 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, EditCommentViewModel input)
+        public async Task<IActionResult> Edit(EditCommentViewModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);
             }
 
-            await this.commentsService.UpdateAsync(id, input);
-            var review = await this.commentsService.GetReviewByCommentIdAsync(id);
+            await this.commentsService.UpdateAsync(input);
+            var review = await this.commentsService.GetReviewByCommentIdAsync(input.Id);
             if (review == null)
             {
                 return this.NotFound();

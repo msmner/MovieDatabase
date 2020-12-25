@@ -3,15 +3,11 @@
     using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Mapping;
 
-    public class TestReviewDetailsViewModel : IMapFrom<Review>
+    public class TestCommentDetailsViewModel : IMapFrom<Comment>
     {
         public int Id { get; set; }
 
-        public int MovieId { get; set; }
-
         public string Content { get; set; }
-
-        public int Rating { get; set; }
 
         public string UserId { get; set; }
     }

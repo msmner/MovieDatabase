@@ -25,6 +25,11 @@
         public async Task<ActionResult<VoteResponseModel>> Vote(VoteInputModel input)
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (input.ReviewId == 0 && input.CommentId == 0)
+            {
+                return this.NotFound();
+            }
+
             await this.votesService.VoteAsync(input.ReviewId, input.CommentId, userId, input.IsUpVote);
             var votes = this.votesService.GetVotesCount(input.ReviewId, input.CommentId);
             return new VoteResponseModel { VotesCount = votes };

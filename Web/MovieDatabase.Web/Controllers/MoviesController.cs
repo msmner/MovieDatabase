@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using MovieDatabase.Common;
+    using MovieDatabase.Data.Models;
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels.Movies;
 
@@ -57,11 +58,15 @@
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var isUserAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
-            var isMovieCreatorLoggedIn = await this.moviesService.IsMovieCreatorLoggedIn(userId, id);
+            var movie = await this.moviesService.GetByIdAsync<Movie>(id);
 
-            if (isUserAdmin == true || isMovieCreatorLoggedIn == true)
+            if (isUserAdmin == true || movie.UserId == userId)
             {
                 await this.moviesService.Delete(id);
+            }
+            else
+            {
+                return this.Unauthorized();
             }
 
             return this.RedirectToAction("UserMovies", "Users", new { id = userId });
@@ -118,7 +123,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, EditMovieViewModel input)
+        public async Task<IActionResult> Edit(EditMovieViewModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -128,8 +133,8 @@
 
             var imageResult = await this.filesService.UploadAsync(this.cloudinary, input.Image);
             input.NewImageUrl = imageResult.Uri.ToString();
-            await this.moviesService.UpdateAsync(id, input);
-            return this.RedirectToAction(nameof(this.Details), new { id });
+            await this.moviesService.UpdateAsync(input);
+            return this.RedirectToAction(nameof(this.Details), new { input.Id });
         }
     }
 }

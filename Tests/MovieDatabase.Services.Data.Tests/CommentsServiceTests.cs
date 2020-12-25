@@ -1,14 +1,19 @@
 ﻿namespace MovieDatabase.Services.Data.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using Moq;
     using MovieDatabase.Data;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
     using MovieDatabase.Data.Repositories;
+    using MovieDatabase.Services.Data.Tests.TestViewModels;
+    using MovieDatabase.Services.Mapping;
+    using MovieDatabase.Web.ViewModels.Comments;
     using Xunit;
 
     public class CommentsServiceTests : IDisposable
@@ -26,6 +31,8 @@
             this.commentsRepository = new EfDeletableEntityRepository<Comment>(this.dbContext);
             this.moviesRepository = new EfDeletableEntityRepository<Movie>(this.dbContext);
             this.reviewsRepository = new EfDeletableEntityRepository<Review>(this.dbContext);
+
+            AutoMapperConfig.RegisterMappings(typeof(TestCommentDetailsViewModel).Assembly);
         }
 
         public void Dispose()
@@ -36,7 +43,7 @@
         [Fact]
         public async Task TestCreateCommentShouldCreate()
         {
-            CommentsService service = await this.SetUp();
+            var service = await this.SetUp();
             var movieId = await service.CreateAsync("test", "test", 1, 3);
             Assert.Equal(2, this.dbContext.Comments.Count());
         }
@@ -44,7 +51,7 @@
         [Fact]
         public async void TestDeleteWorks()
         {
-            CommentsService service = await this.SetUp();
+            var service = await this.SetUp();
             await service.DeleteAsync(1);
             Assert.Empty(this.dbContext.Comments);
         }
@@ -52,34 +59,58 @@
         [Fact]
         public async void TestDeleteThrowsIfNotFound()
         {
-            CommentsService service = await this.SetUp();
+            var service = await this.SetUp();
             var exception = await Assert.ThrowsAsync<NullReferenceException>(() => service.DeleteAsync(2));
             Assert.Equal("Object reference not set to an instance of an object.", exception.Message);
         }
 
         [Fact]
-        public async void FindReviewByCommentIdWorks()
+        public async void TestGetReviewByCommentIdAsync()
         {
-            CommentsService service = await this.SetUp();
-            var id = service.GetReviewByCommentIdAsync(1);
-            Assert.Equal(1, id);
+            var service = await this.SetUp();
+            var review = await service.GetReviewByCommentIdAsync(1);
+            Assert.Equal(1, review.Id);
         }
 
         [Fact]
-        public async void FindReviewByCommentIdThrows()
+        public async void GetReviewByCommentIdReturnsNull()
         {
-            CommentsService service = await this.SetUp();
-            var exception = Assert.Throws<NullReferenceException>(() => service.GetReviewByCommentIdAsync(2));
-            Assert.Equal("Object reference not set to an instance of an object.", exception.Message);
+            var service = await this.SetUp();
+            var review = await service.GetReviewByCommentIdAsync(2);
+            Assert.Null(review);
+        }
+
+        [Fact]
+        public async void TestUpdateAsyncWorks()
+        {
+            var service = await this.SetUp();
+            var viewModel = new EditCommentViewModel() { Id = 1, Content = "updated" };
+            await service.UpdateAsync(viewModel);
+            var comment = await this.dbContext.Comments.FirstOrDefaultAsync(x => x.Id == 1);
+            Assert.Equal("updated", comment.Content);
+        }
+
+        [Fact]
+        public async void TestGetCommentByIdAsyncWorks()
+        {
+            var service = await this.SetUp();
+            var comment = await service.GetCommentByIdAsync<TestCommentDetailsViewModel>(1);
+            Assert.Equal("test", comment.Content);
+        }
+
+        [Fact]
+        public async void TestGetCommentByIdAsyncReturnsNull()
+        {
+            var service = await this.SetUp();
+            var comment = await service.GetCommentByIdAsync<TestCommentDetailsViewModel>(2);
+            Assert.Null(comment);
         }
 
         private async Task<CommentsService> SetUp()
         {
             var movie = new Movie { Id = 1, UserId = "test", Title = "test", Description = "test", ImageUrl = "test", Quote = "test" };
-            var review = new Review { Id = 1, Content = "test", Rating = 1 };
-            var comment = new Comment { Id = 1 };
-            review.Comments.Add(comment);
-            movie.Review = review;
+            var review = new Review { Id = 1, Content = "test", Rating = 1, MovieId = 1 };
+            var comment = new Comment { Id = 1, ReviewId = 1, Content = "test" };
 
             await this.dbContext.Movies.AddAsync(movie);
             await this.dbContext.Reviews.AddAsync(review);

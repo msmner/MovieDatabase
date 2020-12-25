@@ -3,14 +3,16 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using MovieDatabase.Data.Models;
+
     public interface IUsersService
     {
-        Task<IEnumerable<T>> GetMoviesAsync<T>(string userId, int page, int itemsPerPage);
+        Task<IEnumerable<T>> GetMoviesByUserAsync<T>(string userId, int page, int itemsPerPage);
 
-        Task<IEnumerable<T>> GetReviewsAsync<T>(string userId);
+        Task<IEnumerable<T>> GetReviewsByUserAsync<T>(string userId);
 
-        Task<IEnumerable<T>> GetCommentsAsync<T>(string userId);
+        Task<IEnumerable<T>> GetCommentsByUserAsync<T>(string userId);
 
-        Task<string> GetUserByMovieIdAsync(int? movieId);
+        Task<ApplicationUser> GetUserByMovieIdAsync(int? movieId);
     }
 }

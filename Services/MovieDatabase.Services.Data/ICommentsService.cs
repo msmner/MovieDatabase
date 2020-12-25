@@ -15,6 +15,6 @@
 
         Task<T> GetCommentByIdAsync<T>(int id);
 
-        Task UpdateAsync(int id, EditCommentViewModel input);
+        Task UpdateAsync(EditCommentViewModel input);
     }
 }

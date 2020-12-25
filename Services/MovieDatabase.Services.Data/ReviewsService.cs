@@ -31,9 +31,6 @@
 
             await this.reviewsRepository.AddAsync(review);
             await this.reviewsRepository.SaveChangesAsync();
-
-            var movie = await this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefaultAsync();
-            await this.moviesRepository.SaveChangesAsync();
         }
 
         public async Task<T> GetReviewByMovieIdAsync<T>(int movieId)

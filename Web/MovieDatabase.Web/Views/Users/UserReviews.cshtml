@@ -1,0 +1,22 @@
+﻿@model MovieDatabase.Web.ViewModels.Reviews.AllReviewsViewModel
+@{
+    this.ViewData["Title"] = "All my reviews";
+}
+<h1>@this.ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    @foreach (var review in this.Model.Reviews)
+    {
+        <div class="card">
+            <div class="card-header">
+                @review.MovieTitle
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@review.CreatedOn.ToString("O")</h5>
+                <p class="card-text">@review.SanitizedShortContent</p>
+                <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" class="btn btn-primary">@review.MovieTitle</a>
+                <div id="votesCount">@review.VotesCount</div>
+            </div>
+        </div>
+    }
+</div>

@@ -50,11 +50,10 @@
             return await this.reviewsRepository.All().FirstOrDefaultAsync(x => x.Comments.Any(y => y.Id == id));
         }
 
-        public async Task UpdateAsync(int id, EditCommentViewModel input)
+        public async Task UpdateAsync(EditCommentViewModel input)
         {
-            var comment = this.commentsRepository.All().FirstOrDefault(x => x.Id == id);
+            var comment = await this.commentsRepository.All().FirstOrDefaultAsync(x => x.Id == input.Id);
 
-            comment.Id = id;
             comment.Content = input.Content;
 
             await this.commentsRepository.SaveChangesAsync();

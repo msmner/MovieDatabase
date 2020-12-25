@@ -21,7 +21,7 @@
             this.commentsRepository = commentsRepository;
         }
 
-        public async Task<IEnumerable<T>> GetMoviesAsync<T>(string userId, int page, int itemsPerPage)
+        public async Task<IEnumerable<T>> GetMoviesByUserAsync<T>(string userId, int page, int itemsPerPage)
         {
             var movies = await this.moviesRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
@@ -32,7 +32,7 @@
             return movies;
         }
 
-        public async Task<IEnumerable<T>> GetReviewsAsync<T>(string userId)
+        public async Task<IEnumerable<T>> GetReviewsByUserAsync<T>(string userId)
         {
             return await this.reviewsRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
@@ -41,7 +41,7 @@
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetCommentsAsync<T>(string userId)
+        public async Task<IEnumerable<T>> GetCommentsByUserAsync<T>(string userId)
         {
             return await this.commentsRepository.AllAsNoTracking()
                 .OrderByDescending(x => x.CreatedOn)
@@ -50,10 +50,10 @@
                 .ToListAsync();
         }
 
-        public async Task<string> GetUserByMovieIdAsync(int? movieId)
+        public async Task<ApplicationUser> GetUserByMovieIdAsync(int? movieId)
         {
             var movie = await this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefaultAsync();
-            return movie.UserId;
+            return movie.User;
         }
     }
 }

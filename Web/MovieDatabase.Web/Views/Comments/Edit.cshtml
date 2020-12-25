@@ -1,0 +1,58 @@
+﻿@model MovieDatabase.Web.ViewModels.Comments.EditCommentViewModel
+<form method="post" asp-controller="Comments" asp-action="Edit" id="editForm" asp-route-id="@Model.Id">
+    <div class="container-fluid mt-100">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-header">
+                    <div class="media flex-wrap w-100 align-items-center">
+                        <div class="media-body ml-3">
+                            @Model.UserUserName
+                            <div class="text-muted small">
+                                <time datetime="@Model.CreatedOn.ToString("O")"></time>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body row">
+                        <textarea asp-for="@Model.Content" class="col-10 rows=5">
+                       @Html.Raw(Model.SanitizedContent)
+                    </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" asp-for="@Model.Id"a />
+    </div>
+</form>
+<button class="btn btn-danger" data-toggle="modal" data-target="#editModal">Save changes</button>
+
+<div class="modal" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you really want to edit it ?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editForm.submit()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>

@@ -42,11 +42,11 @@
             var service = await this.SetUp();
             var secondMovie = new Movie { Id = 2 };
 
-            this.dbContext.Movies.Add(secondMovie);
+            await this.dbContext.Movies.AddAsync(secondMovie);
             await this.dbContext.SaveChangesAsync();
 
             await service.AddReviewAsync(2, "test", 1, "test");
-            var review = this.dbContext.Reviews.FirstOrDefault(x => x.Id == 2);
+            var review = await this.dbContext.Reviews.FirstOrDefaultAsync(x => x.Id == 2);
             Assert.Equal(2, review.Id);
         }
 
@@ -54,7 +54,7 @@
         public async Task TestGetReviewByMovieId()
         {
             var service = await this.SetUp();
-            var review = service.GetReviewByMovieIdAsync<TestReviewDetailsViewModel>(1);
+            var review = await service.GetReviewByMovieIdAsync<TestReviewDetailsViewModel>(1);
             Assert.Equal(1, review.MovieId);
         }
 

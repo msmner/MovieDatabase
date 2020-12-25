@@ -51,18 +51,6 @@
             return movie.Id;
         }
 
-        public async Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId)
-        {
-            var movie = await this.moviesRepository.GetByIdWithDeletedAsync(movieId);
-
-            if (movie.IsDeleted == false && movie.UserId == userId)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public async Task Delete(int movieId)
         {
             var movie = await this.moviesRepository.GetByIdWithDeletedAsync(movieId);
@@ -90,9 +78,9 @@
             await this.moviesRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10)
+        public async Task<IEnumerable<T>> GetTop10MoviesWithHighestRatingAsync<T>(int count = 10)
         {
-            return this.moviesRepository.All().OrderByDescending(x => x.Votes.Sum(y => (int)y.Type)).Take(count).To<T>().ToList();
+            return await this.moviesRepository.All().OrderByDescending(x => x.Votes.Sum(y => (int)y.Type)).Take(count).To<T>().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync<T>(int movieId)
@@ -129,11 +117,11 @@
                 .ToListAsync();
         }
 
-        public async Task UpdateAsync(int id, EditMovieViewModel input)
+        public async Task UpdateAsync(EditMovieViewModel input)
         {
-            var movie = this.moviesRepository.All().FirstOrDefault(x => x.Id == id);
+            var movie = await this.moviesRepository.All().FirstOrDefaultAsync(x => x.Id == input.Id);
 
-            var movieGenres = this.moviesGenresRepository.All().Where(x => x.MovieId == id).ToList();
+            var movieGenres = await this.moviesGenresRepository.All().Where(x => x.MovieId == input.Id).ToListAsync();
 
             foreach (var movieGenre in movieGenres)
             {
@@ -144,7 +132,7 @@
 
             foreach (var genreId in input.GenreIds)
             {
-                var genre = this.genresRepository.All().FirstOrDefault(x => x.Id == genreId);
+                var genre = await this.genresRepository.All().FirstOrDefaultAsync(x => x.Id == genreId);
                 movie.MovieGenres.Add(new MovieGenre { Movie = movie, Genre = genre });
             }
 

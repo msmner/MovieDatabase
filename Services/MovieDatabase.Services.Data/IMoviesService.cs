@@ -10,7 +10,7 @@
     {
         Task<int> CreateMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description);
 
-        IEnumerable<T> GetTop10MoviesWithHighestRating<T>(int count = 10);
+        Task<IEnumerable<T>> GetTop10MoviesWithHighestRatingAsync<T>(int count = 10);
 
         Task Delete(int movieId);
 
@@ -22,10 +22,8 @@
 
         Task<IEnumerable<T>> GetMoviesByTitleAsync<T>(string searchString);
 
-        Task<bool> IsMovieCreatorLoggedIn(string userId, int movieId);
-
         int GetMoviesCountByGenre(string genre);
 
-        Task UpdateAsync(int id, EditMovieViewModel input);
+        Task UpdateAsync(EditMovieViewModel input);
     }
 }
