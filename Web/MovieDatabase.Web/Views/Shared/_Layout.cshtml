@@ -11,56 +11,58 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div id="movieTitle" class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <div class="dropdown nav-item">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                My Profile
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserMovies">My Movies</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserReviews">My Reviews</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserComments">My Comments</a>
-                            </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Movies" asp-action="Create">Create Movie</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            My Profile
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserMovies">My Movies</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserReviews">My Reviews</a>
+                            <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="UserComments">My Comments</a>
                         </div>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Create">Create Movie</a>
-                        </li>
-                        <li>
-                            <vc:drop-down></vc:drop-down>
-                        </li>
-                    </ul>
-                </div>
+                    </li>
+                    <vc:drop-down></vc:drop-down>
+                </ul>
+                @if (this.Context.Request.Path == "/")
+                {
+                    <partial name="_SearchPartial" />
+                }
+                <ul class="navbar-nav ml-auto">
+                    <partial name="_LoginPartial" />
+                </ul>
             </div>
         </nav>
     </header>
 
-    <div class="container content">
+    <div class="container-fluid content bg-secondary">
         <partial name="_CookieConsentPartial" />
         <div class="row">
-            <div class="col-md-11">
+            <div class="col-md-10 bg-secondary">
                 @RenderBody()
             </div>
-            <div class="col-md-1 d-inline-flex p-2">
-                <cache expires-after="TimeSpan.FromMinutes(5)">
+            <div class="col-md-2 d-inline-flex p-2 bg-info">
+                @*<cache expires-after="TimeSpan.FromMinutes(5)">*@
                     <vc:sidebar></vc:sidebar>
-                </cache>
+                @*</cache>*@
             </div>
         </div>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer bg-info text-dark">
         <div class="container">
             <div class="row">
                 <a class="nav-link text-dark col-1" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -73,7 +75,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script src="~/lib/moment/min/moment-with-locales.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     @await this.RenderSectionAsync("Scripts", required: false)

@@ -12,12 +12,11 @@
 
         @foreach (var comment in comments)
         {
-            <div class="container-fluid mt-100">
+            <div class="container-fluid mt-100 bg-light">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-header">
                             <div class="media flex-wrap w-100 align-items-center">
-                                <img src="" class="d-block ui-w-40 rounded-circle" alt="">
                                 <div class="media-body ml-3">
                                     @comment.UserUserName
                                     <div class="text-muted small">
@@ -31,14 +30,14 @@
                                         {
                                             <form method="post" asp-controller="Comments" asp-action="Delete" id="deleteForm" asp-route-id="@comment.Id">
                                             </form>
-                                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                            <button class="btn btn-danger btn-sm py-0" style="font-size: 0.8em;" data-toggle="modal" data-target="#deleteModal">Delete</button>
                                         }
 
                                         if (this.User.Identity.Name == comment.UserUserName)
                                         {
-                                            <a asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
+                                            <a class="btn btn-info btn-sm py-0" style="font-size: 0.8em;" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
                                         }
-                                        <div class="px-4 pt-3"> <button type="button" class="btn btn-secondary" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Reply</button> </div>
+                                        <div class="px-4 pt-3"> <button type="button" class="btn btn-secondary btn-sm py-0" style="font-size: 0.8em;" onclick="showAddCommentForm(@comment.Id)"><i class="fa fa-plus"></i>&nbsp; Reply</button> </div>
                                     }
                                 </div>
                                 <div class="text-muted small ml-3">
@@ -63,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <article>
+                                <article class="text-break bg-light">
                                     @Html.Raw(comment.SanitizedContent)
                                 </article>
                                 @{ await DisplayComments(comment.Id); }
@@ -76,13 +75,12 @@
     }
 }
 
-<h1>@Model.MovieTitle</h1>
-<div class="container-fluid mt-100">
+<h3 class="text-center bg-light">@Model.MovieTitle</h3>
+<div class="container-fluid mt-100 bg-light">
     <div class="row">
         <div class="col-md-12">
             <div class="card-header">
                 <div class="media flex-wrap w-100 align-items-center">
-                    <img src="" class="d-block ui-w-40 rounded-circle" alt="">
                     <div class="media-body ml-3">
                         @Model.UserUserName
                         <div class="text-muted small">
@@ -111,13 +109,12 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <article class="text-break">
+                    <article class="text-break bg-light">
                         @Html.Raw(Model.SanitizedContent)
                     </article>
-
                     @if (this.User.Identity.IsAuthenticated)
                     {
-                        <div class="px-4 pt-3"> <button type="button" class="btn btn-primary float-right" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; Comment</button> </div>
+                        <div class="px-4 pt-3"> <button type="button" class="btn btn-primary btn-sm float-right" onclick="showAddCommentForm(0)"><i class="fa fa-plus"></i>&nbsp; Comment</button> </div>
                         <div class="clearfix"></div>
                     }
                     @{ await DisplayComments(null); }
@@ -141,7 +138,6 @@
     </form>
 </div>
 
-<!-- Modal -->
 <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

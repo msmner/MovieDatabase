@@ -14,7 +14,7 @@
         }
 
         [Required]
-        [MaxLength(150)]
+        [MaxLength(300)]
         public string Content { get; set; }
 
         [Required]

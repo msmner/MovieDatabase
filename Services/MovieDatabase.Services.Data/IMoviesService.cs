@@ -10,7 +10,7 @@
     {
         Task<int> CreateMovieAsync(string title, string imageUrl, string userId, int[] genres, string quote, string description);
 
-        Task<IEnumerable<T>> GetTop10MoviesWithHighestRatingAsync<T>(int count = 10);
+        Task<IEnumerable<T>> GetMoviesWithMostComments<T>(int count = 9);
 
         Task Delete(int movieId);
 

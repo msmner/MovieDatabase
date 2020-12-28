@@ -34,6 +34,7 @@
         public IFormFile Image { get; set; }
 
         [Required]
+        [Display(Name ="Genre")]
         public int[] GenreIds { get; set; }
 
         public IEnumerable<SelectListItem> NewGenres { get; set; }

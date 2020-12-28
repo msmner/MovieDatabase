@@ -19,8 +19,7 @@
 
         public int ReviewId { get; set; }
 
-
-        public string SanitizedShortContent => this.Content.Length > 100 ? WebUtility.HtmlDecode(Regex.Replace(new HtmlSanitizer().Sanitize(this.Content.Substring(0, 100)), @"<[^>]+>", string.Empty)) : WebUtility.HtmlDecode(Regex.Replace(new HtmlSanitizer().Sanitize(this.Content), @"<[^>]+>", string.Empty));
+        public string SanitizedContent => WebUtility.HtmlDecode(Regex.Replace(new HtmlSanitizer().Sanitize(this.Content), @"<[^>]+>", string.Empty));
 
         public void CreateMappings(IProfileExpression configuration)
         {

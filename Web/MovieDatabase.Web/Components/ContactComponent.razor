@@ -8,33 +8,30 @@
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
-<h3>ContactComponent</h3>
-<EditForm class="text-center" Model="@ContactForm" OnValidSubmit="OnSubmit">
+<h5 class="text-light">Contact Form</h5>
+<EditForm Model="@ContactForm" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
-    <div>
-        <p>
-            <label for="Name">Name</label><br />
-            <InputText id="Name" @bind-Value="ContactForm.Name" />
-            <ValidationMessage For="@(() => ContactForm.Name)" />
-        </p>
+    <label class="d-flex justify-content-center" for="Name">Name </label><br />
+    <div class="form-group d-flex justify-content-center">
+        <InputText class="form-control col-md-4" id="Name" @bind-Value="ContactForm.Name" />
+        <ValidationMessage For="@(() => ContactForm.Name)" />
     </div>
-    <p>
-        <label for="Email">Email</label><br />
-        <InputText id="Email" @bind-Value="ContactForm.Email" />
+    <label class="d-flex justify-content-center" for="Email">Email </label><br />
+    <div class="form-group d-flex justify-content-center">
+        <InputText class="form-control col-md-4" id="Email" @bind-Value="ContactForm.Email" />
         <ValidationMessage For="@(() => ContactForm.Email)" />
-    </p>
-    <p>
-        <label for="Phone">Phone</label><br />
-        <InputText id="Phone" @bind-Value="ContactForm.Phone" />
+    </div>
+    <label class="d-flex justify-content-center" for="Phone">Phone </label><br />
+    <div class="form-group d-flex justify-content-center">
+        <InputText class="form-control col-md-4" id="Phone" @bind-Value="ContactForm.Phone" />
         <ValidationMessage For="@(() => ContactForm.Phone)" />
-    </p>
-    <p>
-        <label for="Message">Message</label><br />
-        <InputTextArea id="Message" @bind-Value="ContactForm.Message" rows="3" />
+    </div>
+    <label class="d-flex justify-content-center" for="Message">Message </label><br />
+    <div class="form-group d-flex justify-content-center">
+        <InputTextArea class="form-control col-md-4" id="Message" @bind-Value="ContactForm.Message" rows="4" />
         <ValidationMessage For="@(() => ContactForm.Message)" />
-    </p>
-
-    <div>
+    </div>
+    <div class="d-flex justify-content-center">
         <button id="submitBtn" class="btn btn-primary @btnVisibility"
                 type="submit">
             Submit

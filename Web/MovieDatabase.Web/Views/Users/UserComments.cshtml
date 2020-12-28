@@ -3,18 +3,20 @@
 @{
     this.ViewData["Title"] = "All my comments";
 }
-<h1>@this.ViewData["Title"]</h1>
+<h4 class="text-light">@this.ViewData["Title"]</h4>
 
-@foreach (var comment in Model.Comments)
-{
-    <div class="card">
-        <div class="card-header">
-            @comment.MovieTitle
+<div class="row">
+    @foreach (var comment in Model.Comments)
+    {
+        <div class="card bg-light mt-5 bg-secondary col-md-4">
+            <div class="card-header">
+                @comment.MovieTitle
+            </div>
+            <div class="card-body">
+                <p class="card-title">@comment.CreatedOn</p>
+                <p class="card-text">@comment.SanitizedContent</p>
+                <a asp-controller="Reviews" asp-action="Details" asp-route-id="@comment.ReviewId" class="btn btn-primary btn-sm">To Review</a>
+            </div>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">@comment.CreatedOn</h5>
-            <p class="card-text">@comment.SanitizedShortContent</p>
-            <a asp-controller="Reviews" asp-action="Details" asp-route-id="@comment.ReviewId" class="btn btn-primary">To Review</a>
-        </div>
-    </div>
-}
+    }
+</div>

@@ -38,7 +38,8 @@
             configuration.CreateMap<Movie, MovieDetailsViewModel>()
                 .ForMember(x => x.CommentsCount, opt => opt.MapFrom(y => y.Review.Comments.Count))
                 .ForMember(x => x.VotesCount, opt => opt.MapFrom(y => y.Review.Votes.Sum(x => (int)x.Type)))
-                .ForMember(x => x.MovieGenres, opt => opt.MapFrom(y => y.MovieGenres.Select(g => g.Genre.Type)));
+                .ForMember(x => x.MovieGenres, opt => opt.MapFrom(y => y.MovieGenres.Select(g => g.Genre.Type)))
+                .ForMember(x => x.CommentsCount, opt => opt.MapFrom(y => y.Review.Comments.Count()));
         }
     }
 }

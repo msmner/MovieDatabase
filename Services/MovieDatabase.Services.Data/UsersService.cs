@@ -13,12 +13,14 @@
         private readonly IDeletableEntityRepository<Movie> moviesRepository;
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
-        public UsersService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository)
+        public UsersService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository, IDeletableEntityRepository<ApplicationUser> usersRepository)
         {
             this.moviesRepository = moviesRepository;
             this.reviewsRepository = reviewsRepository;
             this.commentsRepository = commentsRepository;
+            this.usersRepository = usersRepository;
         }
 
         public async Task<IEnumerable<T>> GetMoviesByUserAsync<T>(string userId, int page, int itemsPerPage)
@@ -52,8 +54,7 @@
 
         public async Task<ApplicationUser> GetUserByMovieIdAsync(int? movieId)
         {
-            var movie = await this.moviesRepository.All().Where(x => x.Id == movieId).FirstOrDefaultAsync();
-            return movie.User;
+            return await this.usersRepository.All().Where(x => x.Movies.Any(x => x.Id == movieId)).FirstOrDefaultAsync();
         }
     }
 }

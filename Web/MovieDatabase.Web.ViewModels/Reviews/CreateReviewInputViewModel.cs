@@ -14,8 +14,8 @@
         public virtual Movie Movie { get; set; }
 
         [Required]
-        [MaxLength(1000)]
-        [MinLength(300)]
+        [MaxLength(1500)]
+        [MinLength(700)]
         public string Content { get; set; }
 
         [Required]

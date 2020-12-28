@@ -8,6 +8,6 @@
 
         public const string UserRoleName = "User";
 
-        public const int ItemsPerPage = 5;
+        public const int ItemsPerPage = 6;
     }
 }

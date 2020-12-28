@@ -1,20 +1,17 @@
 ﻿@model MovieDatabase.Web.ViewModels.SideBarViewModel
-
-<!-- Comments -->
-<div class="posts margin-bottom-40 container-fluid">
-    <div class="headline">
-        <h3>Recent Comments</h3>
+<div class="posts margin-bottom-40 container-fluid bg-info">
+    <div>
+        <h5>Recent Comments</h5>
     </div>
     @foreach (var comment in Model.RecentComments)
     {
         <dl class="dl-horizontal mw-100">
             <dd>
                 <p>
-                    <a href="/Reviews/Details/@comment.MovieId">@comment.MovieTitle</a>
+                    <a asp-controller="Reviews" asp-action="Details" asp-route-id="@comment.MovieId">@comment.MovieTitle</a>
                     <div class="text-break">@Html.Raw(comment.SanitizedContent)</div>
                 </p>
             </dd>
         </dl>
     }
 </div>
-<!-- End Comments -->

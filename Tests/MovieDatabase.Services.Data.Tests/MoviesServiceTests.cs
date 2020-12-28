@@ -80,7 +80,7 @@
             await this.dbContext.Votes.AddRangeAsync(anotherVote, oneMoreVote);
             await this.dbContext.Movies.AddAsync(secondMovie);
             await this.dbContext.SaveChangesAsync();
-            var movies = await service.GetTop10MoviesWithHighestRatingAsync<TestMovieDetailsViewModel>();
+            var movies = await service.GetTop9MoviesWithHighestRating<TestMovieDetailsViewModel>();
 
             Assert.Equal("test2", movies.ToList()[0].UserId);
         }

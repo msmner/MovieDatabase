@@ -19,7 +19,7 @@
 
         [Required]
         [MaxLength(150)]
-        public string SanitizedContent => this.Content.Length > 100 ? new HtmlSanitizer().Sanitize(this.Content.Substring(0, 100) + "...") : new HtmlSanitizer().Sanitize(this.Content);
+        public string SanitizedContent => this.Content.Length > 150 ? new HtmlSanitizer().Sanitize(this.Content.Substring(0, 150) + "...") : new HtmlSanitizer().Sanitize(this.Content);
 
         [Required]
         public string UserId { get; set; }

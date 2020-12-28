@@ -21,7 +21,7 @@
         public async Task<IActionResult> Index()
         {
             var viewModel = new MoviesViewModel();
-            var movies = await this.moviesService.GetTop10MoviesWithHighestRatingAsync<MovieDetailsViewModel>();
+            var movies = await this.moviesService.GetMoviesWithMostComments<MovieDetailsViewModel>();
 
             if (movies == null)
             {

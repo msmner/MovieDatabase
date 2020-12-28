@@ -22,7 +22,7 @@
         {
             var model = new SideBarViewModel
             {
-                RecentComments = this.commentsRepository.All().OrderByDescending(x => x.CreatedOn).To<RecentCommentViewModel>().Take(5).ToList(),
+                RecentComments = this.commentsRepository.All().OrderByDescending(x => x.CreatedOn).To<RecentCommentViewModel>().Take(10).ToList(),
             };
 
             return this.View(model);

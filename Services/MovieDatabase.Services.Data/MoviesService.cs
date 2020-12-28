@@ -78,9 +78,9 @@
             await this.moviesRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetTop10MoviesWithHighestRatingAsync<T>(int count = 10)
+        public async Task<IEnumerable<T>> GetMoviesWithMostComments<T>(int count = 9)
         {
-            return await this.moviesRepository.All().OrderByDescending(x => x.Votes.Sum(y => (int)y.Type)).Take(count).To<T>().ToListAsync();
+            return await this.moviesRepository.All().OrderByDescending(x => x.Review.Comments.Count()).Take(count).To<T>().ToListAsync();
         }
 
         public async Task<T> GetByIdAsync<T>(int movieId)

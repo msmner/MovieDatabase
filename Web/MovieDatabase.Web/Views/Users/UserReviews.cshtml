@@ -2,21 +2,21 @@
 @{
     this.ViewData["Title"] = "All my reviews";
 }
-<h1>@this.ViewData["Title"]</h1>
+<h4 class="text-light text-center">@this.ViewData["Title"]</h4>
 <hr />
-<div class="row">
-    @foreach (var review in this.Model.Reviews)
-    {
-        <div class="card">
+@foreach (var review in this.Model.Reviews)
+{
+    <div class="row">
+        <div class="card col-md-12 mt-5">
             <div class="card-header">
                 @review.MovieTitle
             </div>
             <div class="card-body">
-                <h5 class="card-title">@review.CreatedOn.ToString("O")</h5>
+                <p class="card-title">@review.CreatedOn.ToString("dd/MM/yyyy HH:mm:ss")</p>
                 <p class="card-text">@review.SanitizedShortContent</p>
-                <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" class="btn btn-primary">@review.MovieTitle</a>
-                <div id="votesCount">@review.VotesCount</div>
+                <a asp-controller="Reviews" asp-action="Details" asp-route-id="@review.Id" class="btn btn-sm btn-primary">To @review.MovieTitle's description</a>
+                <div id="votesCount"><i class="fas fa-heart"></i> @review.VotesCount votes</div>
             </div>
         </div>
-    }
-</div>
+    </div>
+}

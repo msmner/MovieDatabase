@@ -3,11 +3,13 @@
 
 
 <div class="container">
-    <div class="row bg-light text-dark">
-        <h1>@Model.Title</h1>
-        <div class="col-md-12 text-center">
-            <h3 class="my-3">Movie Description</h3>
-            <p class="text-break">@Model.Description</p>
+    <h3 class="text-center bg-secondary text-light">@Model.Title</h3>
+    <div class="row bg-transparent text-dark">
+        <div class="col-md-6">
+            <img class="img-fluid" src="@Model.ImageUrl" alt="Movie Image"">
+        </div>
+        <div class="col-md-6 text-md-center">
+            <p class="text-break bg-secondary text-light">@Model.Description</p>
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == Model.UserUserName)
             {
                 <form method="post" asp-controller="Movies" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
@@ -19,13 +21,12 @@
             <a class="btn btn-info" asp-area="" asp-controller="Chats" asp-action="Chat" asp-route-id="@Model.Id">Chat</a>
             @if (this.User.Identity.Name == Model.UserUserName)
             {
-                <a class="btn btn-info" asp-area="" asp-controller="Movies" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+                <a class="btn btn-dark" asp-area="" asp-controller="Movies" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
             }
         </div>
     </div>
 </div>
 
-<!-- Modal -->
 <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

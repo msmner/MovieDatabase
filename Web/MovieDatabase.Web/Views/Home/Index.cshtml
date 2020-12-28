@@ -2,16 +2,6 @@
 @model MovieDatabase.Web.ViewModels.Movies.MoviesViewModel
 
 @{ this.ViewData["Title"] = GlobalConstants.SystemName; }
-
-
-<form class="row justify-content-center" asp-controller="Movies" asp-action="SearchByTitle" method="GET">
-    <input class="col-6 form-control" type="search" asp-for="SearchString">
-    <input class="col-2 form-control" type="submit" value="Search by title">
-    <span asp-validation-for="SearchString" class="text-danger"></span>
-</form>
-
-
-
 <partial name="_Movies" />
 
 

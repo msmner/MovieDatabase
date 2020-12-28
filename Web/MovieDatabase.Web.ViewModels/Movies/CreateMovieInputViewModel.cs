@@ -23,8 +23,8 @@
         public IFormFile Image { get; set; }
 
         [Required]
-        [MaxLength(500)]
-        [MinLength(100)]
+        [MaxLength(300)]
+        [MinLength(50)]
         public string Description { get; set; }
 
         [Required]
@@ -32,6 +32,7 @@
         public string Quote { get; set; }
 
         [Required]
+        [Display(Name = "Genre")]
         public int[] GenreIds { get; set; }
 
         public IEnumerable<SelectListItem> Genres { get; set; }
