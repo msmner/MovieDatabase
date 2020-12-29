@@ -1,15 +1,21 @@
 ﻿namespace MovieDatabase.Web.Controllers
 {
     using System;
-    using System.Net;
-    using System.Net.Mail;
 
     using Microsoft.AspNetCore.Mvc;
+    using MovieDatabase.Common;
     using MovieDatabase.Data.Models;
-    using Newtonsoft.Json;
+    using MovieDatabase.Services.Data;
 
     public class MailerController : BaseController
     {
+        private readonly IMailersService mailersService;
+
+        public MailerController(IMailersService mailersService)
+        {
+            this.mailersService = mailersService;
+        }
+
         [IgnoreAntiforgeryToken]
         [HttpPost]
         public IActionResult SendMessage([FromBody] ContactForm form)
@@ -23,38 +29,16 @@
             {
                 try
                 {
-                    var credentials = new NetworkCredential("ivaylo.nikolov88@gmail.com", "Manotan88");
-
-                    var mail = new MailMessage()
+                    if (!this.mailersService.Validate(form.ReCaptcha))
                     {
-                        From = new MailAddress("ivaylo.nikolov88@gmail.com"),
-                        Subject = "Website Inquiry",
-                        Body = this.FormattedBody(form.Name, form.Email, form.Phone, form.Message),
-                    };
-
-                    mail.IsBodyHtml = true;
-                    mail.To.Add(new MailAddress("ivaylo.nikolov88@gmail.com"));
-
-                    var client = new SmtpClient()
-                    {
-                        UseDefaultCredentials = false,
-                        Host = "smtp.gmail.com",
-                        Credentials = credentials,
-                        Port = 587,
-                        EnableSsl = true,
-                    };
-
-                    if (!this.Validate(form.ReCaptcha))
-                    {
-                        throw new Exception("The submission failed the spam bot verification. If you have " +
-                            "JavaScript disabled in your browser, please enable it and try again.");
+                        throw new Exception(GlobalConstants.ReCaptchaExc);
                     }
                     else
                     {
-                        client.Send(mail);
+                        this.mailersService.SendMessage(form);
                     }
 
-                    return this.Json(new { success = true, message = "Your message was successfully sent." });
+                    return this.Json(new { success = true, message = GlobalConstants.EmailSuccessMessage });
                 }
                 catch (Exception ex)
                 {
@@ -63,38 +47,6 @@
             }
 
             return this.BadRequest();
-        }
-
-        private string FormattedBody(string name, string email, string phone, string message)
-        {
-            var senderInfo = string.Format(
-                "<b>From</b>: {0}<br/><b>Email</b>: {1}<br/><b>Phone</b>: {2}<br/><br/>",
-                name,
-                email,
-                phone);
-            return senderInfo + message;
-        }
-
-        private bool Validate(string response)
-        {
-            using (var client = new System.Net.WebClient())
-            {
-                try
-                {
-                    string secretKey = "6LeZLeMZAAAAABZsAaxVqvK8FrRJp8MF2Gkm_rNC";
-                    var reply = client.DownloadString(string.Format(
-                            "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
-                            secretKey,
-                            response));
-
-                    var jsonReturned = JsonConvert.DeserializeObject<ReCaptcha>(reply);
-                    return jsonReturned.Success.ToLower() == "true";
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
         }
     }
 }

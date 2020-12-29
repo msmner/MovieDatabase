@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
 
     public class MoviesViewModel
     {
@@ -28,7 +29,5 @@
         public string SearchString { get; set; }
 
         public IEnumerable<MovieDetailsViewModel> Movies { get; set; }
-
-        public IEnumerable<MovieDetailsViewModel> Top10MoviesWithHighestVoteCount { get; set; }
     }
 }

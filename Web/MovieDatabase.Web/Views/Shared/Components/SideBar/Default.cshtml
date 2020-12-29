@@ -5,11 +5,11 @@
     </div>
     @foreach (var comment in Model.RecentComments)
     {
-        <dl class="dl-horizontal mw-100">
+        <dl class="dl-horizontal mw-100 mt-5 bg-secondary">
             <dd>
                 <p>
-                    <a asp-controller="Reviews" asp-action="Details" asp-route-id="@comment.MovieId">@comment.MovieTitle</a>
-                    <div class="text-break">@Html.Raw(comment.SanitizedContent)</div>
+                    <a class="text-break text-light" asp-controller="Reviews" asp-action="Details" asp-route-id="@comment.MovieId">@comment.MovieTitle</a>
+                    <div class="text-break text-light">@Html.Raw(comment.SanitizedContent)</div>
                 </p>
             </dd>
         </dl>

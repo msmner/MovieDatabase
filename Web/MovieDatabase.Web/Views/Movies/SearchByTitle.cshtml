@@ -1,1 +1,33 @@
-﻿<partial name="_Movies"/>
+﻿@model MovieDatabase.Web.ViewModels.Movies.MoviesViewModel
+
+@if (Model.Movies != null)
+{
+    <div id="carouselExampleControls" class="carousel slide bg-secondary mt-5" data-ride="carousel">
+        <div class="carousel-inner">
+            @foreach (var movie in Model.Movies)
+            {
+            <div class="carousel-item @(movie == Model.Movies.First() ? "active" : "")">
+                <img class="d-block w-75 mx-auto" src="@movie.ImageUrl" alt="@movie.Title">
+                <div class="carousel-caption d-none d-md-block">
+                    <p>@movie.Title</p>
+                    <p><i class="fas fa-heart"></i>@movie.VotesCount votes</p>
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-dark">Details</a>
+                </div>
+            </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+}
+else
+{
+    <h4 class="text-center text-light">No movies found!</h4>
+}
+

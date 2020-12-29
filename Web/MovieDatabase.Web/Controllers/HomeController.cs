@@ -48,5 +48,10 @@
         {
             return this.View();
         }
+
+        public IActionResult ThankYou()
+        {
+            return this.View();
+        }
     }
 }

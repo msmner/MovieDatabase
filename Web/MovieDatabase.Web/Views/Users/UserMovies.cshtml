@@ -1,6 +1,21 @@
 ﻿@model MovieDatabase.Web.ViewModels.Movies.MoviesViewModel
 
-<partial name="_Movies" />
+@foreach (var movie in Model.Movies)
+{
+    <div class="row bg-secondary text-light">
+        <div class="media col-md-12 mt-5">
+            <img class="mr-3" style="height:125px; width:125px;" src="@movie.ImageUrl" alt="@movie.Title">
+            <div class="media-body text-break">
+                <h5 class="mt-0">@movie.Title</h5>
+                @movie.Description
+            </div>
+            <div>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-dark">Details</a>
+            </div>
+            <div><i class="fas fa-heart"></i> @movie.VotesCount votes</div>
+        </div>
+    </div>
+}
 
 @if (Model.MoviesCount > 0)
 {

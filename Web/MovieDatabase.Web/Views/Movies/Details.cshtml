@@ -6,10 +6,15 @@
     <h3 class="text-center bg-secondary text-light">@Model.Title</h3>
     <div class="row bg-transparent text-dark">
         <div class="col-md-6">
-            <img class="img-fluid" src="@Model.ImageUrl" alt="Movie Image"">
+            <img class="img-fluid" style="height:250px; width:400px;" src="@Model.ImageUrl" alt="Movie Image">
         </div>
         <div class="col-md-6 text-md-center">
+            <label>Description</label>
             <p class="text-break bg-secondary text-light">@Model.Description</p>
+            <label>Quote</label>
+            <p class="text-break bg-secondary text-light">@Model.Quote</p>
+            <label>Genres</label>
+            <p class="text-break bg-secondary text-light">@String.Join(" ", Model.MovieGenres)</p>
             @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == Model.UserUserName)
             {
                 <form method="post" asp-controller="Movies" asp-action="Delete" id="deleteForm" asp-route-id="@Model.Id">
