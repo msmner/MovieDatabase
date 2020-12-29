@@ -1,8 +1,5 @@
 ﻿namespace ForumSystem.Data.Models
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
     using MovieDatabase.Data.Common.Models;
     using MovieDatabase.Data.Models;
 
