@@ -1,7 +1,6 @@
 ﻿namespace MovieDatabase.Services.Data.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -75,6 +74,7 @@
             var secondMovieReview = new Review { Id = 2, MovieId = 2 };
             var secondMovieComment = new Comment { Id = 2, ReviewId = 2 };
             var thirdMovieComment = new Comment { Id = 3, ReviewId = 2 };
+            secondMovie.Review = secondMovieReview;
             secondMovie.Review.Comments.Add(secondMovieComment);
             secondMovie.Review.Comments.Add(thirdMovieComment);
 
