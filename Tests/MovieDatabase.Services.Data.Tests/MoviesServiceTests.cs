@@ -68,19 +68,21 @@
         }
 
         [Fact]
-        public async Task CheckGetTop10MoviesWithHighesVotesCountWorks()
+        public async Task CheckGetMoviesWithMostCommentsWorks()
         {
             var service = await this.SetUp();
             var secondMovie = new Movie { Id = 2, UserId = "test2", Title = "test2", Description = "test", ImageUrl = "test2", ReviewId = 2, Quote = "test2" };
-            var anotherVote = new Vote { Id = 2, UserId = "test2", ReviewId = 2, Type = VoteType.UpVote };
-            var oneMoreVote = new Vote { Id = 3, UserId = "test2", ReviewId = 2, Type = VoteType.UpVote };
-            secondMovie.Votes.Add(anotherVote);
-            secondMovie.Votes.Add(oneMoreVote);
+            var secondMovieReview = new Review { Id = 2, MovieId = 2 };
+            var secondMovieComment = new Comment { Id = 2, ReviewId = 2 };
+            var thirdMovieComment = new Comment { Id = 3, ReviewId = 2 };
+            secondMovie.Review.Comments.Add(secondMovieComment);
+            secondMovie.Review.Comments.Add(thirdMovieComment);
 
-            await this.dbContext.Votes.AddRangeAsync(anotherVote, oneMoreVote);
+            await this.dbContext.Reviews.AddAsync(secondMovieReview);
+            await this.dbContext.Comments.AddRangeAsync(secondMovieComment, thirdMovieComment);
             await this.dbContext.Movies.AddAsync(secondMovie);
             await this.dbContext.SaveChangesAsync();
-            var movies = await service.GetTop9MoviesWithHighestRating<TestMovieDetailsViewModel>();
+            var movies = await service.GetMoviesWithMostComments<TestMovieDetailsViewModel>();
 
             Assert.Equal("test2", movies.ToList()[0].UserId);
         }
@@ -154,6 +156,8 @@
 
             movie.Votes.Add(vote);
             movie.MovieGenres.Add(movieGenre);
+            review.Comments.Add(comment);
+            movie.Review = review;
 
             this.dbContext.Users.Add(user);
             await this.dbContext.Movies.AddAsync(movie);
