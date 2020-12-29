@@ -110,6 +110,7 @@
             services.AddTransient<IVotesService, VotesService>();
             services.AddTransient<IGenresService, GenresService>();
             services.AddTransient<IFilesService, FilesService>();
+            services.AddTransient<IMessagesService, MessagesService>();
             services.AddApplicationInsightsTelemetry();
         }
 

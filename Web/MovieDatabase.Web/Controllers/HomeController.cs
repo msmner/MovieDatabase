@@ -7,14 +7,17 @@
     using MovieDatabase.Services.Data;
     using MovieDatabase.Web.ViewModels;
     using MovieDatabase.Web.ViewModels.Movies;
+    using MovieDatabase.Web.ViewModels.Users;
 
     public class HomeController : BaseController
     {
         private readonly IMoviesService moviesService;
+        private readonly IMessagesService messagesService;
 
-        public HomeController(IMoviesService moviesService)
+        public HomeController(IMoviesService moviesService, IMessagesService messagesService)
         {
             this.moviesService = moviesService;
+            this.messagesService = messagesService;
         }
 
         [HttpGet("/")]
@@ -42,6 +45,23 @@
         {
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ContactUs()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ContactUs(UserContactFormInputViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await this.messagesService.SendContactMessage(input.Message, input.UserEmail);
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }
