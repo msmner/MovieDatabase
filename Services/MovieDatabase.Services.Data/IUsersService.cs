@@ -14,5 +14,13 @@
         Task<IEnumerable<T>> GetCommentsByUserAsync<T>(string userId);
 
         Task<ApplicationUser> GetUserByMovieIdAsync(int? movieId);
+
+        int CommentsCountByUserId(string userId);
+
+        int VotesCountByUserId(string userId);
+
+        Task<IEnumerable<T>> GetMostCommentedReviewsByUserId<T>(string userId);
+
+        Task<IEnumerable<T>> GetMostVotedReviewsByUserId<T>(string userId);
     }
 }

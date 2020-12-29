@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using ForumSystem.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using MovieDatabase.Data.Common.Repositories;
     using MovieDatabase.Data.Models;
@@ -14,13 +16,15 @@
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
         private readonly IDeletableEntityRepository<Comment> commentsRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+        private readonly IRepository<Vote> votesRepository;
 
-        public UsersService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository, IDeletableEntityRepository<ApplicationUser> usersRepository)
+        public UsersService(IDeletableEntityRepository<Movie> moviesRepository, IDeletableEntityRepository<Review> reviewsRepository, IDeletableEntityRepository<Comment> commentsRepository, IDeletableEntityRepository<ApplicationUser> usersRepository, IRepository<Vote> votesRepository)
         {
             this.moviesRepository = moviesRepository;
             this.reviewsRepository = reviewsRepository;
             this.commentsRepository = commentsRepository;
             this.usersRepository = usersRepository;
+            this.votesRepository = votesRepository;
         }
 
         public async Task<IEnumerable<T>> GetMoviesByUserAsync<T>(string userId, int page, int itemsPerPage)
@@ -55,6 +59,26 @@
         public async Task<ApplicationUser> GetUserByMovieIdAsync(int? movieId)
         {
             return await this.usersRepository.All().Where(x => x.Movies.Any(x => x.Id == movieId)).FirstOrDefaultAsync();
+        }
+
+        public int CommentsCountByUserId(string userId)
+        {
+            return this.commentsRepository.All().Where(x => x.UserId == userId).Count();
+        }
+
+        public int VotesCountByUserId(string userId)
+        {
+            return this.votesRepository.All().Where(x => x.UserId == userId).Count();
+        }
+
+        public async Task<IEnumerable<T>> GetMostCommentedReviewsByUserId<T>(string userId)
+        {
+            return await this.reviewsRepository.All().Where(x => x.UserId == userId).OrderByDescending(x => x.Comments.Count()).To<T>().Take(5).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetMostVotedReviewsByUserId<T>(string userId)
+        {
+            return await this.reviewsRepository.All().Where(x => x.UserId == userId).OrderByDescending(x => x.Votes.Count()).To<T>().Take(5).ToListAsync();
         }
     }
 }

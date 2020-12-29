@@ -23,6 +23,6 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public string SanitizedContent => WebUtility.HtmlDecode(Regex.Replace(new HtmlSanitizer().Sanitize(this.Content), @"<[^>]+>", string.Empty));
+        public string SanitizedContent => Regex.Replace(new HtmlSanitizer().Sanitize(this.Content), @"<[^>]+>", string.Empty);
     }
 }

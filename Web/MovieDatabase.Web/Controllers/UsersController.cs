@@ -11,6 +11,7 @@
     using MovieDatabase.Web.ViewModels.Comments;
     using MovieDatabase.Web.ViewModels.Movies;
     using MovieDatabase.Web.ViewModels.Reviews;
+    using MovieDatabase.Web.ViewModels.Users;
 
     public class UsersController : BaseController
     {
@@ -73,6 +74,26 @@
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var comments = await this.usersService.GetCommentsByUserAsync<SingleCommentViewModel>(userId);
             viewModel.Comments = comments;
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> UserStatistics()
+        {
+            var viewModel = new UserStatisticsViewModel();
+            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var moviesCount = this.moviesService.GetMoviesCountByUserId(userId);
+            var commentsCountByUserId = this.usersService.CommentsCountByUserId(userId);
+            var votesCountByUserId = this.usersService.VotesCountByUserId(userId);
+            var mostCommentedReviews = await this.usersService.GetMostCommentedReviewsByUserId<ReviewStatisticsViewModel>(userId);
+            var mostVotedReviews = await this.usersService.GetMostVotedReviewsByUserId<ReviewStatisticsViewModel>(userId);
+
+            viewModel.MoviesCount = moviesCount;
+            viewModel.CommentsCount = commentsCountByUserId;
+            viewModel.VotesCount = votesCountByUserId;
+            viewModel.MostCommentedReviews = mostCommentedReviews;
+            viewModel.MostVotedReviews = mostVotedReviews;
+
             return this.View(viewModel);
         }
     }
