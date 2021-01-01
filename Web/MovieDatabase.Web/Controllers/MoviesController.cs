@@ -57,7 +57,7 @@
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var isUserAdmin = this.User.IsInRole(GlobalConstants.AdministratorRoleName);
-            var movie = await this.moviesService.GetByIdAsync<Movie>(id);
+            var movie = await this.moviesService.GetByIdAsync<MovieDetailsViewModel>(id);
 
             if (isUserAdmin == true || movie.UserId == userId)
             {
