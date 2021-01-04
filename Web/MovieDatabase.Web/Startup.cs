@@ -85,6 +85,7 @@
             });
 
             services.AddRazorPages();
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             Account account = new Account(
                 this.configuration["Cloudinary:AppName"],
@@ -130,7 +131,7 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {

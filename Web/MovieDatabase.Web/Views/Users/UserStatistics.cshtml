@@ -1,0 +1,40 @@
+﻿@model MovieDatabase.Web.ViewModels.Users.UserStatisticsViewModel
+
+@{
+    this.ViewData["Title"] = "My statistics";
+}
+<h4 class="text-light text-center">@this.ViewData["Title"]</h4>
+
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">Movies Count: @Model.MoviesCount</li>
+    <li class="list-group-item">Comments Count: @Model.CommentsCount</li>
+    <li class="list-group-item">Votes Count: @Model.VotesCount</li>
+</ul>
+
+<div class="container-fluid content-row">
+    <div class="row">
+        <div class="card-deck bg-secondary">
+            @foreach (var review in Model.MostCommentedReviews)
+            {
+                <div class="col-12 col-lg-4 mt-5">
+                    <div class="card h-100">
+                        <div class="card-body bg-info">
+                            <h5 class="card-title"><i class="fas fa-heading"></i> @review.MovieTitle</h5>
+                            <p class="text-break bg-secondary text-light">@review.SanitizedContent</p>
+                            <a asp-controller="Movies" asp-action="Details" asp-route-id="@review.MovieId" class="btn btn-info">Movie Details</a>
+                        </div>
+                        <div class="card-footer text-dark d-flex justify-content-between bg-info border-top-0">
+                            <div class="views">
+                                <i class="far fa-calendar-alt"></i>@review.CreatedOn.ToString("dd/MM/yyyy")
+                            </div>
+                            <div class="stats">
+                                <i class="far fa-heart"></i> @review.Votes.Count
+                                <i class="far fa-comment"></i> @review.Comments.Count
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
